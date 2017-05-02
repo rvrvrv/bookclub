@@ -43,7 +43,7 @@ function checkLoginState() {
 //Update page with logged-in user's info
 function loggedIn() {
     FB.api('/me?fields=first_name, last_name, picture', function(user) {
-        localStorage.setItem('rv-nightlife-id', user.id);
+        localStorage.setItem('rv-bookclub-id', user.id);
         $('#userInfo').html(`
         <li><img class="valign left-align" src="${user.picture.data.url}" alt="${user.first_name} ${user.last_name}"></li>
         <li class="hide-on-small-only">${user.first_name}</li>`);
@@ -56,7 +56,7 @@ function loggedIn() {
 
 //Update page with logged-out view
 function loggedOut() {
-    localStorage.removeItem('rv-nightlife-id');
+    localStorage.removeItem('rv-bookclub-id');
     $('#userInfo').empty();
     $('#logoutBtn').hide();
     $('#loginBtn').show();

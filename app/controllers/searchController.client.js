@@ -90,7 +90,7 @@ function search(location) {
 
 //Check all search results for attendance stats
 function checkAll() {
-   let userId = localStorage.getItem('rv-nightlife-id') || null;
+   let userId = localStorage.getItem('rv-bookclub-id') || null;
    $('.attendLink').each(function() {
       ajaxFunctions.ajaxRequest('GET', `/api/attend/${$(this)[0].id}/${userId}`, res => {
          let results = JSON.parse(res);
@@ -129,7 +129,7 @@ function updateAttending(data) {
 
 //Handle attend link click
 function attend(link, interested) {
-   let userId = localStorage.getItem('rv-nightlife-id');
+   let userId = localStorage.getItem('rv-bookclub-id');
    //First, check to see if user is logged in
    if (!userId) {
       $('.fb-buttons').addClass('shake');

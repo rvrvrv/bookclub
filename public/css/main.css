@@ -9,8 +9,8 @@ html {
 }
 
 body {
-    background: #222;
-    color: #fff;
+    background: #fff;
+    color: #004;
     overflow-x: hidden;
     overflow-y: scroll;
 }
@@ -48,7 +48,7 @@ body {
 }
 
 .btn {
-    background: #000;
+    background: #01579b;
 }
 
 #logoutBtn {
@@ -60,29 +60,29 @@ body {
 }
 
 #logoutBtn:hover {
-    background: #300;
+    background: #3ff;
 }
 
 .input-field input[type=text]:focus+label {
-    color: #fff;
+    color: #004;
 }
 
 .input-field input[type=text]:focus {
-    border-bottom: 1px solid #fff;
-    box-shadow: 0 1px 0 0 #fff;
+    border-bottom: 1px solid #004;
+    box-shadow: 0 1px 0 0 #004;
 }
 
 .input-field input[type=text].valid {
-    border-bottom: 1px solid #311b92;
-    box-shadow: 0 1px 0 0 #311b92;
+    border-bottom: 1px solid #01579b;
+    box-shadow: 0 1px 0 0 #01579b;
 }
 
 .input-field .prefix.active {
-    color: #4527a0;
+    color: #0277bd;
 }
 
 #locationInput {
-    font-size: 2em;
+    font-size: 1.9em;
 }
 
 #searchBtn {
@@ -90,11 +90,11 @@ body {
 }
 
 #searchBtn:hover {
-    background: #311b92;
+    background: #0277bd;
 }
 
 #searchBtn.waves-ripple {
-    background: #4527a0;
+    background: #00b0ff;
 }
 
 #welcome {
@@ -104,34 +104,6 @@ body {
 .card-title {
     font-size: 1.3em !important;
     line-height: 95% !important;
-}
-
-.business-img {
-    min-height: 250px;
-}
-
-.attendLink {
-    transition: .3s all ease;
-}
-
-.attendLink:hover {
-    color: #fff;
-}
-
-.attendLink:active {
-    color: #b39ddb;
-}
-
-.yelp {
-    color: red;
-    font-size: 1.3em;
-}
-
-.yelp-logo {
-    width: 100px;
-    height: 64px;
-    vertical-align: -73%;
-    margin-left: -10px;
 }
 
 .attendance {
