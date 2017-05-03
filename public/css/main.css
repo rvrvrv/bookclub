@@ -105,15 +105,24 @@ body {
     font-size: 1.2em;
 }
 
-.card-title {
-    font-size: 1.3em !important;
-    line-height: 95% !important;
+.authors {
+    margin: -5px 0 -5px 10px;
 }
 
-.pageCount {
-    position: fixed;
-    bottom: 0;
-    font-size: 1.2em;
+.result {
+    height: 300px !important;
+}
+
+.card.horizontal.short {
+    height: 200px;
+}
+
+.halfway-fab {
+    bottom: 8px !important;
+}
+
+.bookLink {
+    color: #01579b !important;
 }
 
 /* Animation */

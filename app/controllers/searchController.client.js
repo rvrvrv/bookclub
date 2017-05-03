@@ -14,37 +14,28 @@ function displayBusinesses(data) {
    clearTimeout(timer);
    //Display the results
    list.forEach((e, i) => {
-      //If necessary, replace blank book image with placeholder
-      let imgUrl = (!e.thumbnail) 
-         ? '/public/img/blank.jpg' 
-         : e.thumbnail.replace(/^http:\/\//i, 'https://'); //Ensure HTTPS in URL
-      //If necessary, handle empty authors array
-      let authors = (!e.authors)
-         ? ''
-         : e.authors.join(', '); //Display multiple authors cleanly
-      
       //Display results with staggered animation
       setTimeout(() => {
          $('#results').append(`
-               <div class="col m6 l4 card-div animated fadeIn">
-                  <div class="card small">
-                     <div class="card-image waves-effect waves-block waves-light">
-                        <img class="activator business-img" src="${imgUrl}" alt="${e.title}">
-                     </div>
-                     <div class="card-content">
-                        <span class="card-title activator">${e.title}
-                        <i class="material-icons right">more_vert</i></span>
-                        <p>${authors}</p>
-                      </div>
-                      <div class="card-reveal">
-                        <span class="card-title">${e.title}
-                        <i class="material-icons right">close</i></span>
-                        <p>${e.description.slice(0, 300)}...</p>
-                        <p><a class="yelp" href="${e.link}" target="_blank">More Info</a></p>
-                      </div>
+              <div class="col s12 l6 animated fadeIn result">
+                <h5>${e.title}</h5>
+                <h6 class="authors"><i class="fa fa-caret-right"></i>&nbsp;${e.authors}</h6>
+                <div class="card horizontal short">
+                  <div class="card-image">
+                    <img src="${e.thumbnail}" alt="${e.title}">
+                  </div>
+                  <div class="card-stacked">
+                    <div class="card-content">
+                      <p>${e.description}</p>
+                      <a class="btn-floating halfway-fab waves-effect waves-light blue"><i class="material-icons">add</i></a>
                     </div>
-                 </div>
-            `);
+                    <div class="card-action">
+                      <a class="bookLink" href="${e.link}" target=_blank>More Info</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+         `);
       }, i * 80);
    });
    //<a class="attendLink right hidden" id="${e.id}" href="javascript:;" onclick="attend(this, true)">${attendText}</a>
