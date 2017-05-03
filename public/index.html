@@ -10,6 +10,7 @@
 </head>
 
 <body>
+  <div id="fb-root"></div>
   <div class="navbar-fixed z-depth-1">
     <nav>
       <div class="nav-wrapper light-blue darken-3">
@@ -22,23 +23,23 @@
     </nav>
   </div>
   <div class="fb-buttons animated">
-    <span class="tooltipped" id="loginBtn" data-delay="50" data-tooltip="Log into Facebook to connect with friends">
-      <fb:login-button scope="public_profile" size="xlarge" onlogin="checkLoginState();"></fb:login-button>
-      </span>
+    <span class="tooltipped" id="loginBtn" data-delay="50" data-tooltip="Log into the Club via Facebook">
+      <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="true"></div>
+    </span>
     <a class="btn waves-effect waves-red logout-buttons hide-on-med-and-down hidden" id="logoutBtn">
       <i class="fa fa-sign-out"></i>&nbsp;&nbsp;Log Out
     </a>
   </div>
   <div class="container">
-    <form id="locationForm">
+    <form id="bookForm">
       <div class="row">
         <div class="input-field col s9">
           <i class="prefix fa fa-3x fa-book"></i>
-          <input id="locationInput" type="text" class="tooltipped" data-delay="50" data-tooltip="Enter a location here">
-          <label for="locationInput">City Name, Zip Code, etc.</label>
+          <input id="bookInput" type="text" placeholder="JavaScript: The Good Parts" class="tooltipped" data-delay="100" data-tooltip="Enter the title of your book">
+          <label for="bookInput">Book Title</label>
         </div>
         <div class="input-field col s3">
-          <a class="btn waves-effect waves-purp tooltipped" id="searchBtn" data-delay="350" data-tooltip="Find local bars, clubs, and restaurants">Search
+          <a class="btn waves-effect waves-purp tooltipped" id="searchBtn" data-delay="400" data-tooltip="Add a book to the collection">Add Book
           </a>
         </div>
       </div>
@@ -65,4 +66,5 @@
 <script type="text/javascript" src="common/fbLogin.js"></script>
 <script type="text/javascript" src="common/ajax-functions.js"></script>
 <script type="text/javascript" src="controllers/searchController.client.js"></script>
+
 </html>

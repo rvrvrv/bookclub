@@ -2,7 +2,7 @@
 
 const path = process.cwd();
 const ClickHandler = require(path + '/app/controllers/clickHandler.server.js');
-//const yelpSearch = require(path + '/app/controllers/yelpSearch.server.js');
+const bookSearch = require(path + '/app/controllers/bookSearch.server.js');
 
 module.exports = (app) => {
 
@@ -19,9 +19,9 @@ module.exports = (app) => {
 		.put((req, res) => clickHandler.attend(req.params.loc, req.params.id, res))
 		.delete((req, res) => clickHandler.unAttend(req.params.loc, req.params.id, res));
 	
-// 	//Search via Yelp Fusion API
-// 	app.route('/api/list/:loc')
-// 		.get((req, res) => { 
-// 			yelpSearch(req.params.loc, res);
-// 		});
+	//Search via Google Books API
+	app.route('/api/list/:book')
+		.get((req, res) => { 
+			bookSearch(req.params.book, res);
+		});
 };

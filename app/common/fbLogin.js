@@ -3,16 +3,11 @@
 
 window.fbAsyncInit = function() {
     FB.init({
-        appId: 1845310775708094,
-        cookie: true,
+        appId: '703692339810736',
         xfbml: true,
-        version: 'v2.8'
+        version: 'v2.9'
     });
-
-    FB.getLoginStatus(function(response) {
-        statusChangeCallback(response);
-    });
-
+    FB.AppEvents.logPageView();
 };
 
 //Load the FB SDK asynchronously

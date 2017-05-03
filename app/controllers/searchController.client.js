@@ -3,8 +3,6 @@
 'use strict';
 
 const $btn = $('#searchBtn');
-const goingText = '&nbsp;<i class="fa fa-2x fa-star"></i>&nbsp;Going!</a>';
-const attendText = 'Attend&nbsp;<i class="fa fa-2x fa-star-o"></i></a>';
 let lastSearch = '';
 let timer;
 
@@ -16,40 +14,40 @@ function displayBusinesses(data) {
    clearTimeout(timer);
    //Display the results
    list.forEach((e, i) => {
-      //Convert and round distance (in meters) to miles
-      let distance = (e.distance * 0.000621371192).toFixed(1);
-      //If necessary, replace blank business image with placeholder
-      let imgUrl = (!e.image_url) ? '/public/img/blank.png' : e.image_url;
+      //If necessary, replace blank book image with placeholder
+      let imgUrl = (!e.thumbnail) 
+         ? '/public/img/blank.jpg' 
+         : e.thumbnail.replace(/^http:\/\//i, 'https://'); //Ensure HTTPS in URL
+      //If necessary, handle empty authors array
+      let authors = (!e.authors)
+         ? ''
+         : e.authors.join(', '); //Display multiple authors cleanly
       
       //Display results with staggered animation
       setTimeout(() => {
          $('#results').append(`
                <div class="col m6 l4 card-div animated fadeIn">
-                  <div class="card small black">
+                  <div class="card small">
                      <div class="card-image waves-effect waves-block waves-light">
-                        <img class="activator business-img" src="${imgUrl}" alt="${e.name}">
+                        <img class="activator business-img" src="${imgUrl}" alt="${e.title}">
                      </div>
-                     <div class="card-content black">
-                        <span class="card-title activator white-text">${e.name}
+                     <div class="card-content">
+                        <span class="card-title activator">${e.title}
                         <i class="material-icons right">more_vert</i></span>
-                        <p>${distance} mi.
-                        <a class="attendLink right hidden" id="${e.id}" href="javascript:;" onclick="attend(this, true)">${attendText}</a>
-                        <br>
+                        <p>${authors}</p>
                       </div>
-                      <div class="card-reveal black">
-                        <span class="card-title white-text">${e.name}
+                      <div class="card-reveal">
+                        <span class="card-title">${e.title}
                         <i class="material-icons right">close</i></span>
-                        <p>${e.location.display_address.join('<br>')}
-                           <br><a href="tel:${e.phone}" target="_blank">${e.display_phone}</a>
-                        </p>
-                        <p><a class="yelp" href="${e.url}" target="_blank">View on <img class="yelp-logo" src="/public/img/yelp.png" alt="Yelp"></a></p>
-                        <p class="attendance"><span id="${e.id}-attendance">0</span>&nbsp;going</p>
+                        <p>${e.description.slice(0, 300)}...</p>
+                        <p><a class="yelp" href="${e.link}" target="_blank">More Info</a></p>
                       </div>
                     </div>
                  </div>
             `);
       }, i * 80);
    });
+   //<a class="attendLink right hidden" id="${e.id}" href="javascript:;" onclick="attend(this, true)">${attendText}</a>
    
    //After all results are displayed, update attendance stats and UI
       setTimeout(() => {
@@ -61,27 +59,27 @@ function displayBusinesses(data) {
 }
 
 //Search for results via GET request
-function search(location) {
-   //First, ensure search field is populated and doesn't contain invalid characters
-   if (!location.trim() || location.match(/[^a-zA-Z0-9.,\-\s]/)) 
-      return Materialize.toast('Please enter a valid location', 3000, 'error');
+function search(book) {
+   //First, ensure search field is populated
+   if (!book.trim()) 
+      return Materialize.toast('Please enter a book title', 3000, 'error');
    //Then, ensure user entered a new location (to prevent duplicate requests)
-   if (location.trim().toLowerCase() === lastSearch) 
-      return Materialize.toast('Please enter a new location', 3000, 'error');
+   if (book.trim().toLowerCase() === lastSearch) 
+      return Materialize.toast('Please enter a new book', 3000, 'error');
    
    //Update the UI and perform the search
    $('.card-div').addClass('fadeOut');
    $('.progress').removeClass('hidden');
    $btn.addClass('disabled');
    $btn.html('<i class="fa fa-spinner fa-spin fa-fw"></i>');
-   ajaxFunctions.ajaxRequest('GET', `/api/list/${location}`, displayBusinesses);
-   lastSearch = location.trim().toLowerCase();
+   ajaxFunctions.ajaxRequest('GET', `/api/list/${book}`, displayBusinesses);
+   lastSearch = book.trim().toLowerCase();
   
   //7-second timer to prevent search hang-up
    timer = setTimeout(() => {
          Materialize.toast('Search took too long. Please try again.', 3000, 'error');
          lastSearch = '';
-         $('#locationInput').val('');
+         $('#bookInput').val('');
          $('.progress').addClass('hidden');
          $btn.removeClass('disabled');
          $btn.html('Search');
@@ -142,10 +140,10 @@ function attend(link, interested) {
 }
 
 //Handle search button click
-$btn.click(() => search($('#locationInput').val()));
+$btn.click(() => search($('#bookInput').val()));
 
 //Handle enter-key submission from search field
-$('#locationForm').on('submit', e => {
+$('#bookForm').on('submit', e => {
    e.preventDefault();
-   search($('#locationInput').val());
+   search($('#bookInput').val());
 });

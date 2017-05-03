@@ -10,7 +10,7 @@ html {
 
 body {
     background: #fff;
-    color: #004;
+    color: #003;
     overflow-x: hidden;
     overflow-y: scroll;
 }
@@ -81,7 +81,11 @@ body {
     color: #0277bd;
 }
 
-#locationInput {
+.input-field label {
+    font-size: 1em !important;
+}
+
+#bookInput {
     font-size: 1.9em;
 }
 
@@ -106,19 +110,11 @@ body {
     line-height: 95% !important;
 }
 
-.attendance {
+.pageCount {
     position: fixed;
     bottom: 0;
-    font-size: 1.7em;
+    font-size: 1.2em;
 }
-
-footer {
-    position: fixed;
-    bottom: 0;
-    right: 5px;
-    margin: 0 auto;
-}
-
 
 /* Animation */
 
