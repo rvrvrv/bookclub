@@ -1,13 +1,15 @@
 /*jshint browser: true, esversion: 6*/
 /* global $, FB, localStorage, checkAll */
 
+
 window.fbAsyncInit = function() {
     FB.init({
         appId: '703692339810736',
-        xfbml: true,
+        cookie: true,
+        status: true,
+        oauth: true,
         version: 'v2.9'
     });
-    FB.AppEvents.logPageView();
 };
 
 //Load the FB SDK asynchronously
@@ -37,7 +39,9 @@ function checkLoginState() {
 
 //Update page with logged-in user's info
 function loggedIn() {
-    FB.api('/me?fields=first_name, last_name, picture', function(user) {
+    FB.api('/me?fields=first_name, last_name, picture, locale, location', function(user) {
+        console.log('Locale: ' + user.locale);
+        console.log('Location: ' + user.location);
         localStorage.setItem('rv-bookclub-id', user.id);
         $('#userInfo').html(`
         <li><img class="valign left-align" src="${user.picture.data.url}" alt="${user.first_name} ${user.last_name}"></li>
