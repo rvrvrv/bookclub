@@ -17,7 +17,7 @@ function displayBusinesses(data) {
       //Display results with staggered animation
       setTimeout(() => {
          $('#results').append(`
-              <div class="col s12 l6 animated fadeIn result">
+              <div class="col s12 l6 animated fadeIn result" id="${e.id}">
                 <h5>${e.title}</h5>
                 <h6 class="authors"><i class="fa fa-caret-right"></i>&nbsp;${e.authors}</h6>
                 <div class="card horizontal short">
@@ -27,7 +27,9 @@ function displayBusinesses(data) {
                   <div class="card-stacked">
                     <div class="card-content">
                       <p>${e.description}</p>
-                      <a class="btn-floating halfway-fab waves-effect waves-light blue"><i class="material-icons">add</i></a>
+                      <a class="btn-floating halfway-fab waves-effect waves-light blue" id="${e.id}" href="javascript:;" onclick="addBook(this, true)">
+                        <i class="material-icons">add</i>
+                      </a>
                     </div>
                     <div class="card-action">
                       <a class="bookLink" href="${e.link}" target=_blank>More Info</a>
@@ -38,8 +40,7 @@ function displayBusinesses(data) {
          `);
       }, i * 80);
    });
-   //<a class="attendLink right hidden" id="${e.id}" href="javascript:;" onclick="attend(this, true)">${attendText}</a>
-   
+
    //After all results are displayed, update attendance stats and UI
       setTimeout(() => {
          checkAll();
@@ -81,7 +82,7 @@ function search(book) {
 function checkAll() {
    let userId = localStorage.getItem('rv-bookclub-id') || null;
    $('.attendLink').each(function() {
-      ajaxFunctions.ajaxRequest('GET', `/api/attend/${$(this)[0].id}/${userId}`, res => {
+      ajaxFunctions.ajaxRequest('GET', `/api/book/${$(this)[0].id}/${userId}`, res => {
          let results = JSON.parse(res);
          //If no data in DB, there are no stats to update
          if (!results) return $(this).addClass('animated fadeInUp').removeClass('hidden');
@@ -116,18 +117,18 @@ function updateAttending(data) {
    $(`#${results.location}-attendance`).html(results.total);
 }
 
-//Handle attend link click
-function attend(link, interested) {
+//Handle 'Add Book' link click
+function addBook(link, interested) {
    let userId = localStorage.getItem('rv-bookclub-id');
    //First, check to see if user is logged in
    if (!userId) {
       $('.fb-buttons').addClass('shake');
       setTimeout(() => $('.fb-buttons').removeClass('shake'), 1000);
-      return Materialize.toast('Please log in to attend events', 2000, 'error');
+      return Materialize.toast('Please log in to add this book to your collection', 2000, 'error');
    }
-   //Then, update the database (attend or unattend the location)
+   //Then, update the database (add or remove the book)
    let method = interested ? 'PUT' : 'DELETE';
-   ajaxFunctions.ajaxRequest(method, `/api/attend/${link.getAttribute('id')}/${userId}`, updateAttending);
+   ajaxFunctions.ajaxRequest(method, `/api/book/${link.getAttribute('id')}/${userId}`, updateAttending);
 }
 
 //Handle search button click

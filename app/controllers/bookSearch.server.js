@@ -34,7 +34,8 @@ function search(reqBook, res) {
                 authors: authors,
                 thumbnail: imgUrl,
                 description: description,
-                link: e.link
+                link: e.link,
+                id: e.id
             };
         });
         res.json(formatted);

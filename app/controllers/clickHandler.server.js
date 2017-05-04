@@ -18,8 +18,8 @@ function ClickHandler() {
 			});
 	};
 
-	//Add user to list of attendees
-	this.attend = function(reqLoc, reqUser, res) {
+	//Add book to user's collection
+	this.addBook = function(reqLoc, reqUser, res) {
 		Locations
 			.findOneAndUpdate({
 				'location': reqLoc
@@ -41,8 +41,8 @@ function ClickHandler() {
 			});
 	};
 
-	//Remove user from list of attendees
-	this.unAttend = function(reqLoc, reqUser, res) {
+	//Remove book from user's collection
+	this.removeBook = function(reqLoc, reqUser, res) {
 		Locations
 			.findOneAndUpdate({
 				'location': reqLoc

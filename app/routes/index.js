@@ -14,10 +14,10 @@ module.exports = (app) => {
 		});
 	
 	//Attendance routes
-	app.route('/api/attend/:loc/:id?')
-		.get((req, res) => clickHandler.checkAttendees(req.params.loc, req.params.id, res))
-		.put((req, res) => clickHandler.attend(req.params.loc, req.params.id, res))
-		.delete((req, res) => clickHandler.unAttend(req.params.loc, req.params.id, res));
+	app.route('/api/book/:book/:id?')
+		.get((req, res) => clickHandler.checkAttendees(req.params.book, req.params.id, res))
+		.put((req, res) => clickHandler.attend(req.params.book, req.params.id, res))
+		.delete((req, res) => clickHandler.unAttend(req.params.book, req.params.id, res));
 	
 	//Search via Google Books API
 	app.route('/api/list/:book')
