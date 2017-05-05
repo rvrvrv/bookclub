@@ -12,6 +12,11 @@
 <body>
   <div id="fb-root"></div>
   <div class="navbar-fixed z-depth-1">
+    <ul id="userDropdown" class="dropdown-content waves-effect waves-green">
+      <li><a href="#!">Edit Profile</a></li>
+      <li class="divider"></li>
+      <li><a href="#!">Log Out</a></li>
+    </ul>
     <nav>
       <div class="nav-wrapper light-blue darken-3">
         <ul class="left">
@@ -19,43 +24,30 @@
         </ul>
         <a class="brand-logo center">Book Trading Club</a>
         <ul class="right valign-wrapper" id="userInfo"></ul>
+        <ul class="right">
+          <li><a class="dropdown-button" href="#!" data-activates="userDropdown">Dropdown
+            <i class="material-icons right">arrow_drop_down</i></a></li>
+        </ul>
       </div>
     </nav>
   </div>
-  <div class="fb-buttons animated">
+  <div class="fb-buttons center animated">
     <span class="tooltipped" id="loginBtn" data-delay="50" data-tooltip="Log into the Club via Facebook">
-      <a href="#" onClick="checkLoginState()">Log In with the JavaScript SDK</a>
-      <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="true"></div>
+      <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="true" data-scope="user_location" onlogin="checkLoginState()">
+      </div>
     </span>
     <a class="btn waves-effect waves-red logout-buttons hide-on-med-and-down hidden" id="logoutBtn">
       <i class="fa fa-sign-out"></i>&nbsp;&nbsp;Log Out
     </a>
-  </div>
-  <div class="container">
-    <form id="bookForm">
-      <div class="row">
-        <div class="input-field col s9">
-          <i class="prefix fa fa-3x fa-book"></i>
-          <input id="bookInput" type="text" placeholder="JavaScript: The Good Parts" class="tooltipped" data-delay="100" data-tooltip="Enter the title of your book">
-          <label for="bookInput">Book Title</label>
-        </div>
-        <div class="input-field col s3">
-          <a class="btn waves-effect waves-purp tooltipped" id="searchBtn" data-delay="400" data-tooltip="Add a book to the collection">Add Book
-          </a>
-        </div>
-      </div>
-    </form>
   </div>
   <div class="progress hidden light-blue darken-4">
     <div class="indeterminate light-blue lighten-2"></div>
   </div>
   <div class="row" id="results">
     <div class="row">
-      <div class="col s12 m8 l6 offset-m1 offset-l2">
-        <div class="card-panel z-depth-3 light-blue darken-4">
-          <span class="white-text" id="welcome">Welcome to the Book Trading Club! To get started, 
-          log in via Facebook.
-          </span>
+      <div class="col s12 m6 l6 offset-m3">
+        <div class="card-panel z-depth-5 light-blue darken-4">
+          <h5 class="white-text center" id="welcome">Welcome!<br> To get started, please log in.</h5>
         </div>
       </div>
     </div>
@@ -64,8 +56,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
 <script src="https://use.fontawesome.com/21a9ccba03.js"></script>
-<script type="text/javascript" src="common/fbLogin.js"></script>
-<script type="text/javascript" src="common/ajax-functions.js"></script>
-<script type="text/javascript" src="controllers/searchController.client.js"></script>
+<script src="common/fbLogin.js"></script>
+<script src="common/ajax-functions.js"></script>
+<script src="controllers/searchController.client.js"></script>
+<script src="common/main.js"></script>
 
 </html>

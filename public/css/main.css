@@ -38,9 +38,12 @@ body {
     margin-top: 5%;
 }
 
+#userDropdown a {
+    color: #01579b;
+}
+
 .fb-buttons {
     margin: 10px 10px 20px 10px;
-    text-align: right;
 }
 
 .fa {
@@ -99,10 +102,6 @@ body {
 
 #searchBtn.waves-ripple {
     background: #00b0ff;
-}
-
-#welcome {
-    font-size: 1.2em;
 }
 
 .authors {

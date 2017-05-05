@@ -1,27 +1,26 @@
 /*jshint browser: true, esversion: 6*/
 /* global $, FB, localStorage, checkAll */
 
-
 window.fbAsyncInit = function() {
     FB.init({
         appId: '703692339810736',
         cookie: true,
-        status: true,
-        oauth: true,
+        xfbml: true,
         version: 'v2.9'
     });
+    FB.AppEvents.logPageView();
 };
 
-//Load the FB SDK asynchronously
 (function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
+    if (d.getElementById(id)) {
+        return;
+    }
     js = d.createElement(s);
     js.id = id;
     js.src = "//connect.facebook.net/en_US/sdk.js";
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
-
 
 //Check for login status change
 function statusChangeCallback(response) {
@@ -37,14 +36,23 @@ function checkLoginState() {
 }
 
 
-//Update page with logged-in user's info
+//Show logged-in view and save new user to DB
 function loggedIn() {
-    FB.api('/me?fields=first_name, last_name, picture, locale, location', function(user) {
-        console.log('Locale: ' + user.locale);
-        console.log('Location: ' + user.location);
+    FB.api('/me?fields=first_name, last_name, picture, hometown, location', function(user) {
+        //Store user's info for DB and UI
+        let fullName = `${user.first_name} ${user.last_name}`;
+        let currentUser = {
+            id: user.id,
+            name: fullName,
+            location: user.location.name || 'Add your location'
+        };
+        console.log(currentUser);
+        
+        //TO-DO: Store in DB
+        
         localStorage.setItem('rv-bookclub-id', user.id);
         $('#userInfo').html(`
-        <li><img class="valign left-align" src="${user.picture.data.url}" alt="${user.first_name} ${user.last_name}"></li>
+        <li><img class="valign left-align" src="${user.picture.data.url}" alt="${fullName}"></li>
         <li class="hide-on-small-only">${user.first_name}</li>`);
         $('#loginBtn').hide();
         $('#logoutBtn').show();
