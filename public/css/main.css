@@ -28,6 +28,10 @@ body {
     cursor: default;
 }
 
+.menu {
+    min-width: 150px;
+}
+
 #userInfo li {
     margin-right: 10px;
     font-size: 2em;
