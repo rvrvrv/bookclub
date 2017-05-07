@@ -46,6 +46,10 @@ body {
     color: #01579b;
 }
 
+#userProfile {
+    color: #000;
+}
+
 .fa {
     vertical-align: bottom;
 }
@@ -77,8 +81,9 @@ body {
 }
 
 .input-field label {
-    font-size: 1em !important;
+    font-size: 1.3em !important;
 }
+
 
 #bookInput {
     font-size: 1.9em;
@@ -112,9 +117,6 @@ body {
     bottom: 8px !important;
 }
 
-.bookLink {
-    color: #01579b !important;
-}
 
 /* Animation */
 

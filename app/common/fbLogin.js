@@ -1,5 +1,5 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, FB, generateUI, localStorage, checkAll */
+/* global $, FB, generateUI localStorage, checkAll */
 
 window.fbAsyncInit = function() {
     FB.init({
@@ -50,7 +50,7 @@ function loggedIn() {
         console.log(currentUser);
         
         //Generate dropdown menu and profile modal
-        generateUI(user);
+        generateUI(user, fullName);
 
         //TO-DO: Store in DB
         

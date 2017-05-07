@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Book Trading Club</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
   <link rel="stylesheet" type="text/css" href="/public/css/main.css">
 </head>
 
@@ -14,10 +14,6 @@
   
   <div class="navbar-fixed z-depth-1">
     <ul id="userDropdown" class="dropdown-content">
-      <li><a class="waves-effect waves-green" href="/public/addbook.html">Add a Book</a></li>
-      <li><a class="waves-effect waves-green" href="#profileModal">Edit Profile</a></li>
-      <li class="divider"></li>
-      <li><a class="waves-effect waves-green" href="#!">Log Out</a></li>
     </ul>
     <nav>
       <div class="nav-wrapper light-blue darken-3">
@@ -35,9 +31,9 @@
   </div>
   
   <div class="row" id="welcome">
-      <div class="col s12 m6 l6 offset-m3">
+      <div class="col s12 m6 offset-m3">
         <div class="card-panel z-depth-5 light-blue darken-4">
-          <h5 class="white-text center" id="welcome">Welcome to the Book Club!<br> To get started, please log in.</h5>
+          <h5 class="white-text center" id="welcome">Welcome to the Book Club!<br>To get started, please log in.</h5>
         </div>
         <div class="fb-button center">
           <span class="tooltipped" id="loginBtn" data-delay="50" data-tooltip="Log into the Club via Facebook">
@@ -46,23 +42,13 @@
           </span>
         </div>
       </div>
-      
-  
-  <div id="profileModal" class="modal modal-fixed-footer">
-    <div class="modal-content">
-      <h4>Modal Header</h4>
-      <p>A bunch of text</p>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
-    </div>
   </div>
-          
-          
-          
+  
+  <div class="modals"></div>
+
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
 <script src="https://use.fontawesome.com/21a9ccba03.js"></script>
 <script src="common/fbLogin.js"></script>
 <script src="common/ajax-functions.js"></script>
