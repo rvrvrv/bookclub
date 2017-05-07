@@ -1,5 +1,5 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, FB, localStorage, checkAll */
+/* global $, FB, generateUI, localStorage, checkAll */
 
 window.fbAsyncInit = function() {
     FB.init({
@@ -39,7 +39,8 @@ function checkLoginState() {
 //Show logged-in view and save new user to DB
 function loggedIn() {
     FB.api('/me?fields=first_name, last_name, picture, hometown, location', function(user) {
-        //Store user's info for DB and UI
+        //Store user's info
+        localStorage.setItem('rv-bookclub-id', user.id);
         let fullName = `${user.first_name} ${user.last_name}`;
         let currentUser = {
             id: user.id,
@@ -48,14 +49,11 @@ function loggedIn() {
         };
         console.log(currentUser);
         
+        //Generate dropdown menu and profile modal
+        generateUI(user);
+
         //TO-DO: Store in DB
-        localStorage.setItem('rv-bookclub-id', user.id);
-        $('#userInfo').html(`
-        <a class="dropdown-button" data-beloworigin="true" href="#" data-activates="userDropdown">
-        <li><img class="valign left-align" src="${user.picture.data.url}"
-        alt="${user.first_name} ${user.last_name}"></li>
-        <li class="hide-on-small-only">${user.first_name}</li></a>`);
-        $("#userInfo").dropdown();
+        
         $('#loginBtn').hide();
         $('#welcome').hide();
         $('.menu').removeClass('hidden');

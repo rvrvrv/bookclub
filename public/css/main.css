@@ -38,6 +38,10 @@ body {
     margin-top: 10%;
 }
 
+#userInfo:hover {
+    cursor: pointer;
+}
+
 #userDropdown a {
     color: #01579b;
 }
