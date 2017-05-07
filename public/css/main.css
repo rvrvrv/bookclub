@@ -28,10 +28,6 @@ body {
     cursor: default;
 }
 
-.menu {
-    min-width: 150px;
-}
-
 #userInfo li {
     margin-right: 10px;
     font-size: 2em;
@@ -39,15 +35,11 @@ body {
 
 #userInfo img {
     border-radius: 5px;
-    margin-top: 5%;
+    margin-top: 10%;
 }
 
 #userDropdown a {
     color: #01579b;
-}
-
-.fb-buttons {
-    margin: 10px 10px 20px 10px;
 }
 
 .fa {
@@ -58,16 +50,8 @@ body {
     background: #01579b;
 }
 
-#logoutBtn {
-    position: fixed;
-    right: 0;
-    margin-top: -5px;
-    padding: 0 15px;
-    text-transform: capitalize;
-}
-
-#logoutBtn:hover {
-    background: #000;
+.fb-button {
+    margin: 15px;
 }
 
 .input-field input[type=text]:focus+label {

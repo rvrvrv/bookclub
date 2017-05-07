@@ -49,14 +49,16 @@ function loggedIn() {
         console.log(currentUser);
         
         //TO-DO: Store in DB
-        
         localStorage.setItem('rv-bookclub-id', user.id);
         $('#userInfo').html(`
-        <li><img class="valign left-align" src="${user.picture.data.url}" alt="${fullName}"></li>
-        <li class="hide-on-small-only">${user.first_name}</li>`);
+        <a class="dropdown-button" data-beloworigin="true" href="#" data-activates="userDropdown">
+        <li><img class="valign left-align" src="${user.picture.data.url}"
+        alt="${user.first_name} ${user.last_name}"></li>
+        <li class="hide-on-small-only">${user.first_name}</li></a>`);
+        $("#userInfo").dropdown();
         $('#loginBtn').hide();
-        $('#logoutBtn').show();
-        $('#logoutLink').removeClass('hidden');
+        $('#welcome').hide();
+        $('.menu').removeClass('hidden');
         checkAll(); //Update attendance stats for visible locations
     });
 }
@@ -65,10 +67,8 @@ function loggedIn() {
 function loggedOut() {
     localStorage.removeItem('rv-bookclub-id');
     $('#userInfo').empty();
-    $('#logoutBtn').hide();
     $('#loginBtn').show();
-    $('#logoutLink').addClass('hidden');
-    checkAll(); //Update attendance stats for visible locations
+    //checkAll(); //Update attendance stats for visible locations
 }
 
 //Log out the user

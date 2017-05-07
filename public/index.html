@@ -11,6 +11,7 @@
 
 <body>
   <div id="fb-root"></div>
+  
   <div class="navbar-fixed z-depth-1">
     <ul id="userDropdown" class="dropdown-content">
       <li><a class="waves-effect waves-green" href="/public/addbook.html">Add a Book</a></li>
@@ -23,36 +24,28 @@
         <ul class="left">
           <li><a class="logout-buttons hide-on-large-only hidden" id="logoutLink">Log Out</a></li>
         </ul>
-        <a class="brand-logo center">Book Trading Club</a>
+        <a class="brand-logo center">Book Club</a>
         <ul class="right valign-wrapper" id="userInfo"></ul>
-        <ul class="right">
-          <li><a class="dropdown-button menu" href="#!" data-activates="userDropdown">Menu
-            <i class="material-icons right">arrow_drop_down</i></a></li>
-        </ul>
       </div>
     </nav>
   </div>
-  <div class="fb-buttons center animated">
-    <span class="tooltipped" id="loginBtn" data-delay="50" data-tooltip="Log into the Club via Facebook">
-      <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="true" data-scope="user_location" onlogin="checkLoginState()">
-      </div>
-    </span>
-    <a class="btn waves-effect waves-red logout-buttons hide-on-med-and-down hidden" id="logoutBtn">
-      <i class="fa fa-sign-out"></i>&nbsp;&nbsp;Log Out
-    </a>
-  </div>
+  
   <div class="progress hidden light-blue darken-4">
     <div class="indeterminate light-blue lighten-2"></div>
   </div>
-  <div class="row" id="results">
-    <div class="row">
+  
+  <div class="row" id="welcome">
       <div class="col s12 m6 l6 offset-m3">
         <div class="card-panel z-depth-5 light-blue darken-4">
-          <h5 class="white-text center" id="welcome">Welcome!<br> To get started, please log in.</h5>
+          <h5 class="white-text center" id="welcome">Welcome to the Book Club!<br> To get started, please log in.</h5>
+        </div>
+        <div class="fb-button center">
+          <span class="tooltipped" id="loginBtn" data-delay="50" data-tooltip="Log into the Club via Facebook">
+          <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="true" data-scope="user_location" onlogin="checkLoginState()">
+          </div>
+          </span>
         </div>
       </div>
-    </div>
-  </div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
