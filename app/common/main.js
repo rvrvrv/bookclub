@@ -1,5 +1,5 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, ajaxFunctions, FB, localStorage, Materialize */
+/* global $, ajaxFunctions, checkLoginState, FB, localStorage, Materialize */
 
 $(document).ready(function() {
         $('.modal').modal();
@@ -21,7 +21,10 @@ function generateUI(user, fullName) {
         <li><a class="waves-effect waves-green" href="/public/addbook.html">Add a Book</a></li>
         <li><a class="modal-trigger waves-effect waves-green" data-target="profileModal">Edit Profile</a></li>
         <li class="divider"></li>
-        <li><a class="waves-effect waves-green" href="#!">Log Out</a></li>`);
+        <li><a class="waves-effect waves-green" id="logoutLink">Log Out</a></li>`);
+    
+    //Activate logout link
+    $('#logoutLink').click(() => FB.logout(resp => checkLoginState()));
     
     //Initialize dropdown menu
     $('.dropdown-button').dropdown({

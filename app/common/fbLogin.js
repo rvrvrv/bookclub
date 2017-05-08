@@ -30,9 +30,7 @@ function statusChangeCallback(response) {
 
 //Called after Login button is clicked
 function checkLoginState() {
-    FB.getLoginStatus(function(response) {
-        statusChangeCallback(response);
-    });
+    FB.getLoginStatus(res => statusChangeCallback(res));
 }
 
 
@@ -61,13 +59,10 @@ function loggedIn() {
     });
 }
 
-//Update page with logged-out view
+//Remove stored ID and redirect to homepage
 function loggedOut() {
     localStorage.removeItem('rv-bookclub-id');
-    $('#userInfo').empty();
-    $('#loginBtn').show();
-    //checkAll(); //Update attendance stats for visible locations
+    window.location = 'https://rv-bookclub-rvrvrv.c9users.io/';
 }
 
-//Log out the user
-$('.logout-buttons').click(() => FB.logout(resp => checkLoginState()));
+
