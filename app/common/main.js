@@ -47,25 +47,37 @@ function generateUI(user, fullName) {
             <div class="row">
                 <form class="col s12">
                     <div class="row">
-                        <div class="input-field col s9">
-                            <input value="${fullName}" id="name" type="text" class="validate">
-                            <label class="active" for="name">Name</label>
+                        <div class="input-field col s12 m6">
+                            <i class="material-icons large prefix">account_circle</i>
+                            <input value="${fullName}" id="name" type="text" class="validate"
+                            pattern="[a-zA-Z][a-zA-Z0-9., ]{1,25}$">
+                            <label class="active" for="name" data-error="Please enter a valid name.">Name</label>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="input-field col s9">
-                            <input value="${user.location.name}" id="location" type="text" class="validate">
-                            <label class="active" for="location">Location</label>
+                        <div class="input-field col s12 m6">
+                            <i class="material-icons large prefix">my_location</i>
+                            <input value="${user.location.name}" id="location" type="text" class="validate"
+                            pattern="[a-zA-Z0-9., ]{2,25}$">
+                            <label class="active" for="location" data-error="Please 
+                            enter a valid location.">Location</label>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
         <div class="modal-footer">
-            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Save</a>
+            <a class="waves-effect waves-green btn-flat" id="editProfileBtn">Save</a>
+            <a class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
         </div>
     </div>`);
     $('.modal').modal();
 
 }
 
+//Confirm profile changes and save to DB
+function editProfile() {
+  
+  
+    
+};

@@ -19,6 +19,14 @@ body {
     display: none;
 }
 
+.fa {
+    vertical-align: bottom;
+}
+
+.btn {
+    background: #01579b;
+}
+
 .error {
     background: #a00;
 }
@@ -50,16 +58,12 @@ body {
     color: #000;
 }
 
-.fa {
-    vertical-align: bottom;
+#welcome {
+    margin: 10% 0;
 }
 
-.btn {
-    background: #01579b;
-}
-
-.fb-button {
-    margin: 15px;
+.validate {
+    font-size: 1.3em;
 }
 
 .input-field input[type=text]:focus+label {
@@ -71,7 +75,7 @@ body {
     box-shadow: 0 1px 0 0 #004;
 }
 
-.input-field input[type=text].valid {
+.valid {
     border-bottom: 1px solid #01579b;
     box-shadow: 0 1px 0 0 #01579b;
 }
@@ -81,12 +85,13 @@ body {
 }
 
 .input-field label {
-    font-size: 1.3em !important;
+    font-size: 1.1em !important;
+    margin-top: 7px;
 }
 
 
 #bookInput {
-    font-size: 1.9em;
+    font-size: 1.6em;
 }
 
 #searchBtn {
