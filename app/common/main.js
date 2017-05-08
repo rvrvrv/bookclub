@@ -47,7 +47,7 @@ function generateUI(user, fullName) {
             <div class="row">
                 <form class="col s12">
                     <div class="row">
-                        <div class="input-field col s12 m6">
+                        <div class="input-field col s12 m9 l6">
                             <i class="material-icons large prefix">account_circle</i>
                             <input value="${fullName}" id="name" type="text" class="validate"
                             pattern="[a-zA-Z][a-zA-Z0-9., ]{1,25}$">
@@ -55,7 +55,7 @@ function generateUI(user, fullName) {
                         </div>
                     </div>
                     <div class="row">
-                        <div class="input-field col s12 m6">
+                        <div class="input-field col s12 m9 l6">
                             <i class="material-icons large prefix">my_location</i>
                             <input value="${user.location.name}" id="location" type="text" class="validate"
                             pattern="[a-zA-Z0-9., ]{2,25}$">

@@ -63,7 +63,7 @@ body {
 }
 
 .validate {
-    font-size: 1.3em;
+    font-size: 1.3em !important;
 }
 
 .input-field input[type=text]:focus+label {
