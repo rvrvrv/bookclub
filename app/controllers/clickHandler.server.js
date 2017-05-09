@@ -10,8 +10,8 @@ function ClickHandler() {
 			.findOne({
 				'id': req.body.id
 			}, {
-				_id: 0,
-				__v: 0
+				'_id': 0,
+				'__v': 0
 			})
 			.exec((err, result) => {
 				if (err) throw err;
@@ -26,19 +26,34 @@ function ClickHandler() {
 	};
 
 	//Update user profile
-	this.updateUser = function(req, res) {
-		console.log(req.body);
-		
+	this.updateUser = function(reqId, reqName, reqLocation, res) {
+		Users
+			.findOneAndUpdate({
+				'id': reqId
+			}, {
+				$set: {
+					'name': reqName.trim(),
+					'location': reqLocation.trim()
+				},
+			}, {
+				projection: {'name': 1, 'location': 1, '_id': 0},
+				new: true
+			})
+			.exec(function(err, result) {
+				if (err) throw err;
+				res.json(result);
+			});
 	};
-	
+		
+
 	//Get books in user's collection
 	this.getCollection = function(reqUser, res) {
 		Users
 			.findOne({
 				'id': reqUser
 			}, {
-				_id: 0,
-				__v: 0
+				'_id': 0,
+				'__v': 0
 			})
 			.exec(function(err, result) {
 				if (err) throw err;

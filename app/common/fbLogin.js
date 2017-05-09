@@ -37,23 +37,21 @@ function checkLoginState() {
 //Show logged-in view and save new user to DB
 function loggedIn() {
     FB.api('/me?fields=first_name, last_name, picture, hometown, location', function(user) {
+        
         //Store user's info
         localStorage.setItem('rv-bookclub-id', user.id);
-        let fullName = `${user.first_name} ${user.last_name}`;
         let currentUser = {
             id: user.id,
-            name: fullName,
+            name: `${user.first_name} ${user.last_name}`,
             location: user.location.name || 'Add your location'
         };
-        console.log(currentUser);
-        
+
         //Load or create new user in DB
 		$.post('/api/user/' + user.id, currentUser)
 			.done((res) => {
-			    console.log('Created!');
 			    console.log(res);
 			    //Update UI with logged-in view
-                generateLoggedInUI(user, fullName);
+                generateLoggedInUI(res, user.picture.data.url);
 			})
 			.fail(() => {
 			    console.error('Could not load data');

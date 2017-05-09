@@ -14,9 +14,9 @@ module.exports = (app) => {
 		});
 	
 	//User creation and profile update
-	app.route('/api/user/:id')
+	app.route('/api/user/:id/:name?/:location?')
 		.post((req, res) => clickHandler.createUser(req, res))
-		.put((req, res) => clickHandler.updateUser(req, res));	
+		.put((req, res) => clickHandler.updateUser(req.params.id, req.params.name, req.params.location, res));	
 		
 		
 	//Attendance routes
