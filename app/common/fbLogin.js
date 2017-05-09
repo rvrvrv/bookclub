@@ -1,5 +1,5 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, FB, generateUI localStorage, checkAll */
+/* global $, FB, generateLoggedInUI localStorage, checkAll */
 
 window.fbAsyncInit = function() {
     FB.init({
@@ -47,15 +47,18 @@ function loggedIn() {
         };
         console.log(currentUser);
         
-        //Generate dropdown menu and profile modal
-        generateUI(user, fullName);
+        //Load or create new user in DB
+		$.post('/api/user/' + user.id, currentUser)
+			.done((res) => {
+			    console.log('Created!');
+			    console.log(res);
+			    //Update UI with logged-in view
+                generateLoggedInUI(user, fullName);
+			})
+			.fail(() => {
+			    console.error('Could not load data');
+			});
 
-        //TO-DO: Store in DB
-        
-        $('#loginBtn').hide();
-        $('#welcome').hide();
-        $('.menu').removeClass('hidden');
-        checkAll(); //Update attendance stats for visible locations
     });
 }
 

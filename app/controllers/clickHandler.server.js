@@ -1,13 +1,41 @@
 'use strict';
 
-var Locations = require('../models/locations.js');
+var Users = require('../models/users.js');
 
 function ClickHandler() {
 
-	this.checkAttendees = function(reqLoc, reqUser, res) {
-		Locations
+	//Create user (or load existing user)
+	this.createUser = function(req, res) {
+		Users
 			.findOne({
-				'location': reqLoc
+				'id': req.body.id
+			}, {
+				_id: 0,
+				__v: 0
+			})
+			.exec((err, result) => {
+				if (err) throw err;
+				//If user exists, return data
+				if (result) return res.json(result);
+				//Otherwise, create new user with FB login data
+				let newUser = new Users(req.body);
+				newUser
+					.save()
+					.then(res.json(newUser));
+			});
+	};
+
+	//Update user profile
+	this.updateUser = function(req, res) {
+		console.log(req.body);
+		
+	};
+	
+	//Get books in user's collection
+	this.getCollection = function(reqUser, res) {
+		Users
+			.findOne({
+				'id': reqUser
 			}, {
 				_id: 0,
 				__v: 0
@@ -19,13 +47,13 @@ function ClickHandler() {
 	};
 
 	//Add book to user's collection
-	this.addBook = function(reqLoc, reqUser, res) {
-		Locations
+	this.addBook = function(reqUser, reqBook, res) {
+		Users
 			.findOneAndUpdate({
-				'location': reqLoc
+				'id': reqUser
 			}, {
 				$addToSet: {
-					'attendees': reqUser
+					'books': reqBook
 				},
 			}, {
 				upsert: true,
@@ -34,33 +62,31 @@ function ClickHandler() {
 			.exec(function(err, result) {
 				if (err) throw err;
 				res.json({
-					location: result.location,
-					total: result.attendees.length,
-					action: 'attending'
+					id: result.id,
+					book: result.books,
+					action: 'added'
 				});
 			});
 	};
 
 	//Remove book from user's collection
-	this.removeBook = function(reqLoc, reqUser, res) {
-		Locations
+	this.removeBook = function(reqUser, reqBook, res) {
+		Users
 			.findOneAndUpdate({
-				'location': reqLoc
+				'id': reqUser
 			}, {
 				$pull: {
-					'attendees': reqUser
+					'books': reqBook
 				}
 			}, {
 				new: true
 			})
 			.exec(function(err, result) {
 				if (err) throw err;
-				//If no one is attending, delete the document
-				if (!result.attendees.length) result.remove();
 				res.json({
-					location: result.location,
-					total: result.attendees.length,
-					action: 'not attending'
+					id: result.id,
+					book: result.books,
+					action: 'removed'
 				});
 			});
 	};

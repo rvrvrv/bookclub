@@ -7,8 +7,12 @@ $(document).ready(function() {
 
 
 
-function generateUI(user, fullName) {
+function generateLoggedInUI(user, fullName) {
     
+    //Hide login button and welcome message
+    $('#loginBtn').hide();
+    $('#welcome').hide();
+        
     //Generate user info in navbar
     $('#userInfo').html(`
         <a class="dropdown-button" data-beloworigin="true" href="#" data-activates="userDropdown">

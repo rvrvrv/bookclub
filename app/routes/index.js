@@ -13,6 +13,12 @@ module.exports = (app) => {
 			res.sendFile(path + '/public/index.html');
 		});
 	
+	//User creation and profile update
+	app.route('/api/user/:id')
+		.post((req, res) => clickHandler.createUser(req, res))
+		.put((req, res) => clickHandler.updateUser(req, res));	
+		
+		
 	//Attendance routes
 	app.route('/api/book/:book/:id?')
 		.get((req, res) => clickHandler.checkAttendees(req.params.book, req.params.id, res))
