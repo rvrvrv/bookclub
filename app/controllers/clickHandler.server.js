@@ -1,9 +1,27 @@
 'use strict';
 
-var Users = require('../models/users.js');
+const Users = require('../models/users.js');
+const Books = require('../models/books.js');
 
 function ClickHandler() {
 
+	//Retrieve all books in DB
+	this.showAllBooks = function(req, res) {
+		Books
+			.find({}, {
+				'id': 1
+			})
+			.exec(function(err, result) {
+				if (err) throw err;
+				let formattedOutput = '';
+				// result.forEach((e) => {
+				// 	formattedOutput += `<tr><td><a class='viewCtrl' href='/poll/${e._id}'>
+				// 		<i class='fa fa-comments'></i>&nbsp;&nbsp;${e.title}</a></td></tr>`;
+				// });
+				res.json(result);
+			});
+	};
+	
 	//Create user (or load existing user)
 	this.createUser = function(req, res) {
 		Users
@@ -46,7 +64,7 @@ function ClickHandler() {
 	};
 		
 
-	//Get books in user's collection
+	//Get books and trade requests in user's collection
 	this.getCollection = function(reqUser, res) {
 		Users
 			.findOne({

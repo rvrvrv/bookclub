@@ -2,16 +2,25 @@
 /* global $, ajaxFunctions, checkLoginState, FB, localStorage, Materialize */
 
 $(document).ready(function() {
-        $('.modal').modal();
+    
+    //Show books in collection to all visitors
+    ajaxFunctions.ajaxRequest('GET', '/api/allBooks/', data => {
+        console.log(data);
+    });
 });
 
 
 
 function generateLoggedInUI(user, picture) {
     
-    //Hide login button and welcome message
+    let totalBooks = 10;
+    
+    //Hide login button and change welcome message
     $('#loginBtn').hide();
-    $('#welcome').hide();
+    $('#welcome').html(`You're in the club! There are currently ${totalBooks} books here.
+     Feel free to add your own or request a trade. Enjoy!`);
+     
+     
         
     //Generate user info in navbar
     $('#userInfo').html(`
@@ -79,7 +88,7 @@ function generateLoggedInUI(user, picture) {
     //Activate edit-profile buttons
     $('#editProfileBtn').click(() => editProfile());
     $('#cancelChangesBtn').click(() => resetProfile());
-
+    
 }
 
 //Save profile changes to DB

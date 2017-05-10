@@ -7,7 +7,7 @@ let lastSearch = '';
 let timer;
 
 //Populate page with search results (called from search function)
-function displayBusinesses(data) {
+function displaySearchResults(data) {
    let list = JSON.parse(data);
    //Clear previous search results and timer
    $('#results').empty();
@@ -64,7 +64,7 @@ function search(book) {
    $('.progress').removeClass('hidden');
    $btn.addClass('disabled');
    $btn.html('<i class="fa fa-spinner fa-spin fa-fw"></i>');
-   ajaxFunctions.ajaxRequest('GET', `/api/list/${book}`, displayBusinesses);
+   ajaxFunctions.ajaxRequest('GET', `/api/search/${book}`, displaySearchResults);
    lastSearch = book.trim().toLowerCase();
   
   //7-second timer to prevent search hang-up
