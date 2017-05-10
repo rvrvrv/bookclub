@@ -1,27 +1,15 @@
 /*jshint browser: true, esversion: 6*/
 /* global $, ajaxFunctions, checkLoginState, FB, localStorage, Materialize */
 
-$(document).ready(function() {
-    
-    //Show books in collection to all visitors
-    ajaxFunctions.ajaxRequest('GET', '/api/allBooks/', data => {
-        console.log(data);
-    });
-});
-
-
-
 function generateLoggedInUI(user, picture) {
     
     let totalBooks = 10;
     
     //Hide login button and change welcome message
     $('#loginBtn').hide();
-    $('#welcome').html(`You're in the club! There are currently ${totalBooks} books here.
-     Feel free to add your own or request a trade. Enjoy!`);
+    $('#welcome').html(`<h5 class="white-text center">You're in the club!<br>
+        Feel free to add your own or request a trade. Enjoy!</h5>`);
      
-     
-        
     //Generate user info in navbar
     $('#userInfo').html(`
         <a class="dropdown-button" data-beloworigin="true" href="#" data-activates="userDropdown">

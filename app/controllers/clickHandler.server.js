@@ -9,15 +9,10 @@ function ClickHandler() {
 	this.showAllBooks = function(req, res) {
 		Books
 			.find({}, {
-				'id': 1
+				'_id': 0
 			})
 			.exec(function(err, result) {
 				if (err) throw err;
-				let formattedOutput = '';
-				// result.forEach((e) => {
-				// 	formattedOutput += `<tr><td><a class='viewCtrl' href='/poll/${e._id}'>
-				// 		<i class='fa fa-comments'></i>&nbsp;&nbsp;${e.title}</a></td></tr>`;
-				// });
 				res.json(result);
 			});
 	};
