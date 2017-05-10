@@ -47,7 +47,6 @@ function generateLoggedInUI(user, picture) {
       <div id="profileModal" class="modal bottom-sheet">
         <div class="modal-content">
             <h5>Edit Profile</h5>
-            <br><br>
             <div class="row">
                 <form class="col s12">
                     <div class="row">
