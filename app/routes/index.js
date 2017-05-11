@@ -7,10 +7,16 @@ const bookSearch = require(path + '/app/controllers/bookSearch.server.js');
 module.exports = (app) => {
 
 	let clickHandler = new ClickHandler();
-
+	
+	//Homepage
 	app.route('/')
 		.get((req, res) => {
 			res.sendFile(path + '/public/index.html');
+		});
+		
+	app.route('/addbook.html')
+		.get((req, res) => {
+			res.sendFile(path + '/public/addbook.html');
 		});
 	
 	//Display all books in collection

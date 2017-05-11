@@ -1,14 +1,13 @@
 /*jshint browser: true, esversion: 6*/
 /* global $, ajaxFunctions, checkLoginState, FB, localStorage, Materialize */
 
+
 function generateLoggedInUI(user, picture) {
-    
-    let totalBooks = 10;
     
     //Hide login button and change welcome message
     $('#loginBtn').hide();
     $('#welcome').html(`<h5 class="white-text center">You're in the club!<br>
-        Feel free to add your own or request a trade. Enjoy!</h5>`);
+        Feel free to add your own book or request a trade.</h5>`);
      
     //Generate user info in navbar
     $('#userInfo').html(`
@@ -19,13 +18,15 @@ function generateLoggedInUI(user, picture) {
     
     //Generate dropdown menu
     $('#userDropdown').html(`
-        <li><a class="waves-effect waves-green" href="/public/addbook.html">Add a Book</a></li>
+        <li><a class="waves-effect waves-green" id="addBookLink">Add a Book</a></li>
         <li><a class="modal-trigger waves-effect waves-green" data-target="profileModal">Edit Profile</a></li>
         <li class="divider"></li>
         <li><a class="waves-effect waves-green" id="logoutLink">Log Out</a></li>`);
     
-    //Activate logout link
+    //Activate menu links
     $('#logoutLink').click(() => FB.logout(resp => checkLoginState()));
+    if (!window.location.href.includes('addbook'))
+        $('#addBookLink').click(() => window.location.href='addbook.html');
     
     //Initialize dropdown menu
     $('.dropdown-button').dropdown({
@@ -118,3 +119,4 @@ function resetProfile() {
     Materialize.toast('No changes have been made.', 2000);
     
 }
+

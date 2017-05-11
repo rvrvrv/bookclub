@@ -6,6 +6,7 @@ const $btn = $('#searchBtn');
 let lastSearch = '';
 let timer;
 
+
 //Populate page with search results (called from search function)
 function displaySearchResults(data) {
    let list = JSON.parse(data);

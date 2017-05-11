@@ -5,10 +5,11 @@ window.fbAsyncInit = function() {
     FB.init({
         appId: '703692339810736',
         cookie: true,
+        status: true,
         xfbml: true,
         version: 'v2.9'
     });
-    FB.AppEvents.logPageView();
+    checkLoginState(true);
 };
 
 (function(d, s, id) {
@@ -23,27 +24,28 @@ window.fbAsyncInit = function() {
 }(document, 'script', 'facebook-jssdk'));
 
 //Check for login status change
-function statusChangeCallback(response) {
+function statusChangeCallback(response, initial) {
     if (response.status === 'connected') loggedIn();
-    else loggedOut();
+    else loggedOut(initial);
 }
 
 //Called after Login button is clicked
-function checkLoginState() {
-    FB.getLoginStatus(res => statusChangeCallback(res));
+function checkLoginState(initial) {
+    FB.getLoginStatus(res => statusChangeCallback(res, initial));
 }
 
 
 //Show logged-in view and save new user to DB
 function loggedIn() {
     FB.api('/me?fields=first_name, last_name, picture, hometown, location', function(user) {
-        
+        console.log(user);
         //Store user's info
         localStorage.setItem('rv-bookclub-id', user.id);
+        let userLoc = (!user.location) ? 'Add your location' : user.location.name;
         let currentUser = {
             id: user.id,
             name: `${user.first_name} ${user.last_name}`,
-            location: user.location.name || 'Add your location'
+            location: userLoc
         };
 
         //Load or create new user in DB
@@ -61,7 +63,8 @@ function loggedIn() {
 }
 
 //Remove stored ID and redirect to homepage
-function loggedOut() {
+function loggedOut(initial) {
+    if (initial) return;
     localStorage.removeItem('rv-bookclub-id');
     window.location = 'https://rv-bookclub-rvrvrv.c9users.io/';
 }
