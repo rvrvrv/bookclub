@@ -1,5 +1,5 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, FB, generateLoggedInUI, localStorage, progress */
+/* global $, FB, generateLoggedInUI, localStorage, location, progress */
 
 window.fbAsyncInit = function() {
     FB.init({
@@ -24,14 +24,14 @@ window.fbAsyncInit = function() {
 }(document, 'script', 'facebook-jssdk'));
 
 //Check for login status change
-function statusChangeCallback(response, initial) {
+function statusChangeCallback(response) {
     if (response.status === 'connected') loggedIn();
-    else loggedOut(initial);
+    else loggedOut();
 }
 
 //Called after Login button is clicked
-function checkLoginState(initial) {
-    FB.getLoginStatus(res => statusChangeCallback(res, initial));
+function checkLoginState() {
+    FB.getLoginStatus(res => statusChangeCallback(res));
 }
 
 
@@ -65,11 +65,11 @@ function loggedIn() {
     });
 }
 
-//Remove stored ID and redirect to homepage
-function loggedOut(initial) {
-    if (initial) return;
+//Remove stored ID and redirect to homepage (if necessary)
+function loggedOut() {
     localStorage.removeItem('rv-bookclub-id');
-    window.location = 'https://rv-bookclub-rvrvrv.c9users.io/';
+    //If user isn't logged in, redirect to homepage
+    if (location.pathname.length > 1) {
+        location.pathname = '/';
+    }
 }
-
-

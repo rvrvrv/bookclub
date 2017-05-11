@@ -1,11 +1,37 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, ajaxFunctions, checkLoginState, FB, localStorage, Materialize */
+/* global $, ajaxFunctions, checkLoginState, FB, localStorage, location, Materialize */
 
+//Show and hide progress bar
 function progress(operation) {
     if (operation === 'show') $('.progress').removeClass('hidden');
     else $('.progress').addClass('hidden');
 }
 
+//Activate nav links
+function activateLinks() {
+    
+    let currentLoc = location.pathname;  
+        
+    //Always activate logout button
+    $('#logoutLink').click(() => {
+        FB.logout(resp => checkLoginState());
+        location.pathname = '/';
+    });
+    
+    //If not on index page, activate title as button
+    if (currentLoc.length > 1) 
+        $('.brand-logo').click(() => location.pathname = '/');
+
+    /*Then, iterate through nav links, activating everything
+    other than link to current page */
+    $('.dynLink').each(function() {
+        let link = $(this).attr('data-link');
+        if (!currentLoc.includes(link))
+            $(this).click(() => location.href = `${link}.html`);
+    });
+}
+
+//Generate UI for logged-in users
 function generateLoggedInUI(user, picture) {
     
     //Hide login button and change welcome message
@@ -22,15 +48,13 @@ function generateLoggedInUI(user, picture) {
     
     //Generate dropdown menu
     $('#userDropdown').html(`
-        <li><a class="waves-effect waves-green" id="addBookLink">Add a Book</a></li>
+        <li><a class="waves-effect waves-green dynLink" data-link="addbook">Add a Book</a></li>
         <li><a class="modal-trigger waves-effect waves-green" data-target="profileModal">Edit Profile</a></li>
         <li class="divider"></li>
         <li><a class="waves-effect waves-green" id="logoutLink">Log Out</a></li>`);
     
     //Activate menu links
-    $('#logoutLink').click(() => FB.logout(resp => checkLoginState()));
-    if (!window.location.href.includes('addbook'))
-        $('#addBookLink').click(() => window.location.href='addbook.html');
+    activateLinks();
     
     //Initialize dropdown menu
     $('.dropdown-button').dropdown({

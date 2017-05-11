@@ -15,6 +15,10 @@ body {
     overflow-y: scroll;
 }
 
+a:hover {
+    cursor: pointer;
+}
+
 .hidden {
     opacity: 0;
 }
@@ -33,7 +37,6 @@ body {
 
 .navbar-fixed {
     user-select: none;
-    cursor: default;
 }
 
 #userInfo li {
@@ -44,10 +47,6 @@ body {
 #userInfo img {
     border-radius: 5px;
     margin-top: 10%;
-}
-
-#userInfo:hover {
-    cursor: pointer;
 }
 
 #userDropdown a {
