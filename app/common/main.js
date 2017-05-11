@@ -1,6 +1,10 @@
 /*jshint browser: true, esversion: 6*/
 /* global $, ajaxFunctions, checkLoginState, FB, localStorage, Materialize */
 
+function progress(operation) {
+    if (operation === 'show') $('.progress').removeClass('hidden');
+    else $('.progress').addClass('hidden');
+}
 
 function generateLoggedInUI(user, picture) {
     

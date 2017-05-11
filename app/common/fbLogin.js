@@ -1,5 +1,5 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, FB, generateLoggedInUI localStorage, checkAll */
+/* global $, FB, generateLoggedInUI, localStorage, progress */
 
 window.fbAsyncInit = function() {
     FB.init({
@@ -35,8 +35,9 @@ function checkLoginState(initial) {
 }
 
 
-//Show logged-in view and save new user to DB
+//Show logged-in view and save/load new user in DB
 function loggedIn() {
+    progress('show');
     FB.api('/me?fields=first_name, last_name, picture, hometown, location', function(user) {
         console.log(user);
         //Store user's info
@@ -54,9 +55,11 @@ function loggedIn() {
 			    console.log(res);
 			    //Update UI with logged-in view
                 generateLoggedInUI(res, user.picture.data.url);
+                progress('hide');
 			})
 			.fail(() => {
 			    console.error('Could not load data');
+			    progress('hide');
 			});
 
     });
