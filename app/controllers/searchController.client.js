@@ -29,12 +29,12 @@ function displaySearchResults(data) {
                   <div class="card-stacked">
                     <div class="card-content">
                       <p>${e.description}</p>
-                      <a class="btn-floating halfway-fab waves-effect waves-light blue" id="${e.id}" href="javascript:;" onclick="addBook(this, true)">
-                        <i class="material-icons">add</i>
+                      <a class="btn-floating halfway-fab waves-effect waves-light blue" id="${e.id}" onclick="addBook(this, true)">
+                        <i class="material-icons tooltipped" data-tooltip="Add ${e.title} to your collection">add</i>
                       </a>
                     </div>
                     <div class="card-action">
-                      <a class="bookLink" href="${e.link}" target=_blank>More Info</a>
+                      <a class="bookLink blue-text" href="${e.link}" target=_blank>More Info</a>
                     </div>
                   </div>
                 </div>
@@ -46,6 +46,7 @@ function displaySearchResults(data) {
    //After all results are displayed, update attendance stats and UI
       setTimeout(() => {
          checkAll();
+         $('.tooltipped').tooltip();
          $('.progress').addClass('hidden');
          $btn.removeClass('disabled');
          $btn.html('Search');
