@@ -178,23 +178,3 @@ a:hover {
         transform: none;
     }
 }
-
-.shake {
-    animation-name: shake;
-}
-
-@keyframes shake {
-    from,
-    to {
-        transform: translate3d(0, 0, 0);
-    }
-    30%,
-    60%,
-    90% {
-        transform: translate3d(8px, 0, 0);
-    }
-    45%,
-    75% {
-        transform: translate3d(-8px, 0, 0);
-    }
-}
