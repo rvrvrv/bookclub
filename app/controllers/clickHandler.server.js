@@ -75,7 +75,7 @@ function ClickHandler() {
 	};
 
 	//Add book to user's collection
-	this.addBook = function(reqUser, reqBook, res) {
+	this.addBook = function(reqBook, reqUser, res) {
 		Users
 			.findOneAndUpdate({
 				'id': reqUser
@@ -98,7 +98,7 @@ function ClickHandler() {
 	};
 
 	//Remove book from user's collection
-	this.removeBook = function(reqUser, reqBook, res) {
+	this.removeBook = function(reqBook, reqUser, res) {
 		Users
 			.findOneAndUpdate({
 				'id': reqUser

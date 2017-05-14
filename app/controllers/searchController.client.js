@@ -6,11 +6,9 @@ const $btn = $('#searchBtn');
 let lastSearch = '';
 let timer;
 
-
 //Populate page with search results (called from search function)
 function displaySearchResults(data) {
    let list = JSON.parse(data);
-   console.log(list);
    //Clear previous search results and timer
    $('#results').empty();
    clearTimeout(timer);
@@ -19,7 +17,7 @@ function displaySearchResults(data) {
       //Display results with staggered animation
       setTimeout(() => {
          $('#results').append(`
-              <div class="col s12 l6 animated fadeIn result" id="${e.id}">
+              <div class="col s12 m6 animated fadeIn result" id="${e.id}">
                 <h5>${e.title}</h5>
                 <h6 class="authors"><i class="fa fa-caret-right"></i>&nbsp;${e.authors}</h6>
                 <div class="card horizontal short">
@@ -83,55 +81,51 @@ function search(book) {
 
 //Check all search results for attendance stats
 function checkAll() {
-   let userId = localStorage.getItem('rv-bookclub-id') || null;
-   $('.attendLink').each(function() {
-      ajaxFunctions.ajaxRequest('GET', `/api/book/${$(this)[0].id}/${userId}`, res => {
-         let results = JSON.parse(res);
-         //If no data in DB, there are no stats to update
-         if (!results) return $(this).addClass('animated fadeInUp').removeClass('hidden');
-         //Otherwise, update the link and attendance stats
-         let userAction = (results.attendees.includes(userId)) ? 'attending' : 'no';
-         updateAttending({
-               location: results.location,
-               total: results.attendees.length,
-               action: userAction
-            });
-      });
-   });
+   console.log('test');
+   // let userId = localStorage.getItem('rv-bookclub-id') || null;
+   // $('.attendLink').each(function() {
+   //    ajaxFunctions.ajaxRequest('GET', `/api/book/${$(this)[0].id}/${userId}`, res => {
+   //       let results = JSON.parse(res);
+   //       //If no data in DB, there are no stats to update
+   //       if (!results) return $(this).addClass('animated fadeInUp').removeClass('hidden');
+   //       //Otherwise, update the link and attendance stats
+   //       let userAction = (results.attendees.includes(userId)) ? 'attending' : 'no';
+   //       updateAttending({
+   //             location: results.location,
+   //             total: results.attendees.length,
+   //             action: userAction
+   //          });
+   //    });
+   // });
 }
 
 //Display user and guest attendance for each business
-function updateAttending(data) {
-   //If data is from server, parse the string
-   let results = (typeof(data) === 'string') ? JSON.parse(data) : data;
-   let $loc = $(`#${results.location}`);
-   //Update link text and action based on attendance
-   if (results.action === 'attending') {
-      $loc.html(goingText);
-      $loc.attr('onclick', 'attend(this)');
-   }
-   else {
-      $loc.html(attendText);
-      $loc.attr('onclick', 'attend(this, true)');
-   }
-   //Display the link
-   $loc.addClass('animated fadeInUp').removeClass('hidden');
-   //Update attendance count
-   $(`#${results.location}-attendance`).html(results.total);
+function updateCollection(data) {
+   console.log(data);
+   Materialize.toast('Added book!');
+   // //If data is from server, parse the string
+   // let results = (typeof(data) === 'string') ? JSON.parse(data) : data;
+   // let $loc = $(`#${results.location}`);
+   // //Update link text and action based on attendance
+   // if (results.action === 'attending') {
+   //    $loc.html(goingText);
+   //    $loc.attr('onclick', 'attend(this)');
+   // }
+   // else {
+   //    $loc.html(attendText);
+   //    $loc.attr('onclick', 'attend(this, true)');
+   // }
+   // //Display the link
+   // $loc.addClass('animated fadeInUp').removeClass('hidden');
+   // //Update attendance count
+   // $(`#${results.location}-attendance`).html(results.total);
 }
 
 //Handle 'Add Book' link click
 function addBook(link, interested) {
-   let userId = localStorage.getItem('rv-bookclub-id');
-   //First, check to see if user is logged in
-   if (!userId) {
-      $('.fb-buttons').addClass('shake');
-      setTimeout(() => $('.fb-buttons').removeClass('shake'), 1000);
-      return Materialize.toast('Please log in to add this book to your collection', 2000, 'error');
-   }
-   //Then, update the database (add or remove the book)
+   //Update the database (add or remove the book from user's collection)
    let method = interested ? 'PUT' : 'DELETE';
-   ajaxFunctions.ajaxRequest(method, `/api/book/${link.getAttribute('id')}/${userId}`, updateAttending);
+   ajaxFunctions.ajaxRequest(method, `/api/book/${link.getAttribute('id')}/${localStorage.getItem('rv-bookclub-id')}`, updateCollection);
 }
 
 //Handle search button click

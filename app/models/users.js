@@ -7,14 +7,14 @@ var User = new Schema({
     id: String,
     name: String,
     location: String,
-    books: [{
-        bookId: String,
-    }],
+    books: [ String ],
     outgoingRequests: [{
-        bookId: String
+        bookId: String,
+        userId: String
     }],
     incomingRequests: [{
-        bookId: String
+        bookId: String,
+        userId: String
     }]
 });
 

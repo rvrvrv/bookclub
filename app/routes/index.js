@@ -28,11 +28,11 @@ module.exports = (app) => {
 		.post((req, res) => clickHandler.createUser(req, res))
 		.put((req, res) => clickHandler.updateUser(req.params.id, req.params.name, req.params.location, res));	
 
-	//Attendance routes
-	app.route('/api/book/:book/:id?')
-		.get((req, res) => clickHandler.checkAttendees(req.params.book, req.params.id, res))
-		.put((req, res) => clickHandler.attend(req.params.book, req.params.id, res))
-		.delete((req, res) => clickHandler.unAttend(req.params.book, req.params.id, res));
+	//Add & remove book routes
+	app.route('/api/book/:bookId/:userId?')
+		.get((req, res) => clickHandler.checkAttendees(req.params.bookId, req.params.userId, res))
+		.put((req, res) => clickHandler.addBook(req.params.bookId, req.params.userId, res))
+		.delete((req, res) => clickHandler.delBook(req.params.bookId, req.params.userId, res));
 	
 	//Search via Google Books API
 	app.route('/api/search/:book')
