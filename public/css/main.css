@@ -117,10 +117,6 @@ a:hover {
     margin: -5px 0 -5px 10px;
 }
 
-.result {
-    height: 300px !important;
-}
-
 .card.horizontal.short {
     height: 200px;
 }

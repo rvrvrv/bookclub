@@ -9,6 +9,7 @@ let timer;
 //Populate page with search results (called from search function)
 function displaySearchResults(data) {
    let list = JSON.parse(data);
+   console.log(list);
    //Clear previous search results and timer
    $('#results').empty();
    clearTimeout(timer);
@@ -17,7 +18,7 @@ function displaySearchResults(data) {
       //Display results with staggered animation
       setTimeout(() => {
          $('#results').append(`
-              <div class="col s12 m6 animated fadeIn result" id="${e.id}">
+              <div class="col s12 xl6 animated fadeIn result" id="${e.id}">
                 <h5>${e.title}</h5>
                 <h6 class="authors"><i class="fa fa-caret-right"></i>&nbsp;${e.authors}</h6>
                 <div class="card horizontal short">
@@ -32,7 +33,7 @@ function displaySearchResults(data) {
                       </a>
                     </div>
                     <div class="card-action">
-                      <a class="bookLink blue-text" href="${e.link}" target=_blank>More Info</a>
+                      <a class="bookLink blue-text" href="${e.link}" target="_blank">More Info</a>
                     </div>
                   </div>
                 </div>
