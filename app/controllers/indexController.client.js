@@ -10,11 +10,12 @@
        let formattedOutput = '';
        console.log(books);
         books.forEach((e) => {
-            console.log(e);
-            formattedOutput += `<h6>${e.title} by ${e.authors}</h6>`;
+            formattedOutput += `<a class="carousel-item tooltipped" href="${e.link}" target="_blank" data-tooltip="${e.title}" data-delay="600">
+                <img src="${e.thumbnail}"></a>`;
         });
-       
-       $('#allBooks').html(formattedOutput);
+       $('.carousel').html(formattedOutput);
+       $('.carousel').carousel();
+       $('.tooltipped').tooltip();
    }
    
    //Automatically show all books on index page

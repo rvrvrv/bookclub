@@ -61,6 +61,10 @@ a:hover {
     margin: 10% 0;
 }
 
+.carousel {
+    margin-top: -30px;
+}
+
 .validate {
     font-size: 1.3em !important;
 }
