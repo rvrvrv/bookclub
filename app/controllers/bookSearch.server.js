@@ -18,7 +18,7 @@ function search(reqBook, res) {
 
           //If necessary, handle empty authors array
           let authors = (!e.authors)
-             ? ''
+             ? '(No authors listed)'
              //Always display multiple authors cleanly
              : e.authors.join(', ');
              
