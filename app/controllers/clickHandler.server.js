@@ -17,6 +17,15 @@ function ClickHandler() {
 			});
 	};
 	
+	//Update collection with new book
+	this.updateCollection = function(req, res) {
+		let newBook = new Books(req.body);
+		console.log(newBook);
+			newBook
+				.save()
+				.then(res.json(newBook));
+	};
+
 	//Create user (or load existing user)
 	this.createUser = function(req, res) {
 		Users

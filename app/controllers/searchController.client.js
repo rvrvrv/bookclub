@@ -3,18 +3,21 @@
 'use strict';
 
 const $btn = $('#searchBtn');
+let list = [];
 let lastSearch = '';
 let timer;
 
 //Populate page with search results (called from search function)
 function displaySearchResults(data) {
-   let list = JSON.parse(data);
+   list = JSON.parse(data);
    console.log(list);
    //Clear previous search results and timer
    $('#results').empty();
    clearTimeout(timer);
    //Display the results
    list.forEach((e, i) => {
+      //Set book owner for potential add to collection
+      e.owner = localStorage.getItem('rv-bookclub-id');
       //Display results with staggered animation
       setTimeout(() => {
          $('#results').append(`
@@ -28,7 +31,7 @@ function displaySearchResults(data) {
                   <div class="card-stacked">
                     <div class="card-content">
                       <p>${e.description}</p>
-                      <a class="btn-floating halfway-fab waves-effect waves-light blue" id="${e.id}" onclick="addBook(this, true)">
+                      <a class="btn-floating halfway-fab waves-effect waves-light blue" id="${e.id}" data-i="${i}" onclick="addBook(this, true)">
                         <i class="material-icons tooltipped" data-tooltip="Add ${e.title} to your collection">add</i>
                       </a>
                     </div>
@@ -126,7 +129,18 @@ function updateCollection(data) {
 function addBook(link, interested) {
    //Update the database (add or remove the book from user's collection)
    let method = interested ? 'PUT' : 'DELETE';
-   ajaxFunctions.ajaxRequest(method, `/api/book/${link.getAttribute('id')}/${localStorage.getItem('rv-bookclub-id')}`, updateCollection);
+   let apiUrl = `/api/book/${link.getAttribute('id')}/${localStorage.getItem('rv-bookclub-id')}`;
+   ajaxFunctions.ajaxRequest(method, apiUrl, () => {
+      //After adding book ID to user's collection, add book data to the club's collection
+      $.post(apiUrl, list[link.getAttribute('data-i')])
+			.done((res) => {
+			    console.log(res);
+			    //Update UI with logged-in view
+			})
+			.fail(() => {
+			    console.error('Could not load data');
+			});
+      updateCollection});
 }
 
 //Handle search button click

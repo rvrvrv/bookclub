@@ -9,7 +9,8 @@ var Book = new Schema({
 	authors: [ String ],
     thumbnail: String,
     link: String,
-    description: String
+    description: String,
+    owner: String
 });
 
 module.exports = mongoose.model('Books', Book);
