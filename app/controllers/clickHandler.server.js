@@ -11,7 +11,7 @@ function ClickHandler() {
 			.find({}, {
 				'_id': 0
 			})
-			.exec(function(err, result) {
+			.exec((err, result) => {
 				if (err) throw err;
 				res.json(result);
 			});
@@ -20,7 +20,6 @@ function ClickHandler() {
 	//Update collection with new book
 	this.updateCollection = function(req, res) {
 		let newBook = new Books(req.body);
-		console.log(newBook);
 			newBook
 				.save()
 				.then(res.json(newBook));
@@ -61,7 +60,7 @@ function ClickHandler() {
 				projection: {'name': 1, 'location': 1, '_id': 0},
 				new: true
 			})
-			.exec(function(err, result) {
+			.exec((err, result) => {
 				if (err) throw err;
 				res.json(result);
 			});
@@ -77,7 +76,7 @@ function ClickHandler() {
 				'_id': 0,
 				'__v': 0
 			})
-			.exec(function(err, result) {
+			.exec((err, result) => {
 				if (err) throw err;
 				res.json(result);
 			});
@@ -96,7 +95,7 @@ function ClickHandler() {
 				upsert: true,
 				new: true
 			})
-			.exec(function(err, result) {
+			.exec((err, result) => {
 				if (err) throw err;
 				res.json({
 					id: result.id,
@@ -118,7 +117,7 @@ function ClickHandler() {
 			}, {
 				new: true
 			})
-			.exec(function(err, result) {
+			.exec((err, result) => {
 				if (err) throw err;
 				res.json({
 					id: result.id,
@@ -127,7 +126,44 @@ function ClickHandler() {
 				});
 			});
 	};
-
+	
+	//Make trade request to book owner
+	this.makeTradeRequest = function(req, res) {
+		//First, submit the request to the book owner
+		Users
+			.findOneAndUpdate({
+				'id': req.body.owner
+			}, {
+				$addToSet: {
+					'incomingRequests': {
+						bookId: req.body.book,
+						userId: req.body.user
+					}
+				},
+			})
+			//Then, update the requester's list of outgoing requests
+			.exec((err, result) => {
+				if (err) throw err;
+				Users
+					.findOneAndUpdate({
+						'id': req.body.user
+					}, {
+						$addToSet: {
+							'outgoingRequests': {
+								bookId: req.body.book,
+								userId: req.body.owner
+							}
+						},
+					}, {
+						upsert: true
+					})
+					.exec((err, result) => {
+						if (err) throw err;
+						console.log(result);
+						res.send('Requested!');
+					});
+			});
+	};
 }
 
 

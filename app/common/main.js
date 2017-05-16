@@ -166,3 +166,34 @@ function resetProfile() {
     
 }
 
+
+//Handle 'Request Trade' link click
+function reqTrade(link) {
+    console.log(link);
+    let tradeRequest = {
+        book: link.getAttribute('data-book'),
+        owner: link.getAttribute('data-owner'),
+        user: localStorage.getItem('rv-bookclub-id')
+        };
+        
+    //First, ensure the user isn't requesting their own book
+    if (tradeRequest.owner === tradeRequest.user)
+        return Materialize.toast('This is your book!', 3000, 'error');
+    
+    //Then, update the database
+    progress('show');
+		$.post('/api/trade/', tradeRequest)
+		.done((res) => {
+		    console.log(res);
+		    //Update UI
+		    $(link).html(res);
+            Materialize.toast('Trade requested!', 2000);
+            progress('hide');
+		})
+		.fail(() => {
+		    console.error('Could not load data');
+		    progress('hide');
+		});
+    
+
+}

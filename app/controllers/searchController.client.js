@@ -134,8 +134,7 @@ function addBook(link, interested) {
       //After adding book ID to user's collection, add book data to the club's collection
       $.post(apiUrl, list[link.getAttribute('data-i')])
 			.done((res) => {
-			    console.log(res);
-			    //Update UI with logged-in view
+			    //Update UI
 			})
 			.fail(() => {
 			    console.error('Could not load data');

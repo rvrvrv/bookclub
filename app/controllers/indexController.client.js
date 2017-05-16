@@ -33,14 +33,14 @@
                     </div>
                     <div class="modal-fixed-footer right">
                         <a class="modal-action modal-close waves-effect waves-red btn-flat">Back</a>
-                        <a class="waves-effect waves-green btn-flat">Request Trade</a>
+                        <a class="waves-effect waves-green btn-flat tooltipped" data-tooltip="Request ${e.title}" 
+                            data-book="${e.id}" data-owner="${e.owner}" onclick="reqTrade(this)">Request Trade</a>
                     </div>
                 </div>`;
         });
        $('.carousel').html(carouselCode);
        $('.carousel').carousel();
        $('.modals').append(modalCode);
-       //$('.modal').modal();
        $('.tooltipped').tooltip();
    }
    
