@@ -65,6 +65,10 @@ a:hover {
     margin-top: -30px;
 }
 
+.modal-book {
+    max-width: 500px !important;
+}
+
 .validate {
     font-size: 1.3em !important;
 }

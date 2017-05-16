@@ -69,7 +69,7 @@ function generateLoggedInUI(user, picture) {
     });
     
     //Generate and initialize profile modal
-    $('.modals').html(`
+    $('.modals').append(`
       <div id="profileModal" class="modal bottom-sheet">
         <div class="modal-content">
             <h5>Edit Profile</h5>
