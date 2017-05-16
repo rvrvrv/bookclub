@@ -91,7 +91,7 @@ function checkAll() {
    //    ajaxFunctions.ajaxRequest('GET', `/api/book/${$(this)[0].id}/${userId}`, res => {
    //       let results = JSON.parse(res);
    //       //If no data in DB, there are no stats to update
-   //       if (!results) return $(this).addClass('animated fadeInUp').removeClass('hidden');
+   //       if (!results) return $(this).addClass('animated fadeIn').removeClass('hidden');
    //       //Otherwise, update the link and attendance stats
    //       let userAction = (results.attendees.includes(userId)) ? 'attending' : 'no';
    //       updateAttending({
@@ -120,7 +120,7 @@ function updateCollection(data) {
    //    $loc.attr('onclick', 'attend(this, true)');
    // }
    // //Display the link
-   // $loc.addClass('animated fadeInUp').removeClass('hidden');
+   // $loc.addClass('animated fadeIn').removeClass('hidden');
    // //Update attendance count
    // $(`#${results.location}-attendance`).html(results.total);
 }

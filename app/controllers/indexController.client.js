@@ -11,13 +11,13 @@
        let modalCode = '';
        console.log(books);
         books.forEach((e,i) => {
-            carouselCode += `<a class="carousel-item tooltipped" href="#modal-${i}" data-tooltip="${e.title}" data-delay="600">
+            carouselCode += `<a class="carousel-item tooltipped dynLink" data-link="#modal-${i}" data-tooltip="${e.title}" data-delay="600">
                 <img src="${e.thumbnail}"></a>`;
             modalCode += `
                 <div id="modal-${i}" class="modal modal-book">
                     <div class="modal-content">
                         <h4>${e.title}</h4>
-                        <h5 class="authors">${e.authors}</h5>
+                        <h5 class="authors"><i class="fa fa-caret-right"></i>&nbsp;${e.authors}</h6>
                         <br>
                         <br>
                         <div class="row">

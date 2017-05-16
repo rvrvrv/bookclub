@@ -26,8 +26,16 @@ function activateLinks() {
     other than link to current page */
     $('.dynLink').each(function() {
         let link = $(this).attr('data-link');
-        if (!currentLoc.includes(link))
+        if (link.includes('modal'))
+            $(this).dblclick(() => $(link).modal('open'));
+        else if (!currentLoc.includes(link))
             $(this).click(() => location.href = `${link}.html`);
+    });
+    
+    //Trigger animation when user clicks 'request a trade'
+    $('#requestText').click(() => {
+        $('.carousel').addClass('shake');
+        setTimeout(() => $('.carousel').removeClass('shake'), 2000);
     });
 }
 
@@ -37,7 +45,8 @@ function generateLoggedInUI(user, picture) {
     //Hide login button and change welcome message
     $('#loginBtn').hide();
     $('#welcome').html(`<h5 class="white-text center">You're in the club!<br>
-        Feel free to add your own book or request a trade.</h5>`);
+        Feel free to <a class="dynLink light-blue-text text-lighten-4" data-link="addbook">add your own book</a>
+        or <span class="light-blue-text text-lighten-4" id="requestText">request a trade</span>.</h5>`);
      
     //Generate user info in navbar
     $('#userInfo').html(`
