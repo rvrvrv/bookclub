@@ -13,6 +13,7 @@ body {
     color: #003;
     overflow-x: hidden;
     overflow-y: scroll;
+    user-select: none;
 }
 
 a:hover {
