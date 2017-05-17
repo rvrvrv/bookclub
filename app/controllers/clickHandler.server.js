@@ -16,13 +16,13 @@ function ClickHandler() {
 				res.json(result);
 			});
 	};
-	
+
 	//Update collection with new book
 	this.updateCollection = function(req, res) {
 		let newBook = new Books(req.body);
-			newBook
-				.save()
-				.then(res.json(newBook));
+		newBook
+			.save()
+			.then(res.json(newBook));
 	};
 
 	//Create user (or load existing user)
@@ -32,7 +32,9 @@ function ClickHandler() {
 				'id': req.body.id
 			}, {
 				'_id': 0,
-				'__v': 0
+				'__v': 0,
+				'incomingRequests._id': 0,
+				'outgoingRequests._id': 0
 			})
 			.exec((err, result) => {
 				if (err) throw err;
@@ -57,7 +59,11 @@ function ClickHandler() {
 					'location': reqLocation.trim()
 				},
 			}, {
-				projection: {'name': 1, 'location': 1, '_id': 0},
+				projection: {
+					'name': 1,
+					'location': 1,
+					'_id': 0
+				},
 				new: true
 			})
 			.exec((err, result) => {
@@ -65,7 +71,7 @@ function ClickHandler() {
 				res.json(result);
 			});
 	};
-		
+
 
 	//Get user's information, including books and trade requests
 	this.getUser = function(reqUser, res) {
@@ -74,7 +80,9 @@ function ClickHandler() {
 				'id': reqUser
 			}, {
 				'_id': 0,
-				'__v': 0
+				'__v': 0,
+				'incomingRequests._id': 0,
+				'outgoingRequests._id': 0
 			})
 			.exec((err, result) => {
 				if (err) throw err;
@@ -92,7 +100,12 @@ function ClickHandler() {
 					'books': reqBook
 				},
 			}, {
-				projection: { '_id': 0, '__v': 0 },
+				projection: {
+					'_id': 0,
+					'__v': 0,
+					'incomingRequests._id': 0,
+					'outgoingRequests._id': 0,
+				},
 				'new': true
 			})
 			.exec((err, result) => {
@@ -115,7 +128,12 @@ function ClickHandler() {
 					'books': reqBook
 				}
 			}, {
-				projection: { '_id': 0, '__v': 0 },
+				projection: {
+					'_id': 0,
+					'__v': 0,
+					'incomingRequests._id': 0,
+					'outgoingRequests._id': 0,
+				},
 				'new': true
 			})
 			.exec((err, result) => {
@@ -127,7 +145,7 @@ function ClickHandler() {
 				});
 			});
 	};
-	
+
 	//Make trade request to book owner
 	this.makeTradeRequest = function(reqObj, res) {
 		let tradeReq = JSON.parse(reqObj);
@@ -142,7 +160,13 @@ function ClickHandler() {
 						userId: tradeReq.user
 					}
 				},
-				projection: { '_id': 0, '__v': 0 },
+			}, {
+				projection: {
+					'_id': 0,
+					'__v': 0,
+					'incomingRequests._id': 0,
+					'outgoingRequests._id': 0
+				},
 				'new': true
 			})
 			//Then, update the requester's list of outgoing requests
@@ -159,7 +183,12 @@ function ClickHandler() {
 							}
 						},
 					}, {
-						projection: { '_id': 0, '__v': 0 },
+						projection: {
+							'_id': 0,
+							'__v': 0,
+							'incomingRequests._id': 0,
+							'outgoingRequests._id': 0
+						},
 						'new': true
 					})
 					.exec((err, result) => {
@@ -169,7 +198,7 @@ function ClickHandler() {
 					});
 			});
 	};
-	
+
 	//Cancel trade request
 	this.cancelTradeRequest = function(reqObj, res) {
 		let tradeReq = JSON.parse(reqObj);
@@ -183,7 +212,15 @@ function ClickHandler() {
 						bookId: tradeReq.book,
 						userId: tradeReq.user
 					}
+				}
+			}, {
+				projection: {
+					'_id': 0,
+					'__v': 0,
+					'incomingRequests._id': 0,
+					'outgoingRequests._id': 0
 				},
+				'new': true
 			})
 			//Then, update the requester's list of outgoing requests
 			.exec((err, result) => {
@@ -199,7 +236,12 @@ function ClickHandler() {
 							}
 						},
 					}, {
-						projection: { '_id': 0, '__v': 0 },
+						projection: {
+							'_id': 0,
+							'__v': 0,
+							'incomingRequests._id': 0,
+							'outgoingRequests._id': 0
+						},
 						'new': true
 					})
 					.exec((err, result) => {

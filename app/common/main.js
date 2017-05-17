@@ -184,8 +184,9 @@ function reqTrade(link, interested) {
     
     let method = interested ? 'POST' : 'DELETE';
     ajaxFunctions.ajaxRequest(method, `/api/trade/${JSON.stringify(tradeRequest)}`, (res) => {
-        console.log(res);
-        console.log('done!');
+        let result = JSON.parse(res);
+        console.log(result);
+        //if (result.outgoingRequests.includes({tradeRequest.})
     });
 
 //     //Then, update the database
