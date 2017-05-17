@@ -11,17 +11,17 @@ function progress(operation) {
 
 //Activate nav links
 function activateLinks() {
-    
-    let currentLoc = location.pathname;  
-        
+
+    let currentLoc = location.pathname;
+
     //Always activate logout button
     $('#logoutLink').click(() => {
         FB.logout(resp => checkLoginState());
         location.pathname = '/';
     });
-    
+
     //If not on index page, activate title as button
-    if (currentLoc.length > 1) 
+    if (currentLoc.length > 1)
         $('.brand-logo').click(() => location.pathname = '/');
 
     /*Then, iterate through nav links, activating everything
@@ -33,7 +33,7 @@ function activateLinks() {
         else if (!currentLoc.includes(link))
             $(this).click(() => location.href = `${link}.html`);
     });
-    
+
     //Trigger animation when user clicks 'request a trade'
     $('#requestText').click(() => {
         $('.carousel').addClass('shake');
@@ -43,43 +43,43 @@ function activateLinks() {
 
 //Generate UI for logged-in users
 function generateLoggedInUI(user, picture) {
-    
+
     //Hide login button and change welcome message
     $('#loginBtn').hide();
     $('#welcome').html(`<h5 class="white-text center">You're in the club!<br>
         Feel free to <a class="dynLink light-blue-text text-lighten-4" data-link="addbook">add your own book</a>
         or <span class="light-blue-text text-lighten-4" id="requestText">request a trade</span>.</h5>`);
     $('#bottomInfo').html(`<h5 class="center">Double-click any book for more information.</h5>`);
-     
+
     //Generate user info in navbar
     $('#userInfo').html(`
         <a class="dropdown-button" data-beloworigin="true" href="#" data-activates="userDropdown">
         <li><img class="valign left-align" src="${picture}"
         alt="${user.name}" id="navImg"></li>
         <li class="hide-on-small-only" id="navName">${user.name.split(' ')[0]}</li></a>`);
-    
+
     //Generate dropdown menu
     $('#userDropdown').html(`
         <li><a class="waves-effect waves-green dynLink" data-link="addbook">Add a Book</a></li>
         <li><a class="modal-trigger waves-effect waves-green" data-target="profileModal">Edit Profile</a></li>
         <li class="divider"></li>
         <li><a class="waves-effect waves-green" id="logoutLink">Log Out</a></li>`);
-    
+
     //Activate menu links
     activateLinks();
-    
+
     //Initialize dropdown menu
     $('.dropdown-button').dropdown({
-      inDuration: 300,
-      outDuration: 225,
-      constrainWidth: false,
-      hover: true,
-      gutter: 0,
-      belowOrigin: false,
-      alignment: 'left',
-      stopPropagation: false
+        inDuration: 300,
+        outDuration: 225,
+        constrainWidth: false,
+        hover: true,
+        gutter: 0,
+        belowOrigin: false,
+        alignment: 'left',
+        stopPropagation: false
     });
-    
+
     //Generate and initialize profile modal
     $('.modals').append(`
       <div id="profileModal" class="modal bottom-sheet">
@@ -113,46 +113,46 @@ function generateLoggedInUI(user, picture) {
         </div>
     </div>`);
     $('.modal').modal();
-    
+
     //Activate edit-profile buttons
     $('#editProfileBtn').click(() => editProfile());
     $('#cancelChangesBtn').click(() => resetProfile());
-    
+
 }
 
 //Save profile changes to DB
 function editProfile() {
 
     //First, ensure changes have been made
-    if ($('#profileName').attr('alt') === $('#profileName').val() && 
+    if ($('#profileName').attr('alt') === $('#profileName').val() &&
         $('#profileLocation').attr('alt') === $('#profileLocation').val()) {
-            return Materialize.toast('No changes have been made.', 2000);  
-        }
-    
+        return Materialize.toast('No changes have been made.', 2000);
+    }
+
     //Then, ensure changes are valid
-    if ($('input').hasClass('invalid')) 
+    if ($('input').hasClass('invalid'))
         return Materialize.toast('Invalid information.', 2000, 'error');
-        
+
     //If changes have been made, update the user's profile in the DB
     progress('show');
-    ajaxFunctions.ajaxRequest('PUT', 
+    ajaxFunctions.ajaxRequest('PUT',
         `/api/user/${localStorage.getItem('rv-bookclub-id')}/${$('#profileName').val()}/${$('#profileLocation').val()}`, res => {
-         let result = JSON.parse(res);
-         
-         //Update UI with new user info
-         $('#navName').html(`${result.name.split(' ')[0]}`);
-         $('#navImg').attr('alt', `${result.name}`);
-         $('#profileName').val(`${result.name}`);
-         $('#profileName').attr('alt', `${result.name}`);
-         $('#profileLocation').val(`${result.location}`);
-         $('#profileLocation').attr('alt', `${result.location}`);
-         
-         //Close modal and notify the user
-         $('#profileModal').modal('close');
-         Materialize.toast('Your profile has been updated!', 2000);
-         progress('hide');
-    });
-    
+            let result = JSON.parse(res);
+
+            //Update UI with new user info
+            $('#navName').html(`${result.name.split(' ')[0]}`);
+            $('#navImg').attr('alt', `${result.name}`);
+            $('#profileName').val(`${result.name}`);
+            $('#profileName').attr('alt', `${result.name}`);
+            $('#profileLocation').val(`${result.location}`);
+            $('#profileLocation').attr('alt', `${result.location}`);
+
+            //Close modal and notify the user
+            $('#profileModal').modal('close');
+            Materialize.toast('Your profile has been updated!', 2000);
+            progress('hide');
+        });
+
 }
 
 //Cancel profile changes
@@ -162,44 +162,55 @@ function resetProfile() {
     $('#profileName').val($('#profileName').attr('alt'));
     $('#profileLocation').val($('#profileLocation').attr('alt'));
     $('input').removeClass('invalid');
-    
+
     //Close modal and notify the user
     $('#profileModal').modal('close');
     Materialize.toast('No changes have been made.', 2000);
-    
+
 }
 
 //Handle 'Request Trade' / 'Cancel Request' link click
 function reqTrade(link, interested) {
-    
+
     //Store book trade information
     tradeRequest = {
         book: $(link).data('book'),
         owner: $(link).data('owner'),
         user: localStorage.getItem('rv-bookclub-id')
-        };
-        
+    };
+
     //First, ensure the user isn't requesting their own book
-    if (tradeRequest.owner === tradeRequest.user)
+    if (tradeRequest.owner == tradeRequest.user)
         return Materialize.toast('This is your book!', 3000, 'error');
-    
+
+    //If the trade request is valid, update UI
+    $(link).addClass('disabled');
+    progress('show');
+
+    //Make the appropriate API call
     let method = interested ? 'POST' : 'DELETE';
+
     ajaxFunctions.ajaxRequest(method, `/api/trade/${JSON.stringify(tradeRequest)}`, (res) => {
-        //Update UI
+        //After DB changes are complete, update UI
         if (interested) {
-            Materialize.toast('Trade requested!', 3000);
+            Materialize.toast('Trade requested!', 4000);
             $(link).html('Cancel Request');
             $(link).attr('data-tooltip', 'Cancel trade request');
             $(link).attr('onclick', 'reqTrade(this)');
-        } 
+            $(link).removeClass('waves-green').addClass('waves-orange');
+        }
         else {
-            Materialize.toast('Trade cancelled!', 3000);
-            $(link).html('Request Trade');  
-            $(link).attr('data-tooltip',  `Request ${$(link).data('title')}`);
+            Materialize.toast('Trade cancelled!', 4000);
+            $(link).html('Request Trade');
+            $(link).attr('data-tooltip', `Request ${$(link).data('title')}`);
             $(link).attr('onclick', 'reqTrade(this, true)');
+            $(link).removeClass('waves-orange').addClass('waves-green');
         }
         $('.tooltipped').tooltip();
+        $(link).removeClass('disabled');
         progress('hide');
+        tradeRequest = {};
+        setTimeout(() => $('.modal').modal('close'), 1000);
     });
 
 }
