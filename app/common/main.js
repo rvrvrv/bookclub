@@ -47,6 +47,7 @@ function generateLoggedInUI(user, picture) {
     $('#welcome').html(`<h5 class="white-text center">You're in the club!<br>
         Feel free to <a class="dynLink light-blue-text text-lighten-4" data-link="addbook">add your own book</a>
         or <span class="light-blue-text text-lighten-4" id="requestText">request a trade</span>.</h5>`);
+    $('#bottomInfo').html(`<h5 class="center">Double-click any book for more information.</h5>`);
      
     //Generate user info in navbar
     $('#userInfo').html(`
@@ -167,9 +168,10 @@ function resetProfile() {
 }
 
 
-//Handle 'Request Trade' link click
-function reqTrade(link) {
-    console.log(link);
+//Handle 'Request Trade' / 'Cancel Request' link click
+function reqTrade(link, interested) {
+    
+    //Temporarily store book trade information
     let tradeRequest = {
         book: link.getAttribute('data-book'),
         owner: link.getAttribute('data-owner'),
@@ -180,20 +182,26 @@ function reqTrade(link) {
     if (tradeRequest.owner === tradeRequest.user)
         return Materialize.toast('This is your book!', 3000, 'error');
     
-    //Then, update the database
-    progress('show');
-		$.post('/api/trade/', tradeRequest)
-		.done((res) => {
-		    console.log(res);
-		    //Update UI
-		    $(link).html(res);
-            Materialize.toast('Trade requested!', 2000);
-            progress('hide');
-		})
-		.fail(() => {
-		    console.error('Could not load data');
-		    progress('hide');
-		});
+    let method = interested ? 'POST' : 'DELETE';
+    ajaxFunctions.ajaxRequest(method, `/api/trade/${JSON.stringify(tradeRequest)}`, (res) => {
+        console.log(res);
+        console.log('done!');
+    });
+
+//     //Then, update the database
+//     progress('show');
+// 		$.post('/api/trade/', tradeRequest)
+// 		.done((res) => {
+// 		    console.log(res);
+// 		    //Update UI
+// 		    $(link).html(res);
+//             Materialize.toast('Trade requested!', 3000);
+//             progress('hide');
+// 		})
+// 		.fail(() => {
+// 		    console.error('Could not load data');
+// 		    progress('hide');
+// 		});
     
 
 }

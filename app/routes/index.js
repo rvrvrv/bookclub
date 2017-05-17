@@ -36,8 +36,9 @@ module.exports = (app) => {
 		.delete((req, res) => clickHandler.delBook(req.params.bookId, req.params.userId, res));
 	
 	//Trade request routes
-	app.route('/api/trade/')
-		.post((req, res) => clickHandler.makeTradeRequest(req, res));
+	app.route('/api/trade/:obj')
+		.post((req, res) => clickHandler.makeTradeRequest(req.params.obj, res))
+		.delete((req, res) => clickHandler.cancelTradeRequest(req.params.obj, res));
 	
 	//Search via Google Books API
 	app.route('/api/search/:book')

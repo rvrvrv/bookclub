@@ -128,16 +128,17 @@ function ClickHandler() {
 	};
 	
 	//Make trade request to book owner
-	this.makeTradeRequest = function(req, res) {
+	this.makeTradeRequest = function(reqObj, res) {
+		let tradeReq = JSON.parse(reqObj);
 		//First, submit the request to the book owner
 		Users
 			.findOneAndUpdate({
-				'id': req.body.owner
+				'id': tradeReq.owner
 			}, {
 				$addToSet: {
 					'incomingRequests': {
-						bookId: req.body.book,
-						userId: req.body.user
+						bookId: tradeReq.book,
+						userId: tradeReq.user
 					}
 				},
 			})
@@ -146,12 +147,12 @@ function ClickHandler() {
 				if (err) throw err;
 				Users
 					.findOneAndUpdate({
-						'id': req.body.user
+						'id': tradeReq.user
 					}, {
 						$addToSet: {
 							'outgoingRequests': {
-								bookId: req.body.book,
-								userId: req.body.owner
+								bookId: tradeReq.book,
+								userId: tradeReq.owner
 							}
 						},
 					}, {
@@ -164,7 +165,45 @@ function ClickHandler() {
 					});
 			});
 	};
+	
+	//Cancel trade request
+	this.cancelTradeRequest = function(reqObj, res) {
+		let tradeReq = JSON.parse(reqObj);
+		//First, cancel the request to the book owner
+		Users
+			.findOneAndUpdate({
+				'id': tradeReq.owner
+			}, {
+				$addToSet: {
+					'incomingRequests': {
+						bookId: tradeReq.book,
+						userId: tradeReq.user
+					}
+				},
+			})
+			//Then, update the requester's list of outgoing requests
+			.exec((err, result) => {
+				if (err) throw err;
+				Users
+					.findOneAndUpdate({
+						'id': tradeReq.user
+					}, {
+						$addToSet: {
+							'outgoingRequests': {
+								bookId: tradeReq.book,
+								userId: tradeReq.owner
+							}
+						},
+					}, {
+						upsert: true
+					})
+					.exec((err, result) => {
+						if (err) throw err;
+						console.log(result);
+						res.send('Cancelled!');
+					});
+			});
+	};
 }
-
 
 module.exports = ClickHandler;
