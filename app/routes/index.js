@@ -26,6 +26,7 @@ module.exports = (app) => {
 	//User creation and profile update
 	app.route('/api/user/:id/:name?/:location?')
 		.post((req, res) => clickHandler.createUser(req, res))
+		.get((req, res) => clickHandler.getUser(req, res))
 		.put((req, res) => clickHandler.updateUser(req.params.id, req.params.name, req.params.location, res));	
 
 	//Add & remove book routes

@@ -67,8 +67,8 @@ function ClickHandler() {
 	};
 		
 
-	//Get books and trade requests in user's collection
-	this.getCollection = function(reqUser, res) {
+	//Get user's information, including books and trade requests
+	this.getUser = function(reqUser, res) {
 		Users
 			.findOne({
 				'id': reqUser
@@ -92,8 +92,8 @@ function ClickHandler() {
 					'books': reqBook
 				},
 			}, {
-				upsert: true,
-				new: true
+				projection: { '_id': 0, '__v': 0 },
+				'new': true
 			})
 			.exec((err, result) => {
 				if (err) throw err;
@@ -115,7 +115,8 @@ function ClickHandler() {
 					'books': reqBook
 				}
 			}, {
-				new: true
+				projection: { '_id': 0, '__v': 0 },
+				'new': true
 			})
 			.exec((err, result) => {
 				if (err) throw err;
@@ -141,6 +142,8 @@ function ClickHandler() {
 						userId: tradeReq.user
 					}
 				},
+				projection: { '_id': 0, '__v': 0 },
+				'new': true
 			})
 			//Then, update the requester's list of outgoing requests
 			.exec((err, result) => {
@@ -156,12 +159,13 @@ function ClickHandler() {
 							}
 						},
 					}, {
-						upsert: true
+						projection: { '_id': 0, '__v': 0 },
+						'new': true
 					})
 					.exec((err, result) => {
 						if (err) throw err;
 						console.log(result);
-						res.send('Requested!');
+						res.json(result);
 					});
 			});
 	};
@@ -174,7 +178,7 @@ function ClickHandler() {
 			.findOneAndUpdate({
 				'id': tradeReq.owner
 			}, {
-				$addToSet: {
+				$pull: {
 					'incomingRequests': {
 						bookId: tradeReq.book,
 						userId: tradeReq.user
@@ -188,19 +192,20 @@ function ClickHandler() {
 					.findOneAndUpdate({
 						'id': tradeReq.user
 					}, {
-						$addToSet: {
+						$pull: {
 							'outgoingRequests': {
 								bookId: tradeReq.book,
 								userId: tradeReq.owner
 							}
 						},
 					}, {
-						upsert: true
+						projection: { '_id': 0, '__v': 0 },
+						'new': true
 					})
 					.exec((err, result) => {
 						if (err) throw err;
 						console.log(result);
-						res.send('Cancelled!');
+						res.json(result);
 					});
 			});
 	};
