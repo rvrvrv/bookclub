@@ -9,7 +9,7 @@
        let books = JSON.parse(data);
        let carouselCode = '';
        let modalCode = '';
-       console.log(books);
+
         books.forEach((e,i) => {
             carouselCode += `<a class="carousel-item tooltipped dynLink" data-link="#modal-${i}" data-tooltip="${e.title}" data-delay="600">
                 <img src="${e.thumbnail}"></a>`;

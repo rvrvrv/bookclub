@@ -10,7 +10,7 @@ let timer;
 //Populate page with search results (called from search function)
 function displaySearchResults(data) {
    list = JSON.parse(data);
-   console.log(list);
+
    //Clear previous search results and timer
    $('#results').empty();
    clearTimeout(timer);

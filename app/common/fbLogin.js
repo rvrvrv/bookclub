@@ -39,7 +39,7 @@ function checkLoginState() {
 function loggedIn() {
     progress('show');
     FB.api('/me?fields=first_name, last_name, picture, hometown, location', function(user) {
-        console.log(user);
+
         //Store user's info
         localStorage.setItem('rv-bookclub-id', user.id);
         let userLoc = (!user.location) ? 'Add your location' : user.location.name;

@@ -149,6 +149,7 @@ function ClickHandler() {
 	//Make trade request to book owner
 	this.makeTradeRequest = function(reqObj, res) {
 		let tradeReq = JSON.parse(reqObj);
+
 		//First, submit the request to the book owner
 		Users
 			.findOneAndUpdate({
@@ -202,6 +203,7 @@ function ClickHandler() {
 	//Cancel trade request
 	this.cancelTradeRequest = function(reqObj, res) {
 		let tradeReq = JSON.parse(reqObj);
+		
 		//First, cancel the request to the book owner
 		Users
 			.findOneAndUpdate({
