@@ -34,7 +34,8 @@
                     <div class="modal-fixed-footer right">
                         <a class="modal-action modal-close waves-effect waves-red btn-flat">Back</a>
                         <a class="waves-effect waves-green btn-flat tooltipped" data-tooltip="Request ${e.title}" 
-                            data-book="${e.id}" data-owner="${e.owner}" onclick="reqTrade(this, true)">Request Trade</a>
+                            data-book="${e.id}" data-owner="${e.owner}" data-title="${e.title}"
+                            onclick="reqTrade(this, true)">Request Trade</a>
                     </div>
                 </div>`;
         });

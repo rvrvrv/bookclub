@@ -1,6 +1,8 @@
 /*jshint browser: true, esversion: 6*/
 /* global $, ajaxFunctions, checkLoginState, FB, localStorage, location, Materialize */
 
+var tradeRequest = {};
+
 //Show and hide progress bar
 function progress(operation) {
     if (operation === 'show') $('.progress').removeClass('hidden');
@@ -25,7 +27,7 @@ function activateLinks() {
     /*Then, iterate through nav links, activating everything
     other than link to current page */
     $('.dynLink').each(function() {
-        let link = $(this).attr('data-link');
+        let link = $(this).data('link');
         if (link.includes('modal'))
             $(this).dblclick(() => $(link).modal('open'));
         else if (!currentLoc.includes(link))
@@ -167,14 +169,13 @@ function resetProfile() {
     
 }
 
-
 //Handle 'Request Trade' / 'Cancel Request' link click
 function reqTrade(link, interested) {
     
-    //Temporarily store book trade information
-    let tradeRequest = {
-        book: link.getAttribute('data-book'),
-        owner: link.getAttribute('data-owner'),
+    //Store book trade information
+    tradeRequest = {
+        book: $(link).data('book'),
+        owner: $(link).data('owner'),
         user: localStorage.getItem('rv-bookclub-id')
         };
         
@@ -184,25 +185,21 @@ function reqTrade(link, interested) {
     
     let method = interested ? 'POST' : 'DELETE';
     ajaxFunctions.ajaxRequest(method, `/api/trade/${JSON.stringify(tradeRequest)}`, (res) => {
-        let result = JSON.parse(res);
-        console.log(result);
-        //if (result.outgoingRequests.includes({tradeRequest.})
+        //Update UI
+        if (interested) {
+            Materialize.toast('Trade requested!', 3000);
+            $(link).html('Cancel Request');
+            $(link).attr('data-tooltip', 'Cancel trade request');
+            $(link).attr('onclick', 'reqTrade(this)');
+        } 
+        else {
+            Materialize.toast('Trade cancelled!', 3000);
+            $(link).html('Request Trade');  
+            $(link).attr('data-tooltip',  `Request ${$(link).data('title')}`);
+            $(link).attr('onclick', 'reqTrade(this, true)');
+        }
+        $('.tooltipped').tooltip();
+        progress('hide');
     });
-
-//     //Then, update the database
-//     progress('show');
-// 		$.post('/api/trade/', tradeRequest)
-// 		.done((res) => {
-// 		    console.log(res);
-// 		    //Update UI
-// 		    $(link).html(res);
-//             Materialize.toast('Trade requested!', 3000);
-//             progress('hide');
-// 		})
-// 		.fail(() => {
-// 		    console.error('Could not load data');
-// 		    progress('hide');
-// 		});
-    
 
 }
