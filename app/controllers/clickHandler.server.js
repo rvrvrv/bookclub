@@ -110,11 +110,7 @@ function ClickHandler() {
 			})
 			.exec((err, result) => {
 				if (err) throw err;
-				res.json({
-					id: result.id,
-					book: result.books,
-					action: 'added'
-				});
+				res.json(result);
 			});
 	};
 
@@ -138,11 +134,7 @@ function ClickHandler() {
 			})
 			.exec((err, result) => {
 				if (err) throw err;
-				res.json({
-					id: result.id,
-					book: result.books,
-					action: 'removed'
-				});
+				res.json(result);
 			});
 	};
 
@@ -194,7 +186,6 @@ function ClickHandler() {
 					})
 					.exec((err, result) => {
 						if (err) throw err;
-						console.log(result);
 						res.json(result);
 					});
 			});
@@ -248,7 +239,6 @@ function ClickHandler() {
 					})
 					.exec((err, result) => {
 						if (err) throw err;
-						console.log(result);
 						res.json(result);
 					});
 			});

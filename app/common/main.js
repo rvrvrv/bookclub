@@ -1,6 +1,6 @@
 /*jshint browser: true, esversion: 6*/
 /* global $, checkLoginState, FB, localStorage, location, Materialize */
-
+var currentUser = {};
 //Show and hide progress bar
 function progress(operation) {
     if (operation === 'show') $('.progress').removeClass('hidden');
