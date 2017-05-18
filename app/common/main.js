@@ -111,10 +111,17 @@ function generateLoggedInUI(user, picture) {
         </div>
     </div>`);
     $('.modal').modal();
+    
 
     //Activate edit-profile buttons
     $('#editProfileBtn').click(() => editProfile());
     $('#cancelChangesBtn').click(() => resetProfile());
-
+    
+    //Update trade request buttons, based on user's pending requests
+    let pending = user.outgoingRequests;
+    for (var i = 0; i < pending.length; i++) {
+        let link = $(`.req-btn[data-book="${pending[i].bookId}"][data-owner="${pending[i].userId}"]`);
+        reqTradeBtnUI(link, true);
+    }
 }
 

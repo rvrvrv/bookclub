@@ -14,6 +14,7 @@ function reqTradeBtnUI(link, requested) {
         $(link).attr('onclick', 'reqTrade(this, true)');
         $(link).removeClass('waves-orange').addClass('waves-green');
     }
+    $('.tooltipped').tooltip();
 }
 
 //Handle 'Request Trade' / 'Cancel Request' link click
@@ -44,10 +45,9 @@ function reqTrade(link, interested) {
             reqTradeBtnUI(link, true);
         }
         else {
-            Materialize.toast('Trade cancelled!', 4000);
+            Materialize.toast('Trade request cancelled!', 4000);
             reqTradeBtnUI(link);
         }
-        $('.tooltipped').tooltip();
         $(link).removeClass('disabled');
         progress('hide');
         tradeRequest = {};
