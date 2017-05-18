@@ -169,6 +169,21 @@ function resetProfile() {
 
 }
 
+//Update 'Request Trade' button
+function reqTradeBtnUI(link, requested) {
+    if (requested) {
+        $(link).html('Cancel Request');
+        $(link).attr('data-tooltip', 'Cancel trade request');
+        $(link).attr('onclick', 'reqTrade(this)');
+        $(link).removeClass('waves-green').addClass('waves-orange');
+    } else {
+        $(link).html('Request Trade');
+        $(link).attr('data-tooltip', `Request ${$(link).data('title')}`);
+        $(link).attr('onclick', 'reqTrade(this, true)');
+        $(link).removeClass('waves-orange').addClass('waves-green');
+    }
+}
+
 //Handle 'Request Trade' / 'Cancel Request' link click
 function reqTrade(link, interested) {
 
@@ -194,17 +209,11 @@ function reqTrade(link, interested) {
         //After DB changes are complete, update UI
         if (interested) {
             Materialize.toast('Trade requested!', 4000);
-            $(link).html('Cancel Request');
-            $(link).attr('data-tooltip', 'Cancel trade request');
-            $(link).attr('onclick', 'reqTrade(this)');
-            $(link).removeClass('waves-green').addClass('waves-orange');
+            reqTradeBtnUI(link, true);
         }
         else {
             Materialize.toast('Trade cancelled!', 4000);
-            $(link).html('Request Trade');
-            $(link).attr('data-tooltip', `Request ${$(link).data('title')}`);
-            $(link).attr('onclick', 'reqTrade(this, true)');
-            $(link).removeClass('waves-orange').addClass('waves-green');
+            reqTradeBtnUI(link);
         }
         $('.tooltipped').tooltip();
         $(link).removeClass('disabled');

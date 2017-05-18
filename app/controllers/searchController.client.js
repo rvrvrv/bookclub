@@ -83,7 +83,7 @@ function search(book) {
    }, 7000);
 }
 
-//Check all search results for attendance stats
+//Check all search results for book ownership
 function checkAll() {
    console.log('test');
    // let userId = localStorage.getItem('rv-bookclub-id') || null;
@@ -103,7 +103,7 @@ function checkAll() {
    // });
 }
 
-//Display user and guest attendance for each business
+//Display book ownership for each search result
 function updateCollection(data) {
    console.log(data);
    Materialize.toast('Added book!');
