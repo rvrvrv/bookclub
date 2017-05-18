@@ -1,5 +1,5 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, ajaxFunctions, FB, localStorage, Materialize */
+/* global $, ajaxFunctions, FB, localStorage, Materialize, progress */
 'use strict';
 
 const $btn = $('#searchBtn');
@@ -49,7 +49,7 @@ function displaySearchResults(data) {
       setTimeout(() => {
          checkAll();
          $('.tooltipped').tooltip();
-         $('.progress').addClass('hidden');
+         progress('hide');
          $btn.removeClass('disabled');
          $btn.html('Search');
       }, list.length * 100);
@@ -66,7 +66,7 @@ function search(book) {
    
    //Update the UI and perform the search
    $('.card-div').addClass('fadeOut');
-   $('.progress').removeClass('hidden');
+   progress('show');
    $btn.addClass('disabled');
    $btn.html('<i class="fa fa-spinner fa-spin fa-fw"></i>');
    ajaxFunctions.ajaxRequest('GET', `/api/search/${book}`, displaySearchResults);
@@ -77,7 +77,7 @@ function search(book) {
          Materialize.toast('Search took too long. Please try again.', 3000, 'error');
          lastSearch = '';
          $('#bookInput').val('');
-         $('.progress').addClass('hidden');
+         progress('hide');
          $btn.removeClass('disabled');
          $btn.html('Search');
    }, 7000);
@@ -85,7 +85,7 @@ function search(book) {
 
 //Check all search results for book ownership
 function checkAll() {
-   console.log('test');
+   console.log('checkAll function');
    // let userId = localStorage.getItem('rv-bookclub-id') || null;
    // $('.attendLink').each(function() {
    //    ajaxFunctions.ajaxRequest('GET', `/api/book/${$(this)[0].id}/${userId}`, res => {
@@ -104,9 +104,9 @@ function checkAll() {
 }
 
 //Display book ownership for each search result
-function updateCollection(data) {
-   console.log(data);
-   Materialize.toast('Added book!');
+function updateCollection(data, link) {
+   console.log(JSON.parse(data));
+
    // //If data is from server, parse the string
    // let results = (typeof(data) === 'string') ? JSON.parse(data) : data;
    // let $loc = $(`#${results.location}`);
@@ -126,20 +126,25 @@ function updateCollection(data) {
 }
 
 //Handle 'Add Book' link click
-function addBook(link, interested) {
-   //Update the database (add or remove the book from user's collection)
-   let method = interested ? 'PUT' : 'DELETE';
+function addBook(link) {
+   progress('show');
+   $(link).addClass('disabled');
+   //Update the database (add book to the user's collection)
    let apiUrl = `/api/book/${link.getAttribute('id')}/${localStorage.getItem('rv-bookclub-id')}`;
-   ajaxFunctions.ajaxRequest(method, apiUrl, () => {
+   ajaxFunctions.ajaxRequest('PUT', apiUrl, (data) => {
       //After adding book ID to user's collection, add book data to the club's collection
       $.post(apiUrl, list[link.getAttribute('data-i')])
 			.done((res) => {
+			   console.log(res);
 			    //Update UI
+			    $(link).html(`<i class="material-icons">thumb_up</i>`);
+			    Materialize.toast(`Added ${res.title} to your collection!`, 3000);
+			    progress('hide');
 			})
 			.fail(() => {
 			    console.error('Could not load data');
 			});
-      updateCollection});
+      updateCollection(data, link)});
 }
 
 //Handle search button click
