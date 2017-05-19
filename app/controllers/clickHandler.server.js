@@ -115,7 +115,7 @@ function ClickHandler() {
 	};
 
 	//Remove book from user's collection
-	this.removeBook = function(reqBook, reqUser, res) {
+	this.delBook = function(reqBook, reqUser, res) {
 		Users
 			.findOneAndUpdate({
 				'id': reqUser
@@ -150,7 +150,8 @@ function ClickHandler() {
 				$addToSet: {
 					'incomingRequests': {
 						bookId: tradeReq.book,
-						userId: tradeReq.user
+						userId: tradeReq.user,
+						title: tradeReq.title
 					}
 				},
 			}, {
@@ -172,7 +173,8 @@ function ClickHandler() {
 						$addToSet: {
 							'outgoingRequests': {
 								bookId: tradeReq.book,
-								userId: tradeReq.owner
+								userId: tradeReq.owner,
+								title: tradeReq.title
 							}
 						},
 					}, {

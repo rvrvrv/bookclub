@@ -10,11 +10,13 @@ var User = new Schema({
     books: [ String ],
     outgoingRequests: [{
         bookId: String,
-        userId: String
+        userId: String,
+        title: String
     }],
     incomingRequests: [{
         bookId: String,
-        userId: String
+        userId: String,
+        title: String
     }]
 });
 

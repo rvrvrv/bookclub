@@ -119,23 +119,28 @@ function generateLoggedInUI(user, picture) {
         $('.requests').html(`
             <ul class="collapsible" data-collapsible="accordion">
                 <li>
-                    <div class="collapsible-header"><span class="new badge light-blue darken-3" data-badge-caption="waiting">0</span>
-                        <i class="material-icons">filter_drama</i>Incoming Requests</div>
+                    <div class="collapsible-header"><span class="new badge light-blue darken-3" 
+                        id="incomingCount" data-badge-caption="waiting">0</span>
+                        <i class="material-icons">announcement</i>Incoming Requests</div>
                     <div class="collapsible-body"></div>
                 </li>
                 <li>
-                    <div class="collapsible-header"><span class="badge">0</span>
-                        <i class="material-icons">place</i>Outgoing Requests</div>
-                    <div class="collapsible-body"></div>
+                    <div class="collapsible-header"><span class="badge"
+                        id="outgoingCount">0</span>
+                        <i class="material-icons">swap_vertical_circle</i>Outgoing Requests</div>
+                    <div class="collapsible-body">
+                        <ul class="collection" id="outgoingList"></ul>
+                    </div>
                 </li>
             </ul>`);
         $('.collapsible').collapsible();
         
-        //Update trade request buttons and badges
-        let pending = user.outgoingRequests;
-        for (var i = 0; i < pending.length; i++) {
-            let link = $(`.req-btn[data-book="${pending[i].bookId}"][data-owner="${pending[i].userId}"]`);
-            reqTradeBtnUI(link, true);
+        //Update trade request buttons and collapsibles
+        let outgoing = user.outgoingRequests;
+        for (var i = 0; i < outgoing.length; i++) {
+            //Update trade request button
+            let link = $(`.req-btn[data-book="${outgoing[i].bookId}"][data-owner="${outgoing[i].userId}"]`);
+            tradeReqUI(link, true);
         }
     }
 

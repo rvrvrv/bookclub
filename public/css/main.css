@@ -73,12 +73,13 @@ h4 {
     cursor: pointer;
 }
 
-#collectionTitle {
-    margin-top: 50px;    
+.collapsible-body {
+    padding: 5px;
+    font-size: 1.3em;
 }
 
 .carousel {
-    margin: -100px 0 20px 0;
+    margin: -200px 0 20px 0;
 }
 
 .modal-book {

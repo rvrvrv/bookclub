@@ -32,7 +32,6 @@ module.exports = (app) => {
 	//Add & remove book routes
 	app.route('/api/book/:bookId/:userId?')
 		.post((req, res) => clickHandler.updateCollection(req, res))
-		.get((req, res) => clickHandler.checkAttendees(req.params.bookId, req.params.userId, res))
 		.put((req, res) => clickHandler.addBook(req.params.bookId, req.params.userId, res))
 		.delete((req, res) => clickHandler.delBook(req.params.bookId, req.params.userId, res));
 	
