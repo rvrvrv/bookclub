@@ -11,8 +11,6 @@ html {
 body {
     background: #fff;
     color: #003;
-    overflow-x: hidden;
-    overflow-y: scroll;
     user-select: none;
 }
 
