@@ -68,7 +68,6 @@ function loggedIn() {
 //Remove stored ID and redirect to homepage (if necessary)
 function loggedOut() {
     localStorage.removeItem('rv-bookclub-id');
-    currentUser = {};
     //If user isn't logged in, redirect to homepage
     if (location.pathname.length > 1) {
         location.pathname = '/';

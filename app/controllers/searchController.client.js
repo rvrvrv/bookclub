@@ -21,7 +21,7 @@ function displaySearchResults(data) {
       //Display results with staggered animation
       setTimeout(() => {
          $('#results').append(`
-              <div class="col s12 xl6 animated fadeIn result" id="${e.id}">
+              <div class="col s12 m8 offset-m2 l6 offset-l3 animated fadeIn result" id="${e.id}">
                 <h5>${e.title}</h5>
                 <h6 class="authors"><i class="fa fa-caret-right"></i>&nbsp;${e.authors}</h6>
                 <div class="card horizontal short">

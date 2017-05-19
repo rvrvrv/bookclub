@@ -1,6 +1,6 @@
 /*jshint browser: true, esversion: 6*/
 /* global $, checkLoginState, FB, localStorage, location, Materialize */
-var currentUser = {};
+
 //Show and hide progress bar
 function progress(operation) {
     if (operation === 'show') $('.progress').removeClass('hidden');
@@ -10,8 +10,6 @@ function progress(operation) {
 //Activate nav links
 function activateLinks() {
 
-    let currentLoc = location.pathname;
-
     //Always activate logout button
     $('#logoutLink').click(() => {
         FB.logout(resp => checkLoginState());
@@ -19,7 +17,7 @@ function activateLinks() {
     });
 
     //If not on index page, activate title as button
-    if (currentLoc.length > 1)
+    if (location.pathname.length > 1)
         $('.brand-logo').click(() => location.pathname = '/');
 
     /*Then, iterate through nav links, activating everything
@@ -27,8 +25,8 @@ function activateLinks() {
     $('.dynLink').each(function() {
         let link = $(this).data('link');
         if (link.includes('modal'))
-            $(this).dblclick(() => $(link).modal('open'));
-        else if (!currentLoc.includes(link))
+            $(this).click(() => $(link).modal('open'));
+        else if (!location.pathname.includes(link))
             $(this).click(() => location.href = `${link}.html`);
     });
 
@@ -42,16 +40,9 @@ function activateLinks() {
 //Generate UI for logged-in users
 function generateLoggedInUI(user, picture) {
 
-    //Hide login button and change welcome message
-    $('#loginBtn').hide();
-    $('#welcome').html(`<h5 class="white-text center">You're in the club!<br>
-        Feel free to <a class="dynLink light-blue-text text-lighten-4" data-link="addbook">add your own book</a>
-        or <span class="light-blue-text text-lighten-4" id="requestText">request a trade</span>.</h5>`);
-    $('#bottomInfo').html(`<h5 class="center">Double-click any book for more information.</h5>`);
-
     //Generate user info in navbar
     $('#userInfo').html(`
-        <a class="dropdown-button" data-beloworigin="true" href="#" data-activates="userDropdown">
+        <a class="dropdown-button" data-beloworigin="true" data-activates="userDropdown">
         <li><img class="valign left-align" src="${picture}"
         alt="${user.name}" id="navImg"></li>
         <li class="hide-on-small-only" id="navName">${user.name.split(' ')[0]}</li></a>`);
@@ -77,7 +68,7 @@ function generateLoggedInUI(user, picture) {
         alignment: 'left',
         stopPropagation: false
     });
-
+    
     //Generate and initialize profile modal
     $('.modals').append(`
       <div id="profileModal" class="modal bottom-sheet">
@@ -110,18 +101,44 @@ function generateLoggedInUI(user, picture) {
             <a class="waves-effect waves-red btn-flat" id="cancelChangesBtn">Cancel</a>
         </div>
     </div>`);
-    $('.modal').modal();
-    
-
-    //Activate edit-profile buttons
     $('#editProfileBtn').click(() => editProfile());
     $('#cancelChangesBtn').click(() => resetProfile());
+    $('.modal').modal();
     
-    //Update trade request buttons, based on user's pending requests
-    let pending = user.outgoingRequests;
-    for (var i = 0; i < pending.length; i++) {
-        let link = $(`.req-btn[data-book="${pending[i].bookId}"][data-owner="${pending[i].userId}"]`);
-        reqTradeBtnUI(link, true);
+    //If on homepage, update additional elements
+    if (location.pathname === '/') {
+
+        //Hide login button and change welcome message
+        $('#loginBtn').hide();
+        $('#welcome').html(`<h5 class="white-text center">You're in the club!<br>
+            Feel free to <a class="dynLink light-blue-text text-lighten-4" data-link="addbook">add your own book</a>
+            or <span class="light-blue-text text-lighten-4" id="requestText">request a trade</span>.</h5>`);
+        $('#bottomInfo').html(`<h5 class="center">Select any book for more information.</h5>`);
+        
+        //Generate and initialize trade request collapsibles
+        $('.requests').html(`
+            <ul class="collapsible" data-collapsible="accordion">
+                <li>
+                    <div class="collapsible-header"><span class="new badge light-blue darken-3" data-badge-caption="waiting">0</span>
+                        <i class="material-icons">filter_drama</i>Incoming Requests</div>
+                    <div class="collapsible-body"></div>
+                </li>
+                <li>
+                    <div class="collapsible-header"><span class="badge">0</span>
+                        <i class="material-icons">place</i>Outgoing Requests</div>
+                    <div class="collapsible-body"></div>
+                </li>
+            </ul>`);
+        $('.collapsible').collapsible();
+        
+        //Update trade request buttons and badges
+        let pending = user.outgoingRequests;
+        for (var i = 0; i < pending.length; i++) {
+            let link = $(`.req-btn[data-book="${pending[i].bookId}"][data-owner="${pending[i].userId}"]`);
+            reqTradeBtnUI(link, true);
+        }
     }
+
+    
 }
 

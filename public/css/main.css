@@ -11,6 +11,7 @@ html {
 body {
     background: #fff;
     color: #003;
+    overflow-y: scroll;
     user-select: none;
 }
 
@@ -40,6 +41,10 @@ h4 {
 
 .navbar-fixed {
     user-select: none;
+}
+
+#userInfo a {
+    background-color: transparent;
 }
 
 #userInfo li {
@@ -117,7 +122,7 @@ h4 {
 
 
 #bookInput {
-    font-size: 1.6em;
+    font-size: 1.4em;
 }
 
 #searchBtn {
@@ -137,7 +142,7 @@ h4 {
 }
 
 .card.horizontal.short {
-    height: 200px;
+    height: 250px;
 }
 
 .halfway-fab {
