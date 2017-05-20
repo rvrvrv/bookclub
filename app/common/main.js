@@ -150,15 +150,25 @@ function generateLoggedInUI(user, picture) {
         //Incoming requests
         let incoming = user.incomingRequests;
         for (var i = 0; i < incoming.length; i++) {
-            $('#incomingCount').html(+$('#incomingCount').html() + 1);
+            requestCount('incoming', 1);
             let req = incoming[i];
             $('#incomingList').append(`
                 <p class="collection-item" data-book="${req.bookId}" 
-            data-owner="${req.userId}">${req.title}</p>
+                    data-user="${req.userId}">${req.title}
+                    <a class="secondary-content tooltipped" data-tooltip="Reject trade"
+                        onclick="answerTrade($(this).parent())">
+                        <i class="material-icons small red-text">not_interested</i></a>
+                        <span class="secondary-content black-text">&nbsp;&nbsp;</span>
+                    <a class="secondary-content tooltipped" data-tooltip="Accept trade"
+                        onclick="answerTrade($(this).parent(), true)">
+                        <i class="material-icons small green-text">done</i></a>
+                    
+                </p>
                 
                 
                 `);
         }
+        $('.tooltipped').tooltip();
     }
 
     

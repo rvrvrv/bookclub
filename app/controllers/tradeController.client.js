@@ -1,9 +1,41 @@
 /*jshint browser: true, esversion: 6*/
 /* global $, ajaxFunctions, FB, localStorage, Materialize, progress, tradeRequest */
 
+//Handle 'Accept Trade' / 'Reject Trade' link click
+function answerTrade(link, accept) {
+    progress('show');
+    //Store book trade information
+    let tradeRequest = {
+        book: $(link).data('book'),
+        owner: localStorage.getItem('rv-bookclub-id'),
+        user: $(link).data('user')
+    };
+    
+    //Make the appropriate API call
+    let method = accept ? 'PUT' : 'DELETE';
+    
+    ajaxFunctions.ajaxRequest(method, `/api/trade/${JSON.stringify(tradeRequest)}`, (res) => {
+        //After DB changes are complete, update UI
+        if (accept) {
+            Materialize.toast('Trade accepted!', 4000);
+        }
+        else {
+            Materialize.toast('Trade rejected!', 4000);
+        }
+        $(link).remove();
+        $($(link).children()).tooltip('remove');
+        $('.collapsible').collapsible('close', 0);
+        requestCount('incoming', -1);
+        progress('hide');
+    });
+    
+}
+
 
 //Update Trade request button and collapsible
 function tradeReqUI(link, requested) {
+    
+    //Store book information
     let title = $(link).data('title');
     let bookId = $(link).data('book');
     let owner = $(link).data('owner');
@@ -16,19 +48,19 @@ function tradeReqUI(link, requested) {
         $(link).attr('onclick', 'reqTrade(this)');
         $(link).removeClass('waves-green').addClass('waves-orange');
         //Create link in outgoing requests collapsible
-        $('#outgoingCount').html(+$('#outgoingCount').html() + 1);
+        requestCount('outgoing', 1);
         $('#outgoingList').append(`
             <a class="collection-item blue-text tooltipped" data-book="${bookId}" 
             data-owner="${owner}" data-tooltip="View ${title} and/or cancel request"
             onclick="$('${modalLink}').modal('open');">${title}</a>`);
-        
     } else {
+        //Update link in book modal
         $(link).html('Request Trade');
         $(link).attr('data-tooltip', `Request ${title}`);
         $(link).attr('onclick', 'reqTrade(this, true)');
         $(link).removeClass('waves-orange').addClass('waves-green');
         //Delete link in outgoing requests collapsible
-        $('#outgoingCount').html(+$('#outgoingCount').html() - 1);
+        requestCount('outgoing', -1);
         $(`.collection-item[data-book="${bookId}"][data-owner="${owner}"]`).remove();
     }
     $('.tooltipped').tooltip();
@@ -68,8 +100,12 @@ function reqTrade(link, interested) {
         }
         $(link).removeClass('disabled');
         progress('hide');
-        tradeRequest = {};
         setTimeout(() => $('.modal').modal('close'), 800);
     });
 
+}
+
+//Add or subtract from request count
+function requestCount(reqType, num) {
+    $(`#${reqType}Count`).html(+$(`#${reqType}Count`).html() + num);
 }
