@@ -122,25 +122,42 @@ function generateLoggedInUI(user, picture) {
                     <div class="collapsible-header"><span class="new badge light-blue darken-3" 
                         id="incomingCount" data-badge-caption="waiting">0</span>
                         <i class="material-icons">announcement</i>Incoming Requests</div>
-                    <div class="collapsible-body"></div>
+                    <div class="collapsible-body">
+                        <div class="collection" id="incomingList"></div>
+                    </div>
                 </li>
                 <li>
                     <div class="collapsible-header"><span class="badge"
                         id="outgoingCount">0</span>
                         <i class="material-icons">swap_vertical_circle</i>Outgoing Requests</div>
                     <div class="collapsible-body">
-                        <ul class="collection" id="outgoingList"></ul>
+                        <div class="collection" id="outgoingList"></div>
                     </div>
                 </li>
             </ul>`);
         $('.collapsible').collapsible();
         
         //Update trade request buttons and collapsibles
+        
+        //Outgoing requests
         let outgoing = user.outgoingRequests;
         for (var i = 0; i < outgoing.length; i++) {
             //Update trade request button
             let link = $(`.req-btn[data-book="${outgoing[i].bookId}"][data-owner="${outgoing[i].userId}"]`);
             tradeReqUI(link, true);
+        }
+        
+        //Incoming requests
+        let incoming = user.incomingRequests;
+        for (var i = 0; i < incoming.length; i++) {
+            $('#incomingCount').html(+$('#incomingCount').html() + 1);
+            let req = incoming[i];
+            $('#incomingList').append(`
+                <p class="collection-item" data-book="${req.bookId}" 
+            data-owner="${req.userId}">${req.title}</p>
+                
+                
+                `);
         }
     }
 
