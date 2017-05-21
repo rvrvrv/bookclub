@@ -19,10 +19,23 @@ function ClickHandler() {
 
 	//Update collection with new book
 	this.updateCollection = function(req, res) {
-		let newBook = new Books(req.body);
-		newBook
-			.save()
-			.then(res.json(newBook));
+		Books
+			.findOne({
+				'id': req.body.id,
+				'owner': req.body.owner
+			}, {
+				'_id': 0,
+			})
+			.exec((err, result) => {
+				if (err) throw err;
+				//If book exists, notify user
+				if (result) return res.send('exists');
+				//Otherwise, add book to database
+				let newBook = new Books(req.body);
+				newBook
+					.save()
+					.then(res.json(newBook));
+			});
 	};
 
 	//Create user (or load existing user)

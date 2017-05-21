@@ -44,7 +44,7 @@ function tradeReqUI(link, requested) {
     if (requested) {
         //Update link in book modal
         $(link).html('Cancel Request');
-        $(link).attr('data-tooltip', 'Cancel trade request');
+        $(link).data('tooltip', 'Cancel trade request');
         $(link).attr('onclick', 'reqTrade(this)');
         $(link).removeClass('waves-green').addClass('waves-orange');
         //Create link in outgoing requests collapsible
@@ -56,7 +56,7 @@ function tradeReqUI(link, requested) {
     } else {
         //Update link in book modal
         $(link).html('Request Trade');
-        $(link).attr('data-tooltip', `Request ${title}`);
+        $(link).data('tooltip', `Request ${title}`);
         $(link).attr('onclick', 'reqTrade(this, true)');
         $(link).removeClass('waves-orange').addClass('waves-green');
         //Delete link in outgoing requests collapsible

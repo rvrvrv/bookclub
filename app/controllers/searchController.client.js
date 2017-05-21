@@ -31,7 +31,7 @@ function displaySearchResults(data) {
                   <div class="card-stacked">
                     <div class="card-content">
                       <p>${e.description}</p>
-                      <a class="btn-floating halfway-fab waves-effect waves-light blue" id="${e.id}" data-i="${i}" onclick="addBook(this, true)">
+                      <a class="btn-floating halfway-fab waves-effect waves-light blue" id="${e.id}" data-i="${i}" data-title="${e.title}" onclick="addBook(this, true)">
                         <i class="material-icons tooltipped" data-tooltip="Add ${e.title} to your collection">add</i>
                       </a>
                     </div>
@@ -45,9 +45,8 @@ function displaySearchResults(data) {
       }, i * 80);
    });
 
-   //After all results are displayed, update attendance stats and UI
+   //After all results are displayed, complete UI updates
       setTimeout(() => {
-         checkAll();
          $('.tooltipped').tooltip();
          progress('hide');
          $btn.removeClass('disabled');
@@ -62,7 +61,7 @@ function search(book) {
       return Materialize.toast('Please enter a book title', 3000, 'error');
    //Then, ensure user entered a new location (to prevent duplicate requests)
    if (book.trim().toLowerCase() === lastSearch) 
-      return Materialize.toast('Please enter a new book', 3000, 'error');
+      return Materialize.toast('Please enter a new book title', 3000, 'error');
    
    //Update the UI and perform the search
    $('.card-div').addClass('fadeOut');
@@ -83,48 +82,6 @@ function search(book) {
    }, 7000);
 }
 
-//Check all search results for book ownership
-function checkAll() {
-   console.log('checkAll function');
-   // let userId = localStorage.getItem('rv-bookclub-id') || null;
-   // $('.attendLink').each(function() {
-   //    ajaxFunctions.ajaxRequest('GET', `/api/book/${$(this)[0].id}/${userId}`, res => {
-   //       let results = JSON.parse(res);
-   //       //If no data in DB, there are no stats to update
-   //       if (!results) return $(this).addClass('animated fadeIn').removeClass('hidden');
-   //       //Otherwise, update the link and attendance stats
-   //       let userAction = (results.attendees.includes(userId)) ? 'attending' : 'no';
-   //       updateAttending({
-   //             location: results.location,
-   //             total: results.attendees.length,
-   //             action: userAction
-   //          });
-   //    });
-   // });
-}
-
-//Display book ownership for each search result
-function updateCollection(data, link) {
-   console.log(JSON.parse(data));
-
-   // //If data is from server, parse the string
-   // let results = (typeof(data) === 'string') ? JSON.parse(data) : data;
-   // let $loc = $(`#${results.location}`);
-   // //Update link text and action based on attendance
-   // if (results.action === 'attending') {
-   //    $loc.html(goingText);
-   //    $loc.attr('onclick', 'attend(this)');
-   // }
-   // else {
-   //    $loc.html(attendText);
-   //    $loc.attr('onclick', 'attend(this, true)');
-   // }
-   // //Display the link
-   // $loc.addClass('animated fadeIn').removeClass('hidden');
-   // //Update attendance count
-   // $(`#${results.location}-attendance`).html(results.total);
-}
-
 //Handle 'Add Book' link click
 function addBook(link) {
    progress('show');
@@ -133,18 +90,19 @@ function addBook(link) {
    let apiUrl = `/api/book/${link.getAttribute('id')}/${localStorage.getItem('rv-bookclub-id')}`;
    ajaxFunctions.ajaxRequest('PUT', apiUrl, (data) => {
       //After adding book ID to user's collection, add book data to the club's collection
-      $.post(apiUrl, list[link.getAttribute('data-i')])
+      $.post(apiUrl, list[$(link).data('i')])
 			.done((res) => {
-			   console.log(res);
-			    //Update UI
-			    $(link).html(`<i class="material-icons">thumb_up</i>`);
-			    Materialize.toast(`Added ${res.title} to your collection!`, 3000);
-			    progress('hide');
+			   //Notify user of the result
+			   if (res === 'exists') Materialize.toast(`${$(link).data('title')} is already in your collection!`, 5000);
+            else Materialize.toast(`Added ${res.title} to your collection!`, 5000);
+            //Update UI
+            $(link).html(`<i class="material-icons">thumb_up</i>`);
+            progress('hide');
 			})
 			.fail(() => {
-			    console.error('Could not load data');
+            console.error('Could not load data');
 			});
-      updateCollection(data, link)});
+   });
 }
 
 //Handle search button click
