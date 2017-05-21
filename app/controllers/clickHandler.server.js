@@ -91,7 +91,7 @@ function ClickHandler() {
 	};
 
 	//Add book to user's collection
-	this.addBook = function(reqBook, reqUser, res) {
+	this.addBook = function(reqBook, reqUser, res, trade) {
 		Users
 			.findOneAndUpdate({
 				'id': reqUser
@@ -110,12 +110,12 @@ function ClickHandler() {
 			})
 			.exec((err, result) => {
 				if (err) throw err;
-				res.json(result);
+				if (!trade) res.json(result);
 			});
 	};
 
 	//Remove book from user's collection
-	this.delBook = function(reqBook, reqUser, res) {
+	this.delBook = function(reqBook, reqUser, res, trade) {
 		Users
 			.findOneAndUpdate({
 				'id': reqUser
@@ -134,7 +134,7 @@ function ClickHandler() {
 			})
 			.exec((err, result) => {
 				if (err) throw err;
-				res.json(result);
+				if (!trade) res.json(result);
 			});
 	};
 
@@ -245,6 +245,15 @@ function ClickHandler() {
 					});
 			});
 	};
+	
+	this.acceptTrade = function(reqObj, res) {
+		//First, swap the book between users
+		let tradeReq = JSON.parse(reqObj);
+		this.addBook(tradeReq.book, tradeReq.user, res, true);
+		this.delBook(tradeReq.book, tradeReq.owner, res, true);
+		this.cancelTradeRequest(reqObj, res);
+
+	}
 }
 
 module.exports = ClickHandler;
