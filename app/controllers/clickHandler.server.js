@@ -194,7 +194,7 @@ function ClickHandler() {
 	};
 
 	//Cancel trade request
-	this.cancelTradeRequest = function(reqObj, res) {
+	this.cancelTradeRequest = function(reqObj, res, trade) {
 		let tradeReq = JSON.parse(reqObj);
 		
 		//First, cancel the request to the book owner
@@ -241,7 +241,7 @@ function ClickHandler() {
 					})
 					.exec((err, result) => {
 						if (err) throw err;
-						res.json(result);
+						if (!trade) res.json(result);
 					});
 			});
 	};
@@ -251,9 +251,26 @@ function ClickHandler() {
 		let tradeReq = JSON.parse(reqObj);
 		this.addBook(tradeReq.book, tradeReq.user, res, true);
 		this.delBook(tradeReq.book, tradeReq.owner, res, true);
-		this.cancelTradeRequest(reqObj, res);
-
-	}
+		this.cancelTradeRequest(reqObj, res, true);
+		//Then, change the book owner
+		Books
+			.findOneAndUpdate({
+				'id': tradeReq.book
+			}, {
+				$set: {
+					'owner': tradeReq.user
+				},
+			}, {
+				projection: {
+					'_id': 0
+				},
+				new: true
+			})
+			.exec((err, result) => {
+				if (err) throw err;
+				res.json(result);
+			});
+	};
 }
 
 module.exports = ClickHandler;

@@ -100,7 +100,7 @@ function reqTrade(link, interested) {
         }
         $(link).removeClass('disabled');
         progress('hide');
-        setTimeout(() => $('.modal').modal('close'), 800);
+        setTimeout(() => $('.modal').modal('close'), 500);
     });
 
 }
