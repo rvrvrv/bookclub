@@ -52,6 +52,7 @@ function loggedIn() {
         //Load or create new user in DB
 		$.post('/api/user/' + user.id, currentUser)
 			.done((res) => {
+			    console.log(res);
 			    //Update UI with logged-in view
                 generateLoggedInUI(res, user.picture.data.url);
                 progress('hide');

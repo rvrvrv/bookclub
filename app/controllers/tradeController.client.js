@@ -107,5 +107,15 @@ function reqTrade(link, interested) {
 
 //Add or subtract from request count
 function requestCount(reqType, num) {
-    $(`#${reqType}Count`).html(+$(`#${reqType}Count`).html() + num);
+    let count = +$(`#${reqType}Count`).html() + num;
+    //Update count
+    $(`#${reqType}Count`).html(count);
+    //When updating incoming requests, update the badge color as necessary
+    if (reqType === 'incoming') {
+        if (count > 0)
+            $(`#incomingCount`).addClass('new light-blue darken-3');
+        if (count === 0)
+            $(`#incomingCount`).removeClass('new light-blue darken-3');
+    }
+    
 }

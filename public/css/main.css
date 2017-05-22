@@ -73,6 +73,10 @@ h4 {
     cursor: pointer;
 }
 
+#incomingCount.new {
+    font-size: 1.2em;
+}
+
 .collapsible-body {
     padding: 5px;
     font-size: 1.3em;

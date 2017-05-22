@@ -119,8 +119,8 @@ function generateLoggedInUI(user, picture) {
         $('.requests').html(`
             <ul class="collapsible" data-collapsible="accordion">
                 <li>
-                    <div class="collapsible-header"><span class="new badge light-blue darken-3" 
-                        id="incomingCount" data-badge-caption="waiting">0</span>
+                    <div class="collapsible-header"><span class="badge" 
+                        id="incomingCount" data-badge-caption="">0</span>
                         <i class="material-icons">announcement</i>Incoming Requests</div>
                     <div class="collapsible-body">
                         <div class="collection" id="incomingList"></div>
