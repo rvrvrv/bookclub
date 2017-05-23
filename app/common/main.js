@@ -174,3 +174,11 @@ function generateLoggedInUI(user, picture) {
     
 }
 
+$('#test').click(() => {
+    
+   let apiUrl = `/api/book/nfRhQgAACAAJ/${localStorage.getItem('rv-bookclub-id')}`;
+   ajaxFunctions.ajaxRequest('DELETE', apiUrl, (data) => {
+    console.log(data);
+   });
+   
+});

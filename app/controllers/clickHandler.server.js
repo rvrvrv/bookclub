@@ -5,7 +5,7 @@ const Books = require('../models/books.js');
 
 function ClickHandler() {
 
-	//Retrieve all books in DB
+	//Retrieve all books in club's collection
 	this.showAllBooks = function(req, res) {
 		Books
 			.find({}, {
@@ -17,8 +17,8 @@ function ClickHandler() {
 			});
 	};
 
-	//Update collection with new book
-	this.updateCollection = function(req, res) {
+	//Add book to club's collection
+	this.addToCollection = function(req, res) {
 		Books
 			.findOne({
 				'id': req.body.id,
@@ -35,6 +35,40 @@ function ClickHandler() {
 				newBook
 					.save()
 					.then(res.json(newBook));
+			});
+	};
+
+	//Delete book from club's collection
+	this.delFromCollection = function(reqBook, reqOwner, res) {
+		Books
+			.remove({
+				'id': '4',
+				'owner': reqOwner
+			})
+			//Then, find and delete any related trade requests
+			.exec((err, result) => {
+				if (err) throw err;
+				Users
+					.updateMany({
+						$or: [{
+							'incomingRequests.bookId': reqBook
+						}, {
+							'outgoingRequests.bookId': reqBook
+						}]
+					}, {
+						$pull: {
+							'incomingRequests': {
+								'bookId': reqBook
+							},
+							'outgoingRequests': {
+								'bookId': reqBook
+							}
+						}
+					})
+					.exec((err, result2) => {
+						if (err) throw err;
+						res.send('Done!');
+					});
 			});
 	};
 
@@ -85,7 +119,6 @@ function ClickHandler() {
 			});
 	};
 
-
 	//Get user's information, including books and trade requests
 	this.getUser = function(reqUser, res) {
 		Users
@@ -127,7 +160,7 @@ function ClickHandler() {
 			});
 	};
 
-	//Remove book from user's collection
+	//Remove book from user's collection and club collection, if necessary
 	this.delBook = function(reqBook, reqUser, res, trade) {
 		Users
 			.findOneAndUpdate({
@@ -147,7 +180,8 @@ function ClickHandler() {
 			})
 			.exec((err, result) => {
 				if (err) throw err;
-				if (!trade) res.json(result);
+				//If this isn't a trade, remove book from the club's collection
+				if (!trade) this.delFromCollection(reqBook, reqUser, res);
 			});
 	};
 
@@ -162,11 +196,11 @@ function ClickHandler() {
 			}, {
 				$addToSet: {
 					'incomingRequests': {
-						bookId: tradeReq.book,
-						userId: tradeReq.user,
-						title: tradeReq.title
+						'bookId': tradeReq.book,
+						'userId': tradeReq.user,
+						'title': tradeReq.title
 					}
-				},
+				}
 			}, {
 				projection: {
 					'_id': 0,
@@ -185,9 +219,9 @@ function ClickHandler() {
 					}, {
 						$addToSet: {
 							'outgoingRequests': {
-								bookId: tradeReq.book,
-								userId: tradeReq.owner,
-								title: tradeReq.title
+								'bookId': tradeReq.book,
+								'userId': tradeReq.owner,
+								'title': tradeReq.title
 							}
 						},
 					}, {
@@ -209,7 +243,7 @@ function ClickHandler() {
 	//Cancel trade request
 	this.cancelTradeRequest = function(reqObj, res, trade) {
 		let tradeReq = JSON.parse(reqObj);
-		
+
 		//First, cancel the request to the book owner
 		Users
 			.findOneAndUpdate({
@@ -217,8 +251,8 @@ function ClickHandler() {
 			}, {
 				$pull: {
 					'incomingRequests': {
-						bookId: tradeReq.book,
-						userId: tradeReq.user
+						'bookId': tradeReq.book,
+						'userId': tradeReq.user
 					}
 				}
 			}, {
@@ -239,10 +273,10 @@ function ClickHandler() {
 					}, {
 						$pull: {
 							'outgoingRequests': {
-								bookId: tradeReq.book,
-								userId: tradeReq.owner
+								'bookId': tradeReq.book,
+								'userId': tradeReq.owner
 							}
-						},
+						}
 					}, {
 						projection: {
 							'_id': 0,
@@ -258,13 +292,16 @@ function ClickHandler() {
 					});
 			});
 	};
-	
+
+	//Accept a trade
 	this.acceptTrade = function(reqObj, res) {
-		//First, swap the book between users
 		let tradeReq = JSON.parse(reqObj);
+
+		//First, swap the book between users
 		this.addBook(tradeReq.book, tradeReq.user, res, true);
 		this.delBook(tradeReq.book, tradeReq.owner, res, true);
 		this.cancelTradeRequest(reqObj, res, true);
+
 		//Then, change the book owner
 		Books
 			.findOneAndUpdate({
