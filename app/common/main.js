@@ -137,8 +137,6 @@ function generateLoggedInUI(user, picture) {
             </ul>`);
         $('.collapsible').collapsible();
         
-        //Update trade request buttons and collapsibles
-        
         //Outgoing requests
         let outgoing = user.outgoingRequests;
         for (var i = 0; i < outgoing.length; i++) {
@@ -162,23 +160,29 @@ function generateLoggedInUI(user, picture) {
                     <a class="secondary-content tooltipped" data-tooltip="Accept trade"
                         onclick="answerTrade($(this).parent(), true)">
                         <i class="material-icons small green-text">done</i></a>
-                    
-                </p>
-                
-                
-                `);
+                </p>`);
         }
         $('.tooltipped').tooltip();
     }
+    
+    //Change 'Request Trade' to 'Remove Book' for user's books in carousel
+    
+    
 
     
 }
 
-$('#test').click(() => {
-    
-   let apiUrl = `/api/book/nfRhQgAACAAJ/${localStorage.getItem('rv-bookclub-id')}`;
-   ajaxFunctions.ajaxRequest('DELETE', apiUrl, (data) => {
-    console.log(data);
-   });
+$('#test').click((bookId) => {
+            //Remove book from carousel
+            $(`.carousel-item[data-book="${bookId}"]`).remove();
+            $('.carousel').removeClass('initialized');
+            $('.carousel').carousel();
+            //Remove book modal
+            $(`.modal[data-book="${bookId}"]`).remove();
+            
+//   let apiUrl = `/api/book/${bookId}/${localStorage.getItem('rv-bookclub-id')}`;
+//   ajaxFunctions.ajaxRequest('DELETE', apiUrl, (data) => {
+//     console.log(data);
+//   });
    
 });
