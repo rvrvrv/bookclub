@@ -68,7 +68,7 @@ function generateLoggedInUI(user, picture) {
         alignment: 'left',
         stopPropagation: false
     });
-    
+
     //Generate and initialize profile modal
     $('.modals').append(`
       <div id="profileModal" class="modal bottom-sheet">
@@ -104,7 +104,7 @@ function generateLoggedInUI(user, picture) {
     $('#editProfileBtn').click(() => editProfile());
     $('#cancelChangesBtn').click(() => resetProfile());
     $('.modal').modal();
-    
+
     //If on homepage, update additional elements
     if (location.pathname === '/') {
 
@@ -114,7 +114,7 @@ function generateLoggedInUI(user, picture) {
             Feel free to <a class="dynLink light-blue-text text-lighten-4" data-link="addbook">add your own book</a>
             or <span class="light-blue-text text-lighten-4" id="requestText">request a trade</span>.</h5>`);
         $('#bottomInfo').html(`<h5 class="center">Select any book for more information.</h5>`);
-        
+
         //Generate and initialize trade request collapsibles
         $('.requests').html(`
             <ul class="collapsible" data-collapsible="accordion">
@@ -136,7 +136,7 @@ function generateLoggedInUI(user, picture) {
                 </li>
             </ul>`);
         $('.collapsible').collapsible();
-        
+
         //Outgoing requests
         let outgoing = user.outgoingRequests;
         for (var i = 0; i < outgoing.length; i++) {
@@ -144,7 +144,7 @@ function generateLoggedInUI(user, picture) {
             let link = $(`.req-btn[data-book="${outgoing[i].bookId}"][data-owner="${outgoing[i].userId}"]`);
             tradeReqUI(link, true);
         }
-        
+
         //Incoming requests
         let incoming = user.incomingRequests;
         for (var i = 0; i < incoming.length; i++) {
@@ -164,25 +164,34 @@ function generateLoggedInUI(user, picture) {
         }
         $('.tooltipped').tooltip();
     }
-    
-    //Change 'Request Trade' to 'Remove Book' for user's books in carousel
-    
-    
 
-    
+    //Change 'Request Trade' to 'Remove Book' for user's books in carousel
+    console.log(user);
+    user.books.forEach(e => {
+        let reqBtn = $(`.req-btn[data-book="${e}"][data-owner="${user.id}"`);
+        reqBtn.tooltip('remove');
+        reqBtn.removeClass('waves-green').addClass('waves-red');
+        reqBtn.attr('onclick', 'removeBook(this)');
+        reqBtn.html('Remove Book');
+        reqBtn.data('tooltip', 'Remove this book');
+       // $('.tooltipped').tooltip();
+    });
+
 }
 
+
+//TO-DO: Implement remove-book functionality
 $('#test').click((bookId) => {
-            //Remove book from carousel
-            $(`.carousel-item[data-book="${bookId}"]`).remove();
-            $('.carousel').removeClass('initialized');
-            $('.carousel').carousel();
-            //Remove book modal
-            $(`.modal[data-book="${bookId}"]`).remove();
-            
-//   let apiUrl = `/api/book/${bookId}/${localStorage.getItem('rv-bookclub-id')}`;
-//   ajaxFunctions.ajaxRequest('DELETE', apiUrl, (data) => {
-//     console.log(data);
-//   });
-   
+    //Remove book from carousel
+    $(`.carousel-item[data-book="${bookId}"]`).remove();
+    $('.carousel').removeClass('initialized');
+    $('.carousel').carousel();
+    //Remove book modal
+    $(`.modal[data-book="${bookId}"]`).remove();
+
+    //   let apiUrl = `/api/book/${bookId}/${localStorage.getItem('rv-bookclub-id')}`;
+    //   ajaxFunctions.ajaxRequest('DELETE', apiUrl, (data) => {
+    //     console.log(data);
+    //   });
+
 });

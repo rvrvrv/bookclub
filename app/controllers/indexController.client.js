@@ -35,7 +35,7 @@ function getAllBooks(data) {
                         </div>
                     </div>
                     <div class="modal-fixed-footer right">
-                        <a class="modal-action modal-close waves-effect waves-red btn-flat">Back</a>
+                        <a class="modal-action modal-close waves-effect waves-light btn-flat">Back</a>
                         <a class="req-btn waves-effect waves-green btn-flat tooltipped" data-tooltip="Request ${e.title}" 
                             data-book="${e.id}" data-owner="${e.owner}" data-title="${e.title}" data-modal="${i}"
                             onclick="reqTrade(this, true)">Request Trade</a>
