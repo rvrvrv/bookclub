@@ -43,7 +43,7 @@ function getAllBooks(data) {
                 </div>`;
     });
     $('.carousel').html(carouselCode);
-    $('.carousel').carousel();
+    $('.carousel').carousel({shift: 20});
     $('.modals').append(modalCode);
     $('.tooltipped').tooltip();
 }
