@@ -42,7 +42,7 @@ function ClickHandler() {
 	this.delFromCollection = function(reqBook, reqOwner, res) {
 		Books
 			.remove({
-				'id': '4',
+				'id': reqBook,
 				'owner': reqOwner
 			})
 			//Then, find and delete any related trade requests

@@ -1,5 +1,5 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, checkLoginState, FB, localStorage, location, Materialize */
+/* global $, ajaxFunctions, checkLoginState, FB, localStorage, location, Materialize */
 
 //Show and hide progress bar
 function progress(operation) {
@@ -69,7 +69,7 @@ function generateLoggedInUI(user, picture) {
         stopPropagation: false
     });
 
-    //Generate and initialize profile modal
+    //Generate profile modal
     $('.modals').append(`
       <div id="profileModal" class="modal bottom-sheet">
         <div class="modal-content">
@@ -103,6 +103,7 @@ function generateLoggedInUI(user, picture) {
     </div>`);
     $('#editProfileBtn').click(() => editProfile());
     $('#cancelChangesBtn').click(() => resetProfile());
+    //Initialize all modals
     $('.modal').modal();
 
     //If on homepage, update additional elements
@@ -166,32 +167,43 @@ function generateLoggedInUI(user, picture) {
     }
 
     //Change 'Request Trade' to 'Remove Book' for user's books in carousel
-    console.log(user);
     user.books.forEach(e => {
         let reqBtn = $(`.req-btn[data-book="${e}"][data-owner="${user.id}"`);
         reqBtn.tooltip('remove');
         reqBtn.removeClass('waves-green').addClass('waves-red');
         reqBtn.attr('onclick', 'removeBook(this)');
         reqBtn.html('Remove Book');
-        reqBtn.data('tooltip', 'Remove this book');
-       // $('.tooltipped').tooltip();
+        reqBtn.attr('data-tooltip', `Remove ${reqBtn.data('title')} from the collection`);
+        $('.tooltipped').tooltip();
     });
-
 }
 
-
-//TO-DO: Implement remove-book functionality
-$('#test').click((bookId) => {
-    //Remove book from carousel
-    $(`.carousel-item[data-book="${bookId}"]`).remove();
-    $('.carousel').removeClass('initialized');
-    $('.carousel').carousel();
-    //Remove book modal
-    $(`.modal[data-book="${bookId}"]`).remove();
-
-    //   let apiUrl = `/api/book/${bookId}/${localStorage.getItem('rv-bookclub-id')}`;
-    //   ajaxFunctions.ajaxRequest('DELETE', apiUrl, (data) => {
-    //     console.log(data);
-    //   });
-
-});
+//Handle 'Remove Book' link click
+function removeBook(link, confirmed) {
+    //First, ask for user confirmation
+    if (!confirmed) {
+        $(link).removeClass('waves-red').addClass('red white-text waves-light');
+        $(link).html('Confirm Removal');
+        $(link).attr('onclick', 'removeBook(this, true)');
+    }
+    else {
+        progress('show');
+        //When confirmed, delete book from DB
+        let book = $(link).data('book');
+        let apiUrl = `/api/book/${book}/${localStorage.getItem('rv-bookclub-id')}`;
+        ajaxFunctions.ajaxRequest('DELETE', apiUrl, (data) => {
+            console.log(data);
+            //Remove book from carousel
+            $(`.carousel-item[data-book="${book}"]`).remove();
+            $('.carousel').removeClass('initialized');
+            $('.carousel').carousel();
+            //Close and remove book modal and tooltip
+            $(`.modal[data-book="${book}"]`).modal('close');
+            $(`.modal[data-book="${book}"]`).remove();
+            $(link).tooltip('remove');
+            //Notify the user
+            Materialize.toast(`${$(link).data('title')} has been removed from the collection!`, 5000);
+            progress('hide');
+        });
+    }
+}
