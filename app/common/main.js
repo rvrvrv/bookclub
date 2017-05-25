@@ -8,6 +8,17 @@ function progress(operation) {
     else $('.progress').addClass('hidden');
 }
 
+//Restore modal buttons upon close
+function restoreBtns() {
+    //Only perform this operation if 'Confirm Removal' button exists
+    if ($('.req-btn').hasClass('confirm-rm-btn')) {
+        let btn = $('.confirm-rm-btn');
+        btn.html('Remove Book');
+        btn.attr('onclick', 'removeBook(this)');
+        btn.removeClass('red white-text waves-light confirm-rm-btn').addClass('waves-red');
+    }
+}
+
 //Activate nav links
 function activateLinks() {
 
@@ -30,12 +41,6 @@ function activateLinks() {
         else if (!location.pathname.includes(link))
             $(this).click(() => location.href = `${link}.html`);
     });
-
-    //Trigger animation when user clicks 'request a trade'
-    $('#requestText').click(() => {
-        $('.carousel').addClass('shake');
-        setTimeout(() => $('.carousel').removeClass('shake'), 2000);
-    });
 }
 
 //Generate UI for logged-in users
@@ -54,9 +59,6 @@ function generateLoggedInUI(user, picture) {
         <li><a class="modal-trigger waves-effect waves-green" data-target="profileModal">Edit Profile</a></li>
         <li class="divider"></li>
         <li><a class="waves-effect waves-green" id="logoutLink">Log Out</a></li>`);
-
-    //Activate menu links
-    activateLinks();
 
     //Initialize dropdown menu
     $('.dropdown-button').dropdown({
@@ -105,7 +107,7 @@ function generateLoggedInUI(user, picture) {
     $('#editProfileBtn').click(() => editProfile());
     $('#cancelChangesBtn').click(() => resetProfile());
     //Initialize all modals
-    $('.modal').modal();
+    $('.modal').modal({complete: () => restoreBtns()});
 
     //If on homepage, update additional elements
     if (location.pathname === '/') {
@@ -116,6 +118,11 @@ function generateLoggedInUI(user, picture) {
             Feel free to <a class="dynLink light-blue-text text-lighten-4" data-link="addbook">add your own book</a>
             or <span class="light-blue-text text-lighten-4" id="requestText">request a trade</span>.</h5>`);
         $('#bottomInfo').html(`<h5 class="center">Select any book for more information.</h5>`);
+        //Activate 'request a trade' text
+        $('#requestText').click(() => {
+            $('.carousel').addClass('shake');
+            setTimeout(() => $('.carousel').removeClass('shake'), 1000);
+        });
 
         //Generate and initialize trade request collapsibles
         $('.requests').html(`
@@ -177,13 +184,17 @@ function generateLoggedInUI(user, picture) {
         reqBtn.attr('data-tooltip', `Remove ${reqBtn.data('title')} from the collection`);
         $('.tooltipped').tooltip();
     });
+    
+    //Activate all dynamic links
+    activateLinks();
+    
 }
 
 //Handle 'Remove Book' link click
 function removeBook(link, confirmed) {
     //First, ask for user confirmation
     if (!confirmed) {
-        $(link).removeClass('waves-red').addClass('red white-text waves-light');
+        $(link).removeClass('waves-red').addClass('red white-text waves-light confirm-rm-btn');
         $(link).html('Confirm Removal');
         $(link).attr('onclick', 'removeBook(this, true)');
     }
@@ -208,3 +219,4 @@ function removeBook(link, confirmed) {
         });
     }
 }
+
