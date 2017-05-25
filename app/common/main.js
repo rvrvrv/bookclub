@@ -1,5 +1,6 @@
 /*jshint browser: true, esversion: 6*/
 /* global $, ajaxFunctions, checkLoginState, FB, localStorage, location, Materialize */
+'use strict';
 
 //Show and hide progress bar
 function progress(operation) {

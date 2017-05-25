@@ -1,5 +1,6 @@
 /*jshint browser: true, esversion: 6*/
 /* global $, ajaxFunctions, FB, localStorage, Materialize, progress, tradeRequest */
+'use strict';
 
 //Handle 'Accept Trade' / 'Reject Trade' link click
 function answerTrade(link, accept) {

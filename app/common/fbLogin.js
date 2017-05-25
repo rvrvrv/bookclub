@@ -1,5 +1,6 @@
 /*jshint browser: true, esversion: 6*/
 /* global $, FB, generateLoggedInUI, localStorage, location, progress */
+'use strict';
 
 window.fbAsyncInit = function() {
     FB.init({

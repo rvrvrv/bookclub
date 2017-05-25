@@ -1,5 +1,6 @@
 /*jshint browser: true, esversion: 6*/
 /* global $, ajaxFunctions, FB, localStorage, Materialize, progress */
+'use strict';
 
 //Save profile changes to DB
 function editProfile() {
