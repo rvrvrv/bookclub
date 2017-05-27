@@ -173,7 +173,7 @@ function ClickHandler() {
 	};
 
 	//Make trade request to book owner
-	this.makeTradeRequest = function(reqObj, res) {
+	this.makeTradeRequest = function(requester, reqObj, res) {
 		let tradeReq = JSON.parse(reqObj);
 
 		//First, submit the request to the book owner
@@ -184,7 +184,7 @@ function ClickHandler() {
 				$addToSet: {
 					'incomingRequests': {
 						'bookId': tradeReq.book,
-						'userId': tradeReq.user,
+						'userId': requester,
 						'title': tradeReq.title
 					}
 				}
@@ -202,7 +202,7 @@ function ClickHandler() {
 				if (err) throw err;
 				Users
 					.findOneAndUpdate({
-						'id': tradeReq.user
+						'id': requester
 					}, {
 						$addToSet: {
 							'outgoingRequests': {
@@ -228,7 +228,7 @@ function ClickHandler() {
 	};
 
 	//Cancel trade request
-	this.cancelTradeRequest = function(reqObj, res, trade) {
+	this.cancelTradeRequest = function(requester, reqObj, res, trade) {
 		let tradeReq = JSON.parse(reqObj);
 
 		//First, cancel the request to the book owner
@@ -239,7 +239,7 @@ function ClickHandler() {
 				$pull: {
 					'incomingRequests': {
 						'bookId': tradeReq.book,
-						'userId': tradeReq.user
+						'userId': requester
 					}
 				}
 			}, {
@@ -256,7 +256,7 @@ function ClickHandler() {
 				if (err) throw err;
 				Users
 					.findOneAndUpdate({
-						'id': tradeReq.user
+						'id': requester
 					}, {
 						$pull: {
 							'outgoingRequests': {
@@ -281,13 +281,13 @@ function ClickHandler() {
 	};
 
 	//Accept a trade
-	this.acceptTrade = function(reqObj, res) {
+	this.acceptTrade = function(bookOwner, reqObj, res) {
 		let tradeReq = JSON.parse(reqObj);
 
 		//First, swap the book between users
 		this.addBook(tradeReq.book, tradeReq.user, res, true);
-		this.delBook(tradeReq.book, tradeReq.owner, res, true);
-		this.cancelTradeRequest(reqObj, res, true);
+		this.delBook(tradeReq.book, bookOwner, res, true);
+		this.cancelTradeRequest(bookOwner, reqObj, res, true);
 
 		//Then, change the book owner
 		Books
