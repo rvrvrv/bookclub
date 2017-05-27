@@ -21,7 +21,7 @@ function ClickHandler() {
 	this.addToCollection = function(req, res) {
 		Books
 			.findOne({
-				'id': req.session.user,
+				'id': req.body.id,
 				'owner': req.body.owner
 			}, {
 				'_id': 0,
