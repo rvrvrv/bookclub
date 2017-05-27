@@ -8,12 +8,11 @@ module.exports = (app) => {
 
 	let clickHandler = new ClickHandler();
 
-	//Server-side FB authentication
+	//Server-side authentication
 	function isLoggedIn(req, res, next) {
 		if (auth(req)) return next();
 		else res.redirect('/');
 	}
-
 
 	//Homepage
 	app.route('/')
@@ -23,7 +22,8 @@ module.exports = (app) => {
 
 	//'Add a Book' page
 	app.route('/addbook.html')
-		.get(isLoggedIn, (req, res) => {
+		.get((req, res) => {
+			if (!req.session.user) res.redirect('/');
 			res.sendFile(path + '/public/addbook.html');
 		});
 
@@ -31,7 +31,7 @@ module.exports = (app) => {
 	app.route('/api/allBooks/')
 		.get((req, res) => clickHandler.showAllBooks(req, res));
 
-	//User creation and profile update
+	//Login / user creation and profile update routes
 	app.route('/api/user/:id/:name?/:location?')
 		.post((req, res) => clickHandler.createUser(req, res))
 		.get((req, res) => clickHandler.getUser(req, res))

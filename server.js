@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const favicon = require('serve-favicon');
 const path = require('path');
 const bodyParser = require('body-parser');
+const session = require('client-sessions');
 
 const app = express();
 require('dotenv').load();
@@ -18,6 +19,13 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use('/controllers', express.static(process.cwd() + '/app/controllers'));
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use('/common', express.static(process.cwd() + '/app/common'));
+
+app.use(session({
+    cookieName: 'session',
+    secret: process.env.SESS_SECRET,
+    duration: 60 * 60 * 1000,
+    activeDuration: 30 * 60 * 1000,
+}));
 
 routes(app);
 

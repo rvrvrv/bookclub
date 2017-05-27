@@ -21,7 +21,7 @@ function ClickHandler() {
 	this.addToCollection = function(req, res) {
 		Books
 			.findOne({
-				'id': req.body.id,
+				'id': req.session.user,
 				'owner': req.body.owner
 			}, {
 				'_id': 0,
@@ -71,7 +71,7 @@ function ClickHandler() {
 					});
 			});
 	};
-
+	//**CALLED UPON LOGIN
 	//Create user (or load existing user)
 	this.createUser = function(req, res) {
 		Users
@@ -85,8 +85,14 @@ function ClickHandler() {
 			})
 			.exec((err, result) => {
 				if (err) throw err;
-				//If user exists, return data
-				if (result) return res.json(result);
+				//Set session cookie
+				console.log(req.session);
+				req.session.user = req.body.id;
+				console.log(req.session.user);
+				//If user exists, set session cookie and return data
+				if (result) {
+					return res.json(result);
+				}
 				//Otherwise, create new user with FB login data
 				let newUser = new Users(req.body);
 				newUser
