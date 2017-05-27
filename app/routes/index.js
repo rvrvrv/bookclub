@@ -40,10 +40,9 @@ module.exports = (app) => {
 		.get((req, res) => clickHandler.showAllBooks(req, res));
 
 	//Login / user creation and profile update routes
-	app.route('/api/user/:id/:name?/:location?')
+	app.route('/api/user/:name?/:location?')
 		.post(verifyLogin, (req, res) => clickHandler.createUser(req, res))
-		.get((req, res) => clickHandler.getUser(req, res))
-		.put((req, res) => clickHandler.updateUser(req.params.id, req.params.name, req.params.location, res));
+		.put((req, res) => clickHandler.updateUser(req.session.user, req.params.name, req.params.location, res));
 
 	//Add & remove book routes
 	app.route('/api/book/:bookId/:userId?')

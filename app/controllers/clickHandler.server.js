@@ -87,7 +87,7 @@ function ClickHandler() {
 				if (err) throw err;
 				//Set session cookie
 				req.session.user = req.body.id;
-				//If user exists, set session cookie and return data
+				//If user exists, return data
 				if (result) {
 					return res.json(result);
 				}
@@ -116,23 +116,6 @@ function ClickHandler() {
 					'_id': 0
 				},
 				new: true
-			})
-			.exec((err, result) => {
-				if (err) throw err;
-				res.json(result);
-			});
-	};
-
-	//Get user's information, including books and trade requests
-	this.getUser = function(reqUser, res) {
-		Users
-			.findOne({
-				'id': reqUser
-			}, {
-				'_id': 0,
-				'__v': 0,
-				'incomingRequests._id': 0,
-				'outgoingRequests._id': 0
 			})
 			.exec((err, result) => {
 				if (err) throw err;

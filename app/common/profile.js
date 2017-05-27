@@ -18,7 +18,7 @@ function editProfile() {
     //If changes have been made, update the user's profile in the DB
     progress('show');
     ajaxFunctions.ajaxRequest('PUT',
-        `/api/user/${localStorage.getItem('rv-bookclub-id')}/${$('#profileName').val()}/${$('#profileLocation').val()}`, res => {
+        `/api/user/${$('#profileName').val()}/${$('#profileLocation').val()}`, res => {
             let result = JSON.parse(res);
 
             //Update UI with new user info

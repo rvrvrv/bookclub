@@ -43,7 +43,6 @@ function loggedIn(response) {
 
         //Store user's info
         localStorage.setItem('rv-bookclub-id', user.id);
-        localStorage.setItem('rv-bookclub-tok', response.authResponse.accessToken);
         let userLoc = (!user.location) ? 'Add your location' : user.location.name;
         let currentUser = {
             id: user.id,
@@ -61,14 +60,12 @@ function loggedIn(response) {
 			    console.error('Could not load data');
 			    progress('hide');
 			});
-
     });
 }
 
 //Remove stored ID and redirect to homepage (if necessary)
 function loggedOut(reload) {
     localStorage.removeItem('rv-bookclub-id');
-    localStorage.removeItem('rv-bookclub-tok');
     //If user isn't logged in, redirect to homepage
     if (reload) location.replace('/logout');
 }
