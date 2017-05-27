@@ -47,8 +47,8 @@ module.exports = (app) => {
 	//Add & remove book routes
 	app.route('/api/book/:bookId/:userId?')
 		.post((req, res) => clickHandler.addToCollection(req, res))
-		.put((req, res) => clickHandler.addBook(req.params.bookId, req.params.userId, res))
-		.delete((req, res) => clickHandler.delBook(req.params.bookId, req.params.userId, res));
+		.put((req, res) => clickHandler.addBook(req.params.bookId, req.session.user, res))
+		.delete((req, res) => clickHandler.delBook(req.params.bookId, req.session.user, res));
 
 	//Trade request routes
 	app.route('/api/trade/:obj')
