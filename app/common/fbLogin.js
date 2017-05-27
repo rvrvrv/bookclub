@@ -10,7 +10,7 @@ window.fbAsyncInit = function() {
         xfbml: true,
         version: 'v2.9'
     });
-    checkLoginState(true);
+    checkLoginState();
 };
 
 (function(d, s, id) {
@@ -25,14 +25,15 @@ window.fbAsyncInit = function() {
 }(document, 'script', 'facebook-jssdk'));
 
 //Check for login status change
-function statusChangeCallback(response) {
+function statusChangeCallback(response, reload) {
+    console.log(response);
     if (response.status === 'connected') loggedIn(response);
-    else loggedOut();
+    else loggedOut(reload);
 }
 
 //Called after Login button is clicked
-function checkLoginState() {
-    FB.getLoginStatus(res => statusChangeCallback(res));
+function checkLoginState(reload) {
+    FB.getLoginStatus(res => statusChangeCallback(res, reload));
 }
 
 //Show logged-in view and save/load new user in DB
@@ -65,11 +66,9 @@ function loggedIn(response) {
 }
 
 //Remove stored ID and redirect to homepage (if necessary)
-function loggedOut() {
+function loggedOut(reload) {
     localStorage.removeItem('rv-bookclub-id');
     localStorage.removeItem('rv-bookclub-tok');
     //If user isn't logged in, redirect to homepage
-    if (location.pathname.length > 1) {
-        location.pathname = '/';
-    }
+    if (reload) location.replace('/logout');
 }

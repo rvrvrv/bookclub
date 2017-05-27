@@ -24,8 +24,7 @@ function activateLinks() {
 
     //Always activate logout button
     $('#logoutLink').click(() => {
-        FB.logout(resp => checkLoginState());
-        location.pathname = '/';
+        FB.logout(resp => checkLoginState(true));
     });
 
     //If not on index page, activate title as button

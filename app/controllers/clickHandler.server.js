@@ -86,9 +86,7 @@ function ClickHandler() {
 			.exec((err, result) => {
 				if (err) throw err;
 				//Set session cookie
-				console.log(req.session);
 				req.session.user = req.body.id;
-				console.log(req.session.user);
 				//If user exists, set session cookie and return data
 				if (result) {
 					return res.json(result);

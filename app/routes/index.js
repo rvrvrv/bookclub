@@ -9,9 +9,10 @@ module.exports = (app) => {
 	let clickHandler = new ClickHandler();
 
 	//Server-side authentication
-	function isLoggedIn(req, res, next) {
-		if (auth(req)) return next();
-		else res.redirect('/');
+	function verifyLogin(req, res, next) {
+		if (true) return next();
+		//if (auth(req)) return next();
+		else res.redirect('/logout');
 	}
 
 	//Homepage
@@ -19,11 +20,18 @@ module.exports = (app) => {
 		.get((req, res) => {
 			res.sendFile(path + '/public/index.html');
 		});
+	
+	//Logout route
+	app.route('/logout')
+		.get((req, res) => {
+			req.session.reset();
+			res.redirect('/');
+		});
 
 	//'Add a Book' page
 	app.route('/addbook.html')
 		.get((req, res) => {
-			if (!req.session.user) res.redirect('/');
+			if (!req.session.user) return res.redirect('/');
 			res.sendFile(path + '/public/addbook.html');
 		});
 
@@ -33,7 +41,7 @@ module.exports = (app) => {
 
 	//Login / user creation and profile update routes
 	app.route('/api/user/:id/:name?/:location?')
-		.post((req, res) => clickHandler.createUser(req, res))
+		.post(verifyLogin, (req, res) => clickHandler.createUser(req, res))
 		.get((req, res) => clickHandler.getUser(req, res))
 		.put((req, res) => clickHandler.updateUser(req.params.id, req.params.name, req.params.location, res));
 
@@ -48,7 +56,6 @@ module.exports = (app) => {
 		.post((req, res) => clickHandler.makeTradeRequest(req.params.obj, res))
 		.put((req, res) => clickHandler.acceptTrade(req.params.obj, res))
 		.delete((req, res) => clickHandler.cancelTradeRequest(req.params.obj, res));
-
 
 	//Search via Google Books API
 	app.route('/api/search/:book')
