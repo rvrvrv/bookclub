@@ -25,6 +25,9 @@ app.use(session({
     secret: process.env.SESS_SECRET,
     duration: 60 * 60 * 1000,
     activeDuration: 30 * 60 * 1000,
+    httpOnly: true,
+    secure: true,
+    ephemeral: true
 }));
 
 routes(app);
