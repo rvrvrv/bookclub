@@ -19,8 +19,8 @@ function answerTrade(link, accept) {
         if (accept) {
             Materialize.toast('Trade accepted!', 4000);
             let reqBtn = $(`.req-btn[data-book="${tradeRequest.book}"][data-owner="${tradeRequest.owner}"`);
-            reqBtn.data('owner', tradeRequest.user);
-            tradeReqUI(reqBtn);
+            reqBtn.html('Traded!');
+            reqBtn.addClass('disabled');
         }
         else {
             Materialize.toast('Trade rejected!', 4000);
