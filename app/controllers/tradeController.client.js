@@ -11,7 +11,6 @@ function answerTrade(link, accept) {
         owner: localStorage.getItem('rv-bookclub-id'),
         user: $(link).data('user')
     };
-    
     //Make the appropriate API call
     let method = accept ? 'PUT' : 'DELETE';
     
@@ -19,6 +18,9 @@ function answerTrade(link, accept) {
         //After DB changes are complete, update UI
         if (accept) {
             Materialize.toast('Trade accepted!', 4000);
+            let reqBtn = $(`.req-btn[data-book="${tradeRequest.book}"][data-owner="${tradeRequest.owner}"`);
+            reqBtn.data('owner', tradeRequest.user);
+            tradeReqUI(reqBtn);
         }
         else {
             Materialize.toast('Trade rejected!', 4000);
@@ -29,7 +31,6 @@ function answerTrade(link, accept) {
         requestCount('incoming', -1);
         progress('hide');
     });
-    
 }
 
 

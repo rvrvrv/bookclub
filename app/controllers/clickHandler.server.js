@@ -228,9 +228,21 @@ function ClickHandler() {
 	};
 
 	//Cancel trade request
-	this.cancelTradeRequest = function(requester, reqObj, res, trade) {
+	this.cancelTradeRequest = function(canceller, reqObj, res, trade) {
 		let tradeReq = JSON.parse(reqObj);
-
+		
+		/*For security, check whether trade request is being cancelled by
+		book owner (rejecting trade) or another user (cancelling request).*/
+		
+		if (tradeReq.title) tradeReq.user = canceller;
+		else tradeReq.owner = canceller;
+		
+		/*This is determined by the existence of tradeReq.title. If it exists,
+		the trade was cancelled by the requester. Otherwise, the trade was 
+		rejected by the book owner. 
+		The canceller param is req.session.user, so this check prevents
+		rogue API calls.*/
+		
 		//First, cancel the request to the book owner
 		Users
 			.findOneAndUpdate({
@@ -239,7 +251,7 @@ function ClickHandler() {
 				$pull: {
 					'incomingRequests': {
 						'bookId': tradeReq.book,
-						'userId': requester
+						'userId': tradeReq.user
 					}
 				}
 			}, {
@@ -256,7 +268,7 @@ function ClickHandler() {
 				if (err) throw err;
 				Users
 					.findOneAndUpdate({
-						'id': requester
+						'id': tradeReq.user
 					}, {
 						$pull: {
 							'outgoingRequests': {
