@@ -24,12 +24,12 @@ function getAllBooks(data) {
                         <br>
                         <br>
                         <div class="row">
-                            <div class="col s4">
+                            <div class="col m4 hide-on-small-only">
                                 <a href="${e.link}" target="_blank">
                                     <img src="${e.thumbnail}">
                                 </a>
                             </div>
-                            <div class="col s8">
+                            <div class="col m8">
                                 <p>${e.description}</p>
                             </div>
                         </div>
