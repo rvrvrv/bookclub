@@ -5,12 +5,14 @@
 //Handle 'Accept Trade' / 'Reject Trade' link click
 function answerTrade(link, accept) {
     progress('show');
+    
     //Store book trade information
     let tradeRequest = {
         book: $(link).data('book'),
         owner: localStorage.getItem('rv-bookclub-id'),
         user: $(link).data('user')
     };
+    
     //Make the appropriate API call
     let method = accept ? 'PUT' : 'DELETE';
     

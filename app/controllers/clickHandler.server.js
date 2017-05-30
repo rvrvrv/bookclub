@@ -92,7 +92,11 @@ function ClickHandler() {
 					return res.json(result);
 				}
 				//Otherwise, create new user with FB login data
-				let newUser = new Users(req.body);
+				let newUser = new Users({
+					id: req.body.id,
+					name: req.body.name,
+					location: req.body.location
+					});
 				newUser
 					.save()
 					.then(res.json(newUser));

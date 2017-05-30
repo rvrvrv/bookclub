@@ -10,8 +10,7 @@ module.exports = (app) => {
 
 	//Server-side authentication
 	function verifyLogin(req, res, next) {
-		if (true) return next();
-		//if (auth(req)) return next();
+		if (auth(req.body.id, req.body.signed)) return next();
 		else res.redirect('/logout');
 	}
 

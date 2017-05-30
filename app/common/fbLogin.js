@@ -26,7 +26,6 @@ window.fbAsyncInit = function() {
 
 //Check for login status change
 function statusChangeCallback(response, reload) {
-    console.log(response);
     if (response.status === 'connected') loggedIn(response);
     else loggedOut(reload);
 }
@@ -40,17 +39,17 @@ function checkLoginState(reload) {
 function loggedIn(response) {
     progress('show');
     FB.api('/me?fields=first_name, last_name, picture, hometown, location', function(user) {
-
         //Store user's info
         localStorage.setItem('rv-bookclub-id', user.id);
         let userLoc = (!user.location) ? 'Add your location' : user.location.name;
         let currentUser = {
             id: user.id,
             name: `${user.first_name} ${user.last_name}`,
-            location: userLoc
+            location: userLoc,
+            signed: response.authResponse.accessToken
         };
         //Load or create new user in DB
-		$.post('/api/user/' + user.id, currentUser)
+		$.post('/api/user/', currentUser)
 			.done((res) => {
 			    //Update UI with logged-in view)
                 generateLoggedInUI(res, user.picture.data.url);
