@@ -10,8 +10,11 @@ module.exports = (app) => {
 
 	//Server-side authentication
 	function verifyLogin(req, res, next) {
-		if (auth(req.body.id, req.body.signed)) return next();
-		else res.redirect('/logout');
+		auth(req.body.id, req.body.signed)
+			.then((result) => {
+				return next();
+			})
+			.catch(() => res.status(401).send());
 	}
 
 	//Homepage
