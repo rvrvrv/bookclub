@@ -159,7 +159,7 @@ function generateLoggedInUI(user, picture) {
             let req = incoming[i];
             $('#incomingList').append(`
                 <p class="collection-item" data-book="${req.bookId}" 
-                    data-user="${req.userId}">${req.title}
+                    data-user="${req.userId}"><a onclick="openModal($(this).parent())">${req.title}</a>
                     <a class="secondary-content tooltipped" data-tooltip="Reject trade"
                         onclick="answerTrade($(this).parent())">
                         <i class="material-icons small red-text">not_interested</i></a>
@@ -192,13 +192,13 @@ function generateLoggedInUI(user, picture) {
         reqBtn.attr('data-tooltip', `Remove ${title} from the collection`);
         reqBtn.html('Remove Book');
         
+
         //Add user's books to collapsible
         $('#personalList').append(`
-            <p class="collection-item" data-book="${e}" data-user="${user.id}">${title}
-                <a class="secondary-content tooltipped" data-tooltip="Remove ${title} from the collection"
-                    onclick="openModal($(this).parent())"><i class="material-icons small red-text">delete</i>
-                </a>
-            </p>`);
+            <a class="collection-item blue-text tooltipped" data-book="${e}" data-user="${user.id}" 
+                data-tooltip="View ${title} and/or remove it from the collection"
+                onclick="openModal($(this), true)">${title}
+            </a>`);
         
         $('.tooltipped').tooltip();
     });
@@ -209,8 +209,9 @@ function generateLoggedInUI(user, picture) {
 }
 
 //Helper to open modals from collapsibles
-function openModal(link) {
-    let bookModal = $(`.modal-book[data-book="${link.data('book')}"][data-owner="${link.data('user')}"]`)
+function openModal(link, trueOwner) {
+    let owner = trueOwner ? link.data('user') : localStorage.getItem('rv-bookclub-id');
+    let bookModal = $(`.modal-book[data-book="${link.data('book')}"][data-owner="${owner}"]`);
     bookModal.modal('open');
 }
 
