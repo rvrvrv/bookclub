@@ -1,5 +1,5 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, ajaxFunctions, checkLoginState, FB, localStorage, location, Materialize */
+/* global $, ajaxFunctions, checkLoginState, FB, localStorage, location, Materialize, tradeReqUI */
 'use strict';
 
 //Show and hide progress bar
@@ -114,7 +114,7 @@ function generateLoggedInUI(user, picture) {
         //Hide login button and change welcome message
         $('.fb-login-button').hide();
         $('#welcome').html(`<h5 class="white-text center">You're in the club!<br>
-            Feel free to <a class="dynLink light-blue-text text-lighten-4" data-link="addbook">add your own book</a>
+            Feel free to <a class="dynLink light-blue-text text-lighten-4" data-link="addbook">add a book</a>
             or <span class="light-blue-text text-lighten-4" id="requestText">request a trade</span>.</h5>`);
         $('#bottomInfo').html(`<h5 class="center">Select any book for more information.</h5>`);
         //Activate 'request a trade' text
@@ -123,7 +123,7 @@ function generateLoggedInUI(user, picture) {
             setTimeout(() => $('.carousel').removeClass('shake'), 1000);
         });
 
-        //Generate and initialize trade request collapsibles
+        //Generate and initialize all collapsibles
         $('.requests').html(`
             <ul class="collapsible" data-collapsible="accordion">
                 <li>
@@ -142,20 +142,19 @@ function generateLoggedInUI(user, picture) {
                         <div class="collection" id="outgoingList"></div>
                     </div>
                 </li>
+                <li>
+                    <div class="collapsible-header">
+                        <i class="material-icons">view_module</i>Your Books</div>
+                    <div class="collapsible-body">
+                        <div class="collection" id="personalList"></div>
+                    </div>
+                </li>
             </ul>`);
         $('.collapsible').collapsible();
 
-        //Outgoing requests
-        let outgoing = user.outgoingRequests;
-        for (var i = 0; i < outgoing.length; i++) {
-            //Update trade request button
-            let link = $(`.req-btn[data-book="${outgoing[i].bookId}"][data-owner="${outgoing[i].userId}"]`);
-            tradeReqUI(link, true);
-        }
-
         //Incoming requests
         let incoming = user.incomingRequests;
-        for (var i = 0; i < incoming.length; i++) {
+        for (let i = 0; i < incoming.length; i++) {
             requestCount('incoming', 1);
             let req = incoming[i];
             $('#incomingList').append(`
@@ -170,23 +169,49 @@ function generateLoggedInUI(user, picture) {
                         <i class="material-icons small green-text">done</i></a>
                 </p>`);
         }
+        
+        //Outgoing requests
+        let outgoing = user.outgoingRequests;
+        for (let j = 0; j < outgoing.length; j++) {
+            //Update trade request button
+            let link = $(`.req-btn[data-book="${outgoing[j].bookId}"][data-owner="${outgoing[j].userId}"]`);
+            tradeReqUI(link, true);
+        }
+        
         $('.tooltipped').tooltip();
     }
 
-    //Change 'Request Trade' to 'Remove Book' for user's books in carousel
+    //Update buttons and collapisbles for books in user's collection
     user.books.forEach(e => {
-        let reqBtn = $(`.req-btn[data-book="${e}"][data-owner="${user.id}"`);
+        //Change 'Request Trade' to 'Remove Book' for user's books in carousel
+        let reqBtn = $(`.req-btn[data-book="${e}"][data-owner="${user.id}"]`);
+        let title = reqBtn.data('title');
         reqBtn.tooltip('remove');
         reqBtn.removeClass('waves-green').addClass('waves-red');
         reqBtn.attr('onclick', 'removeBook(this)');
+        reqBtn.attr('data-tooltip', `Remove ${title} from the collection`);
         reqBtn.html('Remove Book');
-        reqBtn.attr('data-tooltip', `Remove ${reqBtn.data('title')} from the collection`);
+        
+        //Add user's books to collapsible
+        $('#personalList').append(`
+            <p class="collection-item" data-book="${e}" data-user="${user.id}">${title}
+                <a class="secondary-content tooltipped" data-tooltip="Remove ${title} from the collection"
+                    onclick="openModal($(this).parent())"><i class="material-icons small red-text">delete</i>
+                </a>
+            </p>`);
+        
         $('.tooltipped').tooltip();
     });
     
     //Activate all dynamic links
     activateLinks();
     
+}
+
+//Helper to open modals from collapsibles
+function openModal(link) {
+    let bookModal = $(`.modal-book[data-book="${link.data('book')}"][data-owner="${link.data('user')}"]`)
+    bookModal.modal('open');
 }
 
 //Handle 'Remove Book' link click
