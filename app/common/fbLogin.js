@@ -5,6 +5,7 @@
 window.fbAsyncInit = function() {
     FB.init({
         appId: '703692339810736',
+        xfbml: true,
         status: true,
         version: 'v2.9'
     });
@@ -35,6 +36,7 @@ function checkLoginState(reload) {
 
 //Show logged-in view and save/load new user in DB
 function loggedIn(response) {
+    if ($('#adsblocked')) $('#adsblocked').remove();
     progress('show');
     FB.api('/me?fields=first_name, last_name, picture, hometown, location', function(user) {
         //Store user's info
