@@ -40,7 +40,9 @@ a:hover {
 }
 
 .fb-button {
-    background: #4267b2 url('../img/fbLogin.png');
+    background: #4267b2 url('../img/fbLogin.png') no-repeat fixed center;
+    width: 240px;
+    margin: 0 auto;
 }
 
 #userInfo a {
