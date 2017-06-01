@@ -5,13 +5,17 @@
 $(document).ready(() => {
     //Automatically show all books on index page
     ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', '/api/allBooks/', getAllBooks));
-    //Check for ad-blocker, which disables FB login button
-    if ($('#3kxSqzeDXAYH')) {
-        alert('Blocking Ads: No');
-    }
-    else {
-        alert('Blocking Ads: Yes');
-    }
+
+    //Check for ad-blocker, which disables FB login
+    let test = document.createElement('div');
+    test.className = 'adsbox';
+    test.innerHTML = '&nbsp;';
+    $('body').append(test);
+    setTimeout(() => {
+        if (test.offsetHeight === 0) 
+            $('#welcome').after('<h4 class="red-text center">(Disable your AdBlocker for club entry)</h4>');
+        test.remove();
+    });
 });
 
 
