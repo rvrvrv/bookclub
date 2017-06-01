@@ -5,6 +5,13 @@
 $(document).ready(() => {
     //Automatically show all books on index page
     ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', '/api/allBooks/', getAllBooks));
+    //Check for ad-blocker, which disables FB login button
+    if ($('#3kxSqzeDXAYH')) {
+        alert('Blocking Ads: No');
+    }
+    else {
+        alert('Blocking Ads: Yes');
+    }
 });
 
 
@@ -43,7 +50,9 @@ function getAllBooks(data) {
                 </div>`;
     });
     $('.carousel').html(carouselCode);
-    $('.carousel').carousel({shift: 20});
+    $('.carousel').carousel({
+        shift: 20
+    });
     $('.modals').append(modalCode);
     $('.tooltipped').tooltip();
 }
