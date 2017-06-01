@@ -28,7 +28,7 @@ module.exports = function(userId, userAccessToken) {
                         if (user.data.is_valid && user.data.user_id === userId) {
                             result = true;
                             resolve();
-                        } 
+                        }
                     })
                     .on('end', (data) => {
                         if (result) resolve();
