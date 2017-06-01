@@ -5,11 +5,13 @@
 window.fbAsyncInit = function() {
     FB.init({
         appId: '703692339810736',
-        autoLogAppEvents: true,
+        code: true,
+        cookie: true,
+        status: true,
         xfbml: true,
         version: 'v2.9'
     });
-    FB.AppEvents.logPageView();
+    checkLoginState();
 };
 
 (function(d, s, id) {
@@ -48,16 +50,16 @@ function loggedIn(response) {
             signed: response.authResponse.accessToken
         };
         //Load or create new user in DB
-        $.post('/api/user/', currentUser)
-            .done((res) => {
-                //Update UI with logged-in view)
+		$.post('/api/user/', currentUser)
+			.done((res) => {
+			    //Update UI with logged-in view)
                 generateLoggedInUI(res, user.picture.data.url);
                 progress('hide');
-            })
-            .fail(() => {
-                console.error('Could not load data');
-                progress('hide');
-            });
+			})
+			.fail(() => {
+			    console.error('Could not load data');
+			    progress('hide');
+			});
     });
 }
 

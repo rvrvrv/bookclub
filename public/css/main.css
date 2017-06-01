@@ -39,7 +39,7 @@ a:hover {
     user-select: none;
 }
 
-.fb-login-button {
+.fb-button {
     background: #4267b2 url('../img/fbLogin.png');
 }
 
