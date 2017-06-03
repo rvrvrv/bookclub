@@ -9,7 +9,7 @@ html {
 }
 
 body {
-    background: #fff;
+    background: #fff url('../img/books.png') repeat;
     color: #003;
     overflow-y: scroll;
     user-select: none;
