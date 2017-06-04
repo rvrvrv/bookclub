@@ -1,5 +1,5 @@
 /*jshint browser: true, esversion: 6*/
-/*global $, ajaxFunctions, localStorage*/
+/*global $, ajaxFunctions, localStorage, progress*/
 'use strict';
 
 $(document).ready(() => {
@@ -59,4 +59,6 @@ function getAllBooks(data) {
 	$('.carousel').html(carouselCode);
 	$('.carousel').carousel({ shift: 20 });
 	$('.tooltipped').tooltip();
+	//If user isn't logged in, hide the progress bar
+	if (!localStorage.getItem('rv-bookclub-id')) progress('hide');
 }
