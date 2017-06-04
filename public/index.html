@@ -2,51 +2,51 @@
 <html>
 
 <head>
-  <title>Book Trading Club</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" type="text/css" href="/public/css/materialize.min.css" media="screen,projection" />
-  <link rel="stylesheet" type="text/css" href="/public/css/main.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Trading Club</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="/public/css/materialize.min.css" media="screen,projection">
+    <link rel="stylesheet" type="text/css" href="/public/css/main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
-  <div id="fb-root"></div>
+    <div id="fb-root"></div>
 
-  <div class="navbar-fixed z-depth-1">
-    <ul id="userDropdown" class="dropdown-content">
-    </ul>
-    <nav>
-      <div class="nav-wrapper light-blue darken-3">
-        <a class="brand-logo center">Book Club</a>
-        <ul class="right valign-wrapper" id="userInfo"></ul>
-      </div>
-    </nav>
-  </div>
-
-  <div class="progress light-blue darken-4">
-    <div class="indeterminate light-blue lighten-2"></div>
-  </div>
-
-  <div class="row">
-    <div class="requests col s12 m10 l6 offset-m1 offset-l3"></div>
-  </div>
-
-  <div class="row">
-    <div class="col s12 m10 l6 offset-m1 offset-l3">
-      <div class="card-panel z-depth-5 light-blue darken-4 animated" id="welcome">
-        <h5 class="white-text center">Welcome to the Book Club!<br>To get started, please log in.</h5>
-      </div>
-      <div class="fb-button center">
-        <span class="tooltipped" id="loginBtn" data-delay="50" data-tooltip="Log into the Club via Facebook"></span>
-        <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="true" data-scope="user_location" onlogin="checkLoginState()">
-        </div>
-      </div>
+    <div class="navbar-fixed z-depth-1">
+        <ul id="userDropdown" class="dropdown-content">
+        </ul>
+        <nav>
+            <div class="nav-wrapper light-blue darken-3">
+                <a class="brand-logo center">Book Club</a>
+                <ul class="right valign-wrapper" id="userInfo"></ul>
+            </div>
+        </nav>
     </div>
-  </div>
-  <h4 class="center" id="collectionTitle">Our Collection:</h4>
-  <div class="carousel animated"></div>
-  <div class="modals"></div>
-  <div id="bottomInfo"></div>
+
+    <div class="progress light-blue darken-4">
+        <div class="indeterminate light-blue lighten-2"></div>
+    </div>
+
+    <div class="row">
+        <div class="requests col s12 m10 l6 offset-m1 offset-l3"></div>
+    </div>
+
+    <div class="row">
+        <div class="col s12 m10 l6 offset-m1 offset-l3">
+            <div class="card-panel z-depth-5 light-blue darken-4 animated" id="welcome">
+                <h5 class="white-text center">Welcome to the Book Club!<br>To get started, please log in.</h5>
+            </div>
+            <div class="fb-button center">
+                <span class="tooltipped" id="loginBtn" data-delay="50" data-tooltip="Log into the Club via Facebook"></span>
+                <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="true" data-scope="user_location" onlogin="checkLoginState()">
+                </div>
+            </div>
+        </div>
+    </div>
+    <h4 class="center" id="collectionTitle">Our Collection:</h4>
+    <div class="carousel animated"></div>
+    <div class="modals"></div>
+    <div id="bottomInfo"></div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="common/materialize.js"></script>

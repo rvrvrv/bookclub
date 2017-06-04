@@ -20,7 +20,6 @@ $(document).ready(() => {
     });
 });
 
-
 //Retrieve and display all books from DB
 function getAllBooks(data) {
 	let books = JSON.parse(data);
