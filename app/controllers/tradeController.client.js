@@ -20,12 +20,16 @@ function answerTrade(link, accept) {
 		//After DB changes are complete, update UI
 		if (accept) {
 			Materialize.toast('Trade accepted!', 4000);
+			//Remove collapsible
+			$(`#personalList .collection-item[data-book="${tradeRequest.book}"][data-user="${tradeRequest.owner}"]`).remove();
+			//Update button
 			let reqBtn = $(`.req-btn[data-book="${tradeRequest.book}"][data-owner="${tradeRequest.owner}"`);
 			reqBtn.html('Traded!');
 			reqBtn.addClass('disabled');
 		} else {
 			Materialize.toast('Trade rejected!', 4000);
 		}
+		//Remove request collapsible and update count
 		$(link).remove();
 		$($(link).children()).tooltip('remove');
 		$('.collapsible').collapsible('close', 0);
