@@ -4,8 +4,8 @@ const path = process.cwd();
 const ClickHandler = require(path + '/app/controllers/clickHandler.server');
 const bookSearch = require(path + '/app/controllers/bookSearch.server');
 const auth = require(path + '/app/config/auth');
-module.exports = (app) => {
 
+module.exports = (app) => {
 	let clickHandler = new ClickHandler();
 
 	//Server-side authentication
@@ -22,7 +22,7 @@ module.exports = (app) => {
 		.get((req, res) => {
 			res.sendFile(path + '/public/index.html');
 		});
-	
+
 	//Logout route
 	app.route('/logout')
 		.get((req, res) => {

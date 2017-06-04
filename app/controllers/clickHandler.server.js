@@ -6,7 +6,7 @@ const Books = require('../models/books.js');
 function ClickHandler() {
 
 	//Retrieve all books in club's collection
-	this.showAllBooks = function(req, res) {
+	this.showAllBooks = function (req, res) {
 		Books
 			.find({}, {
 				'_id': 0
@@ -18,7 +18,7 @@ function ClickHandler() {
 	};
 
 	//Add book to club's collection
-	this.addToCollection = function(req, res) {
+	this.addToCollection = function (req, res) {
 		Books
 			.findOne({
 				'id': req.body.id,
@@ -39,7 +39,7 @@ function ClickHandler() {
 	};
 
 	//Delete book from club's collection
-	this.delFromCollection = function(reqBook, reqOwner, res) {
+	this.delFromCollection = function (reqBook, reqOwner, res) {
 		Books
 			.remove({
 				'id': reqBook,
@@ -71,9 +71,9 @@ function ClickHandler() {
 					});
 			});
 	};
-	//**CALLED UPON LOGIN
+	//**CALLED UPON EVERY LOGIN
 	//Create user (or load existing user)
-	this.createUser = function(req, res) {
+	this.createUser = function (req, res) {
 		Users
 			.findOne({
 				'id': req.body.id
@@ -96,7 +96,7 @@ function ClickHandler() {
 					id: req.body.id,
 					name: req.body.name,
 					location: req.body.location
-					});
+				});
 				newUser
 					.save()
 					.then(res.json(newUser));
@@ -104,7 +104,7 @@ function ClickHandler() {
 	};
 
 	//Update user profile
-	this.updateUser = function(reqId, reqName, reqLocation, res) {
+	this.updateUser = function (reqId, reqName, reqLocation, res) {
 		Users
 			.findOneAndUpdate({
 				'id': reqId
@@ -128,7 +128,7 @@ function ClickHandler() {
 	};
 
 	//Add book to user's collection
-	this.addBook = function(reqBook, reqUser, res, trade) {
+	this.addBook = function (reqBook, reqUser, res, trade) {
 		Users
 			.findOneAndUpdate({
 				'id': reqUser
@@ -152,7 +152,7 @@ function ClickHandler() {
 	};
 
 	//Remove book from user's collection and club collection, if necessary
-	this.delBook = function(reqBook, reqUser, res, trade) {
+	this.delBook = function (reqBook, reqUser, res, trade) {
 		Users
 			.findOneAndUpdate({
 				'id': reqUser
@@ -177,7 +177,7 @@ function ClickHandler() {
 	};
 
 	//Make trade request to book owner
-	this.makeTradeRequest = function(requester, reqObj, res) {
+	this.makeTradeRequest = function (requester, reqObj, res) {
 		let tradeReq = JSON.parse(reqObj);
 
 		//First, submit the request to the book owner
@@ -232,21 +232,21 @@ function ClickHandler() {
 	};
 
 	//Cancel trade request
-	this.cancelTradeRequest = function(canceller, reqObj, res, trade) {
+	this.cancelTradeRequest = function (canceller, reqObj, res, trade) {
 		let tradeReq = JSON.parse(reqObj);
-		
+
 		/*For security, check whether trade request is being cancelled by
 		book owner (rejecting trade) or another user (cancelling request).*/
-		
+
 		if (tradeReq.title) tradeReq.user = canceller;
 		else tradeReq.owner = canceller;
-		
-		/*This is determined by the existence of tradeReq.title. If it exists,
+
+		/* ^^This is determined by the existence of tradeReq.title. If it exists,
 		the trade was cancelled by the requester. Otherwise, the trade was 
 		rejected by the book owner. 
 		The canceller param is req.session.user, so this check prevents
 		rogue API calls.*/
-		
+
 		//First, cancel the request to the book owner
 		Users
 			.findOneAndUpdate({
@@ -297,7 +297,7 @@ function ClickHandler() {
 	};
 
 	//Accept a trade
-	this.acceptTrade = function(bookOwner, reqObj, res) {
+	this.acceptTrade = function (bookOwner, reqObj, res) {
 		let tradeReq = JSON.parse(reqObj);
 
 		//First, swap the book between users

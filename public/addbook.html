@@ -2,46 +2,45 @@
 <html>
 
 <head>
-    <title>Book Trading Club</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" type="text/css" href="/public/css/materialize.min.css"  media="screen,projection"/>
-    <link rel="stylesheet" type="text/css" href="/public/css/main.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Book Trading Club</title>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" type="text/css" href="/public/css/materialize.min.css" media="screen,projection" />
+	<link rel="stylesheet" type="text/css" href="/public/css/main.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
-    <div class="navbar-fixed z-depth-1">
-        <ul id="userDropdown" class="dropdown-content">
-        </ul>
-        <nav>
-            <div class="nav-wrapper light-blue darken-3">
-                <a class="brand-logo center">Book Club</a>
-                <ul class="right valign-wrapper" id="userInfo"></ul>
-            </div>
-        </nav>
-    </div>
+	<div class="navbar-fixed z-depth-1">
+		<ul id="userDropdown" class="dropdown-content">
+		</ul>
+		<nav>
+			<div class="nav-wrapper light-blue darken-3">
+				<a class="brand-logo center">Book Club</a>
+				<ul class="right valign-wrapper" id="userInfo"></ul>
+			</div>
+		</nav>
+	</div>
 
-    <div class="progress hidden light-blue darken-4">
-        <div class="indeterminate light-blue lighten-2"></div>
-    </div>
-    <div class="container">
-        <form id="bookForm">
-            <div class="row">
-                <div class="input-field col s9 m6 offset-m2">
-                    <i class="prefix material-icons">library_books</i>
-                    <input id="bookInput" type="text" placeholder="Practical Node.js" autocomplete="off" 
-                        class="tooltipped" data-delay="100" data-tooltip="Enter the title of your book">
-                    <label for="bookInput">Book Title</label>
-                </div>
-                <div class="input-field col s3 m4">
-                    <a class="btn waves-effect waves-green tooltipped" id="searchBtn" data-tooltip="Search for your book">Search
+	<div class="progress hidden light-blue darken-4">
+		<div class="indeterminate light-blue lighten-2"></div>
+	</div>
+	<div class="container">
+		<form id="bookForm">
+			<div class="row">
+				<div class="input-field col s9 m6 offset-m2">
+					<i class="prefix material-icons">library_books</i>
+					<input id="bookInput" type="text" placeholder="Practical Node.js" autocomplete="off" class="tooltipped" data-delay="100" data-tooltip="Enter the title of your book">
+					<label for="bookInput">Book Title</label>
+				</div>
+				<div class="input-field col s3 m4">
+					<a class="btn waves-effect waves-green tooltipped" id="searchBtn" data-tooltip="Search for your book">Search
           </a>
-                </div>
-            </div>
-        </form>
-    </div>
-    <div class="row" id="results"></div>
-  <div class="modals"></div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="row" id="results"></div>
+	<div class="modals"></div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="common/materialize.js"></script>

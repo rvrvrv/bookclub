@@ -1,209 +1,263 @@
 html {
-    box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 *,
 *:before,
 *:after {
-    box-sizing: inherit;
+	-webkit-box-sizing: inherit;
+	box-sizing: inherit;
 }
 
 body {
-    background: #fff url('../img/books.png') repeat;
-    color: #003;
-    overflow-y: scroll;
-    user-select: none;
+	background: #fff url('../img/books.png') repeat;
+	color: #003;
+	overflow-y: scroll;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 h4 {
-    font-size: 2rem;
+	font-size: 2rem;
 }
 
 a:hover {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .hidden {
-    opacity: 0;
+	opacity: 0;
 }
 
 .btn {
-    background: #01579b;
+	background: #01579b;
 }
 
 .error {
-    background: #a00;
+	background: #a00;
 }
 
 .navbar-fixed {
-    user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .fb-login-button {
-    background: url('../img/fbLogin.png') no-repeat fixed center;
+	background: url('../img/fbLogin.png') no-repeat fixed center;
 }
 
 #userInfo a {
-    background-color: transparent;
+	background-color: transparent;
 }
 
 #userInfo li {
-    margin-right: 10px;
-    font-size: 2em;
+	margin-right: 10px;
+	font-size: 2em;
 }
 
 #userInfo img {
-    border-radius: 5px;
-    margin-top: 10%;
+	border-radius: 5px;
+	margin-top: 10%;
 }
 
 #userDropdown a {
-    color: #01579b;
+	color: #01579b;
 }
 
 #userProfile {
-    color: #000;
+	color: #000;
 }
 
 #welcome {
-    margin: 3% 0;
+	margin: 3% 0;
 }
 
 #requestText {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 #incomingCount.new {
-    font-size: 1.2em;
+	font-size: 1.2em;
 }
 
 .collapsible-body {
-    padding: 0;
-    font-size: 1.2em;
+	padding: 0;
+	font-size: 1.2em;
 }
 
 .carousel {
-    margin: -200px 0 20px 0;
+	margin: -200px 0 20px 0;
 }
 
 .modal-book {
-    max-width: 500px !important;
+	max-width: 500px !important;
 }
 
 .validate {
-    font-size: 1.3em !important;
+	font-size: 1.3em !important;
 }
 
 .input-field input {
-    margin-bottom: 0 !important;
+	margin-bottom: 0 !important;
 }
 
 .input-field input[type=text]:focus+label {
-    color: #004;
+	color: #004;
 }
 
 .input-field input[type=text]:focus {
-    border-bottom: 1px solid #004;
-    box-shadow: 0 1px 0 0 #004;
+	border-bottom: 1px solid #004;
+	-webkit-box-shadow: 0 1px 0 0 #004;
+	box-shadow: 0 1px 0 0 #004;
 }
 
 .valid {
-    border-bottom: 1px solid #01579b;
-    box-shadow: 0 1px 0 0 #01579b;
+	border-bottom: 1px solid #01579b;
+	-webkit-box-shadow: 0 1px 0 0 #01579b;
+	box-shadow: 0 1px 0 0 #01579b;
 }
 
 .input-field .prefix.active {
-    color: #0277bd;
+	color: #0277bd;
 }
 
 .input-field label {
-    font-size: 1.1em !important;
-    margin-top: 7px;
+	font-size: 1.1em !important;
+	margin-top: 7px;
 }
 
 .modal-footer {
-    margin-top: -100px !important;
+	margin-top: -100px !important;
 }
 
-
 #bookInput {
-    font-size: 1.4em;
+	font-size: 1.4em;
 }
 
 #searchBtn {
-    padding: 0 3vw;
+	padding: 0 3vw;
 }
 
 #searchBtn:hover {
-    background: #0277bd;
+	background: #0277bd;
 }
 
 #searchBtn.waves-ripple {
-    background: #00b0ff;
+	background: #00b0ff;
 }
 
 .authors {
-    margin: -5px 0 -5px 10px;
+	margin: -5px 0 -5px 10px;
 }
 
 .card.horizontal.short {
-    height: 250px;
+	height: 250px;
 }
 
 .halfway-fab {
-    bottom: 8px !important;
+	bottom: 8px !important;
 }
 
 
 /* Animation */
 
 .animated {
-    animation-duration: .5s;
-    animation-fill-mode: both;
+	-webkit-animation-duration: .5s;
+	animation-duration: .5s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
 }
 
 .fadeIn {
-    animation-name: fadeIn;
+	-webkit-animation-name: fadeIn;
+	animation-name: fadeIn;
+}
+
+@-webkit-keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
 }
 
 .fadeOut {
-    animation-name: fadeOut;
+	-webkit-animation-name: fadeOut;
+	animation-name: fadeOut;
+}
+
+@-webkit-keyframes fadeOut {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
 }
 
 @keyframes fadeOut {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
 }
 
 .shake {
-    animation: 1s ease-out shake;
+	-webkit-animation: 1s ease-out shake;
+	animation: 1s ease-out shake;
+}
+
+@-webkit-keyframes shake {
+	from,
+	to {
+		-webkit-transform: translate3d(0, 0, 0);
+		transform: translate3d(0, 0, 0);
+	}
+	30%,
+	60%,
+	90% {
+		-webkit-transform: translate3d(0, -20px, 0);
+		transform: translate3d(0, -20px, 0);
+	}
+	45%,
+	75% {
+		-webkit-transform: translate3d(0, 20px, 0);
+		transform: translate3d(0, 20px, 0);
+	}
 }
 
 @keyframes shake {
-    from,
-    to {
-        transform: translate3d(0, 0, 0);
-    }
-    30%,
-    60%,
-    90% {
-        transform: translate3d(0, -20px, 0);
-    }
-    45%,
-    75% {
-        transform: translate3d(0, 20px, 0);
-    }
+	from,
+	to {
+		-webkit-transform: translate3d(0, 0, 0);
+		transform: translate3d(0, 0, 0);
+	}
+	30%,
+	60%,
+	90% {
+		-webkit-transform: translate3d(0, -20px, 0);
+		transform: translate3d(0, -20px, 0);
+	}
+	45%,
+	75% {
+		-webkit-transform: translate3d(0, 20px, 0);
+		transform: translate3d(0, 20px, 0);
+	}
 }
