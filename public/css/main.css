@@ -261,3 +261,15 @@ a:hover {
 		transform: translate3d(0, 20px, 0);
 	}
 }
+
+/* Warning message for IE 10+ */
+@media all and (-ms-high-contrast: none),(-ms-high-contrast: active) {
+	.fb-button:before {
+		content: 'Please upgrade to a newer browser, such as Chrome or Firefox.';
+		font-size: 1.5em;
+		color: #a00;
+	}
+	.progress, #welcome, #collectionTitle {
+		display: none;
+	}
+}
