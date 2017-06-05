@@ -21,6 +21,11 @@
 </head>
 
 <body>
+    <!--Ensure HTTPS-->
+    <script>
+        if (window.location.protocol != 'https:') location.href = location.href.replace('http', 'https');
+    </script>
+    
     <div id="fb-root"></div>
 
     <div class="navbar-fixed z-depth-1">
