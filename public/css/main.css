@@ -13,11 +13,14 @@ html {
 body {
 	background: #fff url('../img/books.png') repeat;
 	color: #003;
-	overflow-y: scroll;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+}
+
+nav {
+	width: 100vw;
 }
 
 h4 {
