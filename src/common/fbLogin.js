@@ -34,14 +34,13 @@ function checkLoginState(reload) {
 function loggedIn(response) {
   if ($('#adsblocked')) $('#adsblocked').remove();
   progress('show');
-  FB.api('/me?fields=first_name, last_name, picture, hometown, location', (user) => {
+  FB.api('/me?fields=first_name, last_name, picture', (user) => {
     // Store user's info
     localStorage.setItem('rv-bookclub-id', user.id);
-    const userLoc = (!user.location) ? 'Add your location' : user.location.name;
     const currentUser = {
       id: user.id,
       name: `${user.first_name} ${user.last_name}`,
-      location: userLoc,
+      location: 'Add your location',
       signed: response.authResponse.accessToken
     };
     // Load or create new user in DB
