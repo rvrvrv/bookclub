@@ -1,45 +1,37 @@
-'use strict';
-
 const books = require('google-books-search');
 
 function search(reqBook, res) {
-	books.search(reqBook, (err, results) => {
-		if (err) return console.error(err);
+  books.search(reqBook, (err, results) => {
+    if (err) return console.error(err);
 
-		//Extract and format pertinent information from each result
-		let formatted = [];
-		results.forEach((e, i) => {
+    // Extract and format pertinent information from each result
+    const formatted = [];
+    results.forEach((book, i) => {
+      // Insert https in URL (if necessary) or replace blank book image with placeholder
+      const imgUrl = book.thumbnail
+        ? book.thumbnail.replace(/^http:\/\//i, 'https://')
+        : '/public/img/blank.jpg';
 
-			//If necessary, replace blank book image with placeholder
-			let imgUrl = (!e.thumbnail)
-				? '/public/img/blank.jpg'
-				//Always ensure HTTPS in link
-				: e.thumbnail.replace(/^http:\/\//i, 'https://');
+      // Format multiple authors (if necessary) or handle empty authors
+      const authors = book.authors ? book.authors.join(', ') : '(No authors listed)';
 
-			//If necessary, handle empty authors array
-			let authors = (!e.authors)
-				? '(No authors listed)'
-				//Always display multiple authors cleanly
-				: e.authors.join(', ');
+      // Trim long descriptions or handle empty descriptions
+      const description = (book.description)
+        ? `${book.description.slice(0, 150)}...`
+        : '(No description available)';
 
-			//If necessary, handle empty description
-			let description = (!e.description)
-				? '(No description available)'
-				//Always trim the description
-				: e.description.slice(0, 150) + '...';
-
-			//Output information to formatted array
-			formatted[i] = {
-				title: e.title,
-				authors: authors,
-				thumbnail: imgUrl,
-				description: description,
-				link: e.link,
-				id: e.id
-			};
-		});
-		res.json(formatted);
-	});
+      // Output information to formatted array
+      formatted[i] = {
+        title: book.title,
+        authors,
+        thumbnail: imgUrl,
+        description,
+        link: book.link,
+        id: book.id
+      };
+    });
+    return res.json(formatted);
+  });
 }
 
 module.exports = search;
