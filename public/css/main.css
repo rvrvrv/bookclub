@@ -13,6 +13,7 @@ html {
 body {
 	background: #fff url('../img/books.png') repeat;
 	color: #003;
+	overflow-y: scroll;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
@@ -129,6 +130,10 @@ ul.dropdown-content a {
 .input-field label {
 	font-size: 1.1em !important;
 	margin-top: 7px;
+}
+
+.modal.bottom-sheet {
+	min-height: 280px;
 }
 
 .modal-footer {
