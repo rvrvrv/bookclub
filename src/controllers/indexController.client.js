@@ -2,14 +2,14 @@ $(document).ready(() => {
   // Automatically show all books on index page
   ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', '/api/allBooks/', getAllBooks));
 
-  // Check for ad-blockers, which are incompatible with FB login button
+  // Check for ad blockers, which are incompatible with FB login button
   const test = document.createElement('div');
   test.className = 'adsbox';
   test.innerHTML = '&nbsp;';
   $('body').append(test);
   setTimeout(() => {
     if (test.offsetHeight === 0 && !(localStorage.getItem('rv-bookclub-id'))) {
-      $('#welcome').after('<h4 class="red-text center" id="adsblocked">(Disable your AdBlocker for club entry)</h4>');
+      $('#welcome').after('<h5 class="red-text center" id="adsblocked">(Please disable your ad blocker for club entry)</h5>');
       $('.fb-button').remove();
     }
     test.remove();
