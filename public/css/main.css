@@ -110,13 +110,13 @@ a:hover {
 }
 
 .input-field input[type=text]:focus+label {
-	color: #004;
+	color: #004 !important;
 }
 
 .input-field input[type=text]:focus {
-	border-bottom: 1px solid #004;
-	-webkit-box-shadow: 0 1px 0 0 #004;
-	box-shadow: 0 1px 0 0 #004;
+	border-bottom: 1px solid #004 !important;
+	-webkit-box-shadow: 0 1px 0 0 #004 !important;
+	box-shadow: 0 1px 0 0 #004 !important;
 }
 
 .valid {
@@ -125,6 +125,7 @@ a:hover {
 	box-shadow: 0 1px 0 0 #01579b;
 }
 
+.input-field .prefix.active,
 .input-field .prefix.active {
 	color: #0277bd;
 }

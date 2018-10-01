@@ -108,7 +108,7 @@ function requestCount(reqType, num) {
   $(`#${reqType}Count`).html(count);
   // When updating incoming requests, update the badge color as necessary
   if (reqType === 'incoming') {
-    if (count > 0) $('#incomingCount').addClass('new light-blue darken-3');
-    if (count === 0) $('#incomingCount').removeClass('new light-blue darken-3');
+    if (count > 0) $('.incoming-count').addClass('new light-blue darken-3');
+    if (count === 0) $('.incoming-count').removeClass('new light-blue darken-3');
   }
 }

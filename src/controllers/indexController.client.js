@@ -23,7 +23,7 @@ function getAllBooks(data) {
   let modalCode = '';
   
   books.forEach((e, i) => {
-    carouselCode += `<a class="carousel-item tooltipped dynLink" data-book="${e.id}" data-link="#modal-${i}" data-tooltip="${e.title}" data-delay="600"><img src="${e.thumbnail}"></a>`;
+    carouselCode += `<a class="carousel-item tooltipped dyn-link" data-book="${e.id}" data-link="#modal-${i}" data-tooltip="${e.title}" data-delay="600"><img src="${e.thumbnail}"></a>`;
     modalCode += `
       <div id="modal-${i}" class="modal modal-book" data-book="${e.id}" data-owner="${e.owner}">
         <div class="modal-content">

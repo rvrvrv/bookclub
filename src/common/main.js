@@ -26,7 +26,7 @@ function activateLinks() {
   if (location.pathname.length > 1) { $('.brand-logo').click(() => location.pathname = '/'); }
 
   // Then, iterate through nav links and activate everything other than link to current page
-  $('.dynLink').each(function () {
+  $('.dyn-link').each(function () {
     const link = $(this).data('link');
     if (link.includes('modal'))	$(this).click(() => $(link).modal('open'));
     else if (!location.pathname.includes(link)) $(this).click(() => location.href = `${link}.html`);
@@ -44,7 +44,7 @@ function generateLoggedInUI(user, picture) {
 
   // Generate dropdown menu
   $('#userDropdown').html(`
-        <li><a class="waves-effect waves-green dynLink" data-link="addbook">Add a Book</a></li>
+        <li><a class="waves-effect waves-green dyn-link" data-link="addbook">Add a Book</a></li>
         <li><a class="modal-trigger waves-effect waves-green" data-target="profileModal">Edit Profile</a></li>
         <li class="divider"></li>
         <li><a class="waves-effect waves-green" id="logoutLink">Log Out</a></li>`);
@@ -103,11 +103,11 @@ function generateLoggedInUI(user, picture) {
     // Hide login button and change welcome message
     $('.fb-login-button').hide();
     $('#welcome').html(`<h5 class="white-text center">You're in the club!<br>
-            Feel free to <a class="dynLink light-blue-text text-lighten-4" data-link="addbook">add a book</a>
-            or <span class="light-blue-text text-lighten-4" id="requestText">request a trade</span>.</h5>`);
+            Feel free to <a class="dyn-link light-blue-text text-lighten-4" data-link="addbook">add a book</a>
+            or <span class="light-blue-text text-lighten-4 request-text">request a trade</span>.</h5>`);
     $('#bottomInfo').html('<h5 class="center">Select any book for more information.</h5>');
     // Activate 'request a trade' text
-    $('#requestText').click(() => {
+    $('.request-text').click(() => {
       $('.carousel').addClass('shake');
       setTimeout(() => $('.carousel').removeClass('shake'), 1000);
     });
@@ -116,14 +116,14 @@ function generateLoggedInUI(user, picture) {
     $('.requests').html(`
       <ul class="collapsible" data-collapsible="accordion">
       <li>
-        <div class="collapsible-header"><span class="badge" id="incomingCount" data-badge-caption="">0</span>
+        <div class="collapsible-header"><span class="badge incoming-count" data-badge-caption="">0</span>
           <i class="material-icons">announcement</i>Incoming Requests</div>
         <div class="collapsible-body">
           <div class="collection" id="incomingList"></div>
         </div>
       </li>
       <li>
-        <div class="collapsible-header"><span class="badge" id="outgoingCount">0</span>
+        <div class="collapsible-header"><span class="badge outgoing-count">0</span>
           <i class="material-icons">swap_vertical_circle</i>Outgoing Requests</div>
         <div class="collapsible-body">
           <div class="collection" id="outgoingList"></div>
