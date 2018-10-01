@@ -54,37 +54,33 @@ a:hover {
 	background: url('../img/fb-login.png') no-repeat fixed center;
 }
 
-#userInfo a {
+.nav-wrapper .right a {
 	background-color: transparent;
 }
 
-#userInfo li {
+.nav-wrapper .right li {
 	margin-right: 10px;
 	font-size: 2em;
 }
 
-#userInfo img {
+.nav-wrapper .right img {
 	border-radius: 5px;
 	margin-top: 10%;
 }
 
-#userDropdown a {
+ul.dropdown-content a {
 	color: #01579b;
 }
 
-#userProfile {
-	color: #000;
-}
-
-#welcome {
+.card-panel {
 	margin: 3% 0;
 }
 
-#requestText {
+.request-text {
 	cursor: pointer;
 }
 
-#incomingCount.new {
+.incoming-count.new {
 	font-size: 1.2em;
 }
 
@@ -139,19 +135,19 @@ a:hover {
 	margin-top: -100px !important;
 }
 
-#bookInput {
+.book-input {
 	font-size: 1.4em;
 }
 
-#searchBtn {
+.btn.search {
 	padding: 0 3vw;
 }
 
-#searchBtn:hover {
+.btn.search:hover {
 	background: #0277bd;
 }
 
-#searchBtn.waves-ripple {
+.btn.search.waves-ripple {
 	background: #00b0ff;
 }
 
@@ -166,7 +162,6 @@ a:hover {
 .halfway-fab {
 	bottom: 8px !important;
 }
-
 
 /* Animation */
 
@@ -273,7 +268,7 @@ a:hover {
 		font-size: 1.5em;
 		color: #a00;
 	}
-	.progress, #welcome, #collectionTitle {
+	.progress, .card-panel, .collection-title {
 		display: none;
 	}
 }
