@@ -32,6 +32,16 @@ a:hover {
 	cursor: pointer;
 }
 
+footer {
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	padding-right: 2px;
+	border-top-left-radius: 3px;
+	background: white;
+	box-shadow: 0 0 3px 3px white;
+}
+
 .hidden {
 	opacity: 0;
 }
