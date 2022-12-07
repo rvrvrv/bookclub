@@ -79,6 +79,10 @@ footer {
 	margin-top: 10%;
 }
 
+ul.dropdown-content {
+	overflow-x: hidden;
+}
+
 ul.dropdown-content a {
 	color: #01579b;
 }
